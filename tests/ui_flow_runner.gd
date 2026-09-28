@@ -16,6 +16,7 @@ func _ready() -> void:
 			args[kv[0]] = kv[1]
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(shots_dir))
 	SaveManager.save_path = "user://flow_test_save.json"
+	GameManager.set_setting("unit_filter", "")      # remembered filters would hide heroes
 	await _wait(0.8)
 	match args.get("phase", "1"):
 		"1":
@@ -24,6 +25,8 @@ func _ready() -> void:
 			await _phase2()
 		"4":
 			await _phase4()
+		"5":
+			await _phase5()
 		_:
 			await _phase3()
 	for l in log_lines:
@@ -164,11 +167,18 @@ func _phase2() -> void:
 	await _click_text("BACK")
 	await _wait(0.9)
 	_check(get_tree().current_scene.name == "Home", "back to home")
-	await _click_node(_find_named("ItemsButton"))
+	# ITEMS lives in the MENU tab now
+	await _click_node(_find_named("Nav_MENU"))
+	await _wait(0.9)
+	_check(get_tree().current_scene.name == "Menu", "menu screen opened")
+	await _click_node(_find_named("Menu_ITEMS"))
 	await _wait(0.9)
 	_check(get_tree().current_scene.name == "Inventory", "inventory opened")
 	await _shot("m16_inventory")
 	await _click_text("BACK")
+	await _wait(0.9)
+	_check(get_tree().current_scene.name == "Menu", "inventory BACK returns to the menu")
+	await _click_node(_find_named("Nav_HOME"))
 	await _wait(0.9)
 	var sealed := _find_named("SummonButton")
 	_check(sealed != null, "summon tile shown (locked)")
@@ -371,8 +381,8 @@ func _phase4() -> void:
 	await _wait(1.2)
 	await _shot("p4_12_unit_detail")
 	await _click_node(_find_named("TrainButton"))
-	await _wait(0.4)
-	_check(_find_named("TrainPopup") != null, "train popup opened")
+	await _wait(0.9)
+	_check(get_tree().current_scene.name == "Train", "training screen opened")
 	await _click_node(_find_named("AutoSelect"))
 	await _wait(0.3)
 	await _shot("p4_13_train_preview")
@@ -490,6 +500,227 @@ func _phase4() -> void:
 	_check(_find_label_containing("NOT ENOUGH ENERGY") != null or _find_label_containing("need") != null, "energy popup instead of a dead end")
 	await _shot("p4_25_energy")
 	await _click_text("OK")
+
+
+## Phase 5 full flow (Phase 5 prompt): Title > Home > Quest > World Select > Stage >
+## Squad > Battle > Victory > Home > Units > Detail > Training > Evolution > Tower
+## (material) > back to Evolution > evolve > Summon > edit Squad > Missions claim >
+## Settings > Home, plus history Back, Esc, filter memory and double-tap safety.
+func _phase5() -> void:
+	SaveManager.save_path = "user://flow_test_save_p5.json"
+	SaveManager.delete_profile()
+	GameManager.set_setting("auto_battle", false)
+	GameManager.set_setting("unit_filter", "")
+	GameManager.new_game("kael_emberclaw")
+	GameManager.profile["tutorial"]["intro_seen"] = true
+	for step in ["tap_attack", "burst", "target", "home_quest", "home_units", "home_summon", "select_first_stage"]:
+		GameManager.mark_coach_done(step)
+	for i in range(1, 10):
+		GameManager.apply_battle_result("ashroot_%02d" % i, {"xp": 300, "gold": 300, "items": {}, "stars": [true, true, true]})
+	for f in ["auto", "units", "squad", "training", "tower", "evolution", "summon", "missions", "world2"]:
+		GameManager.mark_feature_announced(f)
+	GameManager.profile["login"]["last_date"] = GameManager._date_key()
+	GameManager.add_gems(2000)
+	GameManager.add_gold(90000)
+	GameManager.save()
+	# ---- title > home
+	SceneRouter.go("main_menu")
+	await _wait(1.2)
+	await _click_text("CONTINUE")
+	await _wait(1.4)
+	_check(get_tree().current_scene.name == "Home", "title CONTINUE opens home")
+	await _dismiss_home_popups()
+	# ---- quest tab > world select > stage map (and history Back)
+	await _click_node(_find_named("Nav_QUEST"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "WorldSelect", "QUEST tab opens world select")
+	_check(_find_named("LockReason") != null, "locked world says what opens it")
+	await _click_node(_find_named("World_ashroot_wilds"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "StageSelect", "world card opens its map")
+	await _click_node(_find_named("BackButton"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "WorldSelect", "BACK returns to world select")
+	await _click_node(_find_named("World_ashroot_wilds"))
+	await _wait(1.0)
+	await _click_node(_find_named("Node_ashroot_10"))
+	await _wait(0.3)
+	await _click_text("START")
+	await _wait(0.4)
+	_check(_find_named("ElementMatchup") != null, "PREPARE shows the element matchup")
+	await _click_node(_find_named("EditSquad"))
+	await _wait(1.2)
+	_check(get_tree().current_scene.name == "Squad", "squad from PREPARE")
+	await _click_node(_find_named("BackButton"))
+	await _wait(1.4)
+	_check(_find_named("PreparePopup") != null, "squad BACK reopens PREPARE")
+	await _click_text("DEPART")
+	await _wait(1.8)
+	var battle = get_tree().current_scene
+	_check(battle is BattleController, "boss battle started")
+	if battle is BattleController:
+		battle.hud.set_auto(true, true)
+		battle.set_battle_speed(2.0)
+		_check(_find_named("AutoBand") != null, "AUTO ON indicator shown")
+		var t := 0.0
+		while battle.state != BattleController.State.RESULT and t < 240.0:
+			var gi := _find_button("GOT IT")
+			if gi:
+				await _click_node(gi)
+			await _wait(0.25)
+			t += 0.25
+		_check(GameManager.is_stage_cleared("ashroot_10"), "boss cleared on auto")
+		await _finish_result()
+		await _wait(1.2)
+	_check(get_tree().current_scene.name == "StageSelect", "victory returns to the map")
+	# ---- home > units (filter memory, double tap) > detail > training
+	await _click_node(_find_named("Nav_HOME"))
+	await _wait(1.4)
+	await _dismiss_home_popups()
+	await _click_node(_find_named("Nav_UNITS"))
+	await _wait(1.0)
+	await _click_node(_find_named("FilterButton"))
+	await _wait(0.3)
+	await _click_node(_find_named("Filter_el_fire"))
+	await _wait(0.3)
+	await _click_node(_find_named("FilterDone"))
+	await _wait(0.4)
+	_check(String(GameManager.settings.get("unit_filter", "")).contains("fire"), "unit filter remembered")
+	var uid: String = GameManager.leader_uid()
+	await _click_node(_find_named("UnitTile_" + uid))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "UnitDetail", "unit detail opened")
+	var view := _find_named("ViewButton") as BaseButton
+	view.pressed.emit()
+	view.pressed.emit()        # a double tap must not open two viewers
+	await _wait(0.4)
+	var viewers := 0
+	for n in _all_nodes(get_tree().root, []):
+		if String(n.name).begins_with("CharacterViewer"):
+			viewers += 1
+	_check(viewers <= 1, "double tap opens one viewer (%d)" % viewers)
+	_press_key(KEY_ESCAPE)
+	await _wait(0.4)
+	_check(_find_named("CharacterViewer") == null, "Esc closes the viewer")
+	var u := GameManager.get_unit(uid)
+	u["level"] = int(Database.get_character(u["char_id"])["max_level"]) - 1
+	GameManager.add_item("ember_wisp", 10)
+	SceneRouter.go("unit_detail", {"uid": uid}, "replace")
+	await _wait(1.0)
+	await _click_node(_find_named("TrainButton"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "Train", "training screen")
+	await _click_node(_find_named("AutoSelect"))
+	await _wait(0.2)
+	await _click_node(_find_named("ConfirmTrain"))
+	await _wait(0.6)
+	_check(int(GameManager.get_unit(uid)["level"]) >= int(Database.get_character(u["char_id"])["max_level"]), "trained to max level")
+	await _click_node(_find_named("TrainResultOK"))
+	await _wait(0.3)
+	await _click_node(_find_named("BackButton"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "UnitDetail", "training BACK returns to detail")
+	# ---- evolution > where to find > tower > back > evolve
+	var st := GameManager.evolution_status(uid)
+	for m in st["materials"].keys():
+		GameManager.profile["inventory"][m] = 0
+	await _click_node(_find_named("EvolveButton"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "Evolve", "evolution screen")
+	var mat: String = st["materials"].keys()[0]
+	await _click_node(_find_named("Source_" + mat))
+	await _wait(0.4)
+	var go: Button = null
+	for n in _all_nodes(get_tree().root, []):
+		if n is Button and n.text == "GO" and n.is_visible_in_tree() and go == null:
+			go = n
+	await _click_node(go)
+	await _wait(1.2)
+	var src_scene := get_tree().current_scene.name
+	_check(src_scene == "Tower" or src_scene == "StageSelect", "WHERE TO FIND > GO (%s)" % src_scene)
+	for m in st["materials"].keys():
+		GameManager.add_item(m, int(st["materials"][m]))     # the drop from that source
+	await _click_node(_find_named("BackButton"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "Evolve", "BACK from the source returns to evolution")
+	await _click_node(_find_named("ConfirmEvolve"))
+	await _wait(0.3)
+	await _click_node(_find_named("DialogConfirm"))
+	await _wait(2.8)
+	_check(GameManager.get_unit(uid)["char_id"] == st["into"], "hero evolved")
+	await _click_node(_find_named("EvolveContinue"))
+	await _wait(1.2)
+	# ---- summon > new hero > squad
+	await _click_node(_find_named("Nav_SUMMON"))
+	await _wait(1.0)
+	var owned := GameManager.owned_units().size()
+	await _click_node(_find_named("SummonTen"))
+	await _wait(0.3)
+	_press_key(KEY_ENTER)        # Enter confirms the dialog
+	await _wait(0.8)
+	var tries := 0
+	while _find_named("SummonResults") == null and tries < 60:
+		var skip := _find_named("SkipSummon")
+		var cer := _find_named("SummonCeremony")
+		if skip:
+			await _click_node(skip)
+		elif cer:
+			await _click_node(cer)
+		await _wait(0.4)
+		tries += 1
+	_check(_find_named("SummonResults") != null, "summon results")
+	_check(GameManager.owned_units().size() > owned or GameManager.soul_shards() > 0, "summon gave a hero or shards")
+	await _click_node(_find_named("ResultsContinue"))
+	await _wait(0.4)
+	await _click_node(_find_named("Nav_MENU"))
+	await _wait(1.0)
+	await _click_node(_find_named("Menu_SQUAD"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "Squad", "squad from menu")
+	var bench: Control = null
+	for n in _all_nodes(get_tree().root, []):
+		if n is UnitCard and not GameManager.is_in_party(n.unit.get("uid", "")) and bench == null:
+			bench = n
+	if bench and GameManager.party_uids().size() < GameManager.max_party_size():
+		var before := GameManager.party_uids().size()
+		await _click_node(bench)
+		await _wait(0.3)
+		_check(GameManager.party_uids().size() == before + 1, "new hero added to the squad")
+	await _click_node(_find_named("BackButton"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "Menu", "squad BACK returns to menu")
+	# ---- missions: claim all
+	GameManager.track("stage_clear", 5)
+	await _click_node(_find_named("Menu_MISSIONS"))
+	await _wait(1.0)
+	var gems := GameManager.gems()
+	await _click_node(_find_named("ClaimAll"))
+	await _wait(0.5)
+	_check(GameManager.gems() > gems or GameManager.missions_claimable() == 0, "CLAIM ALL collected rewards")
+	await _dismiss_home_popups()
+	_press_key(KEY_ESCAPE)        # Esc = Back
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "Menu", "Esc goes back to the menu")
+	# ---- settings > home
+	await _click_node(_find_named("Menu_SETTINGS"))
+	await _wait(1.0)
+	await _click_node(_find_named("Tab_GRAPHICS"))
+	await _wait(0.3)
+	await _click_node(_find_named("Toggle_reduce_motion"))
+	_check(bool(GameManager.settings.get("reduce_motion", false)), "reduce motion saved")
+	await _click_node(_find_named("Toggle_reduce_motion"))
+	await _click_node(_find_named("Nav_HOME"))
+	await _wait(1.0)
+	_check(get_tree().current_scene.name == "Home", "back home at the end")
+	_check(not SceneRouter.has_history(), "HOME tab clears the history")
+	GameManager.set_setting("unit_filter", "")      # don't leak the test's filter into other runs
+
+
+func _press_key(k: Key) -> void:
+	var e := InputEventKey.new()
+	e.keycode = k
+	e.pressed = true
+	UIManager._unhandled_key_input(e)
 
 
 ## Waits for the victory sequence (dismissing RANK UP) and presses CONTINUE.

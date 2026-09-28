@@ -1,13 +1,12 @@
 extends ScreenBase
 ## Unit detail: showcase, identity (lock / favourite), stats + power, passive,
 ## leader skill, Burst (level, EXP, what the next level improves, Burst training),
-## normal attack, evolution path, TRAIN (wisps + gold, with a preview),
-## EVOLVE (opens the evolution screen), SQUAD and lore.
+## normal attack, evolution path, TRAIN (opens the Training screen), EVOLVE (opens
+## the evolution screen), SQUAD, a full-screen VIEW of the hero, and lore.
 
 const STAT_KEYS := ["hp", "atk", "def", "rec"]
 const CLASS_COLORS := {"ATTACKER": Color("#b8401e"), "HEALER": Color("#2a6ab0"), "GUARDIAN": Color("#3a7a2a"),
 		"SUPPORT": Color("#9a6a1a"), "BREAKER": Color("#6a2a8a")}
-const WISPS := ["ember_wisp", "tide_wisp", "verdant_wisp", "radiant_wisp"]
 
 var uid := ""
 var unit: Dictionary = {}
@@ -34,8 +33,6 @@ func _ready() -> void:
 	scroll.add_child(body)
 	GameManager.mark_unit_seen(uid)
 	_build()
-	if SceneRouter.params.get("open_train", false) and GameManager.feature_unlocked("training"):
-		_open_train.call_deferred()
 
 
 ## Stat bar reference: best value any unit reaches at its level cap (+15%).
@@ -86,6 +83,12 @@ func _build() -> void:
 	flags.add_child(_flag_button("locked", "res://assets/icons/lock.png", "LOCK"))
 	flags.add_child(_flag_button("favorite", "res://assets/icons/fav.png", "FAV"))
 	stage.add_child(flags)
+	var view := UIKit.btn("VIEW", "quiet", Vector2(160, 72))
+	view.name = "ViewButton"
+	view.add_theme_font_size_override("font_size", UIKit.T_SMALL)
+	view.position = Vector2(12, 380)
+	view.pressed.connect(_open_viewer)
+	stage.add_child(view)
 	if int(def.get("rarity", 3)) >= 5:
 		UIKit.sparkle(stage, Rect2(0, 0, 1000, 460))
 	UIKit.sparkle(stage, Rect2(560, 120, 400, 320), Database.element_color(el).lightened(0.4), 5)
@@ -140,7 +143,7 @@ func _build() -> void:
 		b_train.pressed.connect(func(): UIKit.toast(self, "Training unlocks after clearing %s." % GameManager.feature_unlock_label("training"), UIKit.MUTED))
 	else:
 		b_train.disabled = level >= max_level
-		b_train.pressed.connect(_open_train)
+		b_train.pressed.connect(func(): SceneRouter.go("train", {"uid": uid}))
 	buttons.add_child(b_train)
 	var evo = def.get("evolution")
 	var b_evo := FantasyButton.make("EVOLVE" if evo is Dictionary else "FINAL FORM", "ember", Vector2(330, 120))
@@ -174,9 +177,19 @@ func _build() -> void:
 	var sv := UIKit.vbox(10)
 	sp.add_child(sv)
 	sv.add_child(UIKit.label("STATS", UIKit.T_BODY, UIKit.GOLD, HORIZONTAL_ALIGNMENT_LEFT, 6))
+	# the hero's strongest stat (relative to the best in the game) is highlighted
+	var best_key := ""
+	var best_ratio := -1.0
 	for key in STAT_KEYS:
-		var row := StatRow.make(key.to_upper(), int(stats.get(key, 0)), stat_reference(key))
+		var ratio := float(stats.get(key, 0)) / float(stat_reference(key))
+		if ratio > best_ratio:
+			best_ratio = ratio
+			best_key = key
+	for key in STAT_KEYS:
+		var row := StatRow.make(key.to_upper(), int(stats.get(key, 0)), stat_reference(key), UIKit.GOLD if key == best_key else UIKit.SKY)
 		row.name = "Stat_" + key
+		if key == best_key:
+			row.add_child(UIKit.tag("BEST", Color("#8a5a10")))
 		sv.add_child(row)
 
 	# ---- passive + leader skill
@@ -286,7 +299,7 @@ func _burst_panel(def: Dictionary) -> Control:
 func _burst_train(method: String) -> void:
 	var r := GameManager.train_burst(uid, method)
 	if not r.get("ok", false):
-		UIKit.toast(self, r.get("reason", "Cannot train."), UIKit.DANGER)
+		UIManager.toast(r.get("reason", "Cannot train."), "error")
 		return
 	AudioManager.play_sfx("level_up" if int(r["after"]) > int(r["before"]) else "reward")
 	UIKit.toast(self, ("BURST LEVEL UP! Lv.%d" % int(r["after"])) if int(r["after"]) > int(r["before"]) else "+%d Burst EXP" % int(r["xp"]),
@@ -307,7 +320,8 @@ func _skill_panel(kind: String, skill_id: String, is_burst: bool) -> Control:
 	n.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(n)
 	v.add_child(head)
-	var d := UIKit.wrap_label(sk.get("description", ""), UIKit.T_BODY, Color("#e8dece"))
+	v.add_child(SkillText.chips(sk, UIKit.SKY if is_burst else UIKit.EMBER))
+	var d := UIKit.wrap_label(sk.get("description", ""), UIKit.T_SMALL, Color("#d8cebe"))
 	d.custom_minimum_size.x = 960
 	v.add_child(d)
 	var granted: Array = []
@@ -358,6 +372,51 @@ func _evolution_path(def: Dictionary) -> Control:
 	return p
 
 
+## Full-screen character viewer: big sprite on the element backdrop with
+## animation buttons, portrait and description.
+func _open_viewer() -> void:
+	if UIManager.has_popup("CharacterViewer"):
+		return
+	var def := Database.get_character(unit.get("char_id", ""))
+	var p := FantasyPopup.open(self, "", 1040, "card_%s_lit" % def.get("element", "fire"))
+	p.name = "CharacterViewer"
+	p.tap_outside_closes = true
+	var holder := Control.new()
+	holder.custom_minimum_size = Vector2(980, 820)
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	p.content.add_child(holder)
+	var big := UnitSpriteDisplay.new()
+	big.setup(def.get("sprite", {}), 14.0, true)
+	big.size = big.custom_minimum_size
+	big.position = Vector2(490 - big.size.x / 2.0, 800 - big.size.y)
+	holder.add_child(big)
+	# one-shot animations return to idle (idle loops, so it never "finishes")
+	if big.sprite:
+		big.sprite.animation_finished.connect(func(): big.play("idle"))
+	var name_l := UIKit.label(def.get("name", ""), UIKit.T_HEAD, Color("#fff0c0"), HORIZONTAL_ALIGNMENT_CENTER, 10)
+	p.content.add_child(name_l)
+	var d := UIKit.wrap_label(def.get("description", ""), UIKit.T_BODY)
+	d.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	d.custom_minimum_size.x = 960
+	p.content.add_child(d)
+	var row := UIKit.hbox(UIKit.SP_S)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	for a in ["idle", "attack", "burst", "victory"]:
+		var b := UIKit.btn(a.to_upper(), "secondary", Vector2(220, 96))
+		b.name = "Anim_" + a
+		b.add_theme_font_size_override("font_size", UIKit.T_BODY)
+		var anim: String = a
+		b.pressed.connect(func(): big.play(anim))
+		row.add_child(b)
+	p.content.add_child(row)
+	var close := UIKit.btn("CLOSE", "quiet", Vector2(300, 100))
+	close.name = "ViewerClose"
+	close.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	close.pressed.connect(p.close)
+	p.content.add_child(close)
+	p.default_action = p.close
+
+
 func _poke_sprite() -> void:
 	if _sprite == null or _sprite.sprite == null:
 		return
@@ -371,162 +430,3 @@ func _poke_sprite() -> void:
 func _back_to_idle() -> void:
 	if _sprite and _sprite.sprite:
 		_sprite.play("idle")
-
-
-# ------------------------------------------------------------------ training
-var _train_popup: FantasyPopup
-var _train_sel: Dictionary = {}
-
-
-## TRAIN: pick wisps (same-element wisps give +50%), see the new level, stat gains
-## and gold cost, then confirm.
-func _open_train() -> void:
-	_train_sel = {}
-	_train_popup = FantasyPopup.open(self, "TRAIN", 1000)
-	_train_popup.name = "TrainPopup"
-	_render_train()
-
-
-func _render_train() -> void:
-	var c := _train_popup.content
-	for ch in c.get_children():
-		ch.queue_free()
-	var def := Database.get_character(unit.get("char_id", ""))
-	var pv := GameManager.preview_training(uid, _train_sel)
-	var grid := GridContainer.new()
-	grid.columns = 2
-	grid.add_theme_constant_override("h_separation", 16)
-	grid.add_theme_constant_override("v_separation", 10)
-	grid.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	var any := false
-	for w in WISPS:
-		var have := GameManager.item_count(w)
-		var cell := PanelFrame.make("plank", 10)
-		cell.name = "Wisp_" + w
-		cell.custom_minimum_size = Vector2(450, 0)
-		var h := UIKit.hbox(8)
-		cell.add_child(h)
-		h.add_child(UIKit.icon(Database.get_item(w).get("icon", ""), 64))
-		var vv := UIKit.vbox(0)
-		vv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		vv.add_child(UIKit.label(Database.item_name(w), UIKit.T_SMALL, UIKit.TEXT, HORIZONTAL_ALIGNMENT_LEFT, 5))
-		var xp := Progression.item_xp(w, def)
-		var bonus: bool = Database.get_item(w).get("element", "") == def.get("element", "-")
-		vv.add_child(UIKit.label("+%d EXP%s   own %d" % [xp, "  x1.5!" if bonus else "", have], UIKit.T_SMALL,
-				UIKit.GOOD if bonus else UIKit.MUTED, HORIZONTAL_ALIGNMENT_LEFT, 4))
-		h.add_child(vv)
-		var n := int(_train_sel.get(w, 0))
-		var minus := FantasyButton.make("-", "stone", Vector2(64, 64))
-		minus.name = "Minus"
-		minus.disabled = n <= 0
-		minus.pressed.connect(func(): _change_sel(w, -1))
-		h.add_child(minus)
-		h.add_child(UIKit.label(str(n), UIKit.T_BODY, UIKit.GOLD, HORIZONTAL_ALIGNMENT_CENTER, 6))
-		var plus := FantasyButton.make("+", "steel", Vector2(64, 64))
-		plus.name = "Plus"
-		plus.disabled = n >= have or bool(pv.get("at_cap", false)) or int(pv.get("wasted_xp", 0)) > 0
-		plus.pressed.connect(func(): _change_sel(w, 1))
-		h.add_child(plus)
-		if have <= 0:
-			cell.modulate = Color(0.6, 0.6, 0.65)
-		else:
-			any = true
-		grid.add_child(cell)
-	c.add_child(grid)
-	if not any:
-		var l := UIKit.wrap_label("No wisps yet. Wisps drop from stages, bosses, towers, missions and login rewards.", UIKit.T_BODY, UIKit.MUTED)
-		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		l.custom_minimum_size.x = 900
-		c.add_child(l)
-	# preview
-	var prev := PanelFrame.make("inset", 16)
-	prev.name = "TrainPreview"
-	var pvv := UIKit.vbox(6)
-	prev.add_child(pvv)
-	var lv_line := "Lv.%d  >  Lv.%d" % [int(pv.get("level_before", 1)), int(pv.get("level_after", 1))]
-	var ll := UIKit.label(lv_line, UIKit.T_HEAD, UIKit.GOLD if int(pv.get("level_after", 1)) > int(pv.get("level_before", 1)) else UIKit.TEXT,
-			HORIZONTAL_ALIGNMENT_CENTER, 10)
-	ll.name = "PreviewLevel"
-	pvv.add_child(ll)
-	var g: Dictionary = pv.get("gains", {})
-	pvv.add_child(UIKit.label("HP +%d   ATK +%d   DEF +%d   REC +%d" % [int(g.get("hp", 0)), int(g.get("atk", 0)), int(g.get("def", 0)),
-			int(g.get("rec", 0))], UIKit.T_BODY, UIKit.GOOD, HORIZONTAL_ALIGNMENT_CENTER, 6))
-	var cost := int(pv.get("gold", 0))
-	var enough := GameManager.gold() >= cost
-	pvv.add_child(UIKit.label("+%s EXP   Cost %s Gold   (you have %s)" % [UIKit.format_number(int(pv.get("used_xp", 0))),
-			UIKit.format_number(cost), UIKit.format_number(GameManager.gold())], UIKit.T_BODY, UIKit.TEXT if enough else UIKit.DANGER,
-			HORIZONTAL_ALIGNMENT_CENTER, 6))
-	if int(pv.get("wasted_xp", 0)) > 0:
-		pvv.add_child(UIKit.label("Reaches the level cap - extra EXP would be wasted.", UIKit.T_SMALL, UIKit.EMBER, HORIZONTAL_ALIGNMENT_CENTER, 5))
-	c.add_child(prev)
-	var row := UIKit.hbox(14)
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	var auto := FantasyButton.make("AUTO SELECT", "steel", Vector2(300, 110))
-	auto.name = "AutoSelect"
-	auto.add_theme_font_size_override("font_size", 30)
-	auto.pressed.connect(_auto_select)
-	row.add_child(auto)
-	var ok := FantasyButton.make("TRAIN", "gold", Vector2(300, 120))
-	ok.name = "ConfirmTrain"
-	ok.disabled = _train_sel.is_empty() or not enough or bool(pv.get("at_cap", false))
-	ok.pressed.connect(_confirm_train)
-	row.add_child(ok)
-	var cancel := FantasyButton.make("CLOSE", "stone", Vector2(240, 110))
-	cancel.pressed.connect(_train_popup.close)
-	row.add_child(cancel)
-	c.add_child(row)
-
-
-func _change_sel(w: String, d: int) -> void:
-	var n := clampi(int(_train_sel.get(w, 0)) + d, 0, GameManager.item_count(w))
-	if n <= 0:
-		_train_sel.erase(w)
-	else:
-		_train_sel[w] = n
-	AudioManager.play_sfx("click", 0.03, -6.0)
-	_render_train()
-
-
-## Picks wisps (best element match first) until the next level cap or gold runs out.
-func _auto_select() -> void:
-	_train_sel = {}
-	var def := Database.get_character(unit.get("char_id", ""))
-	var order := WISPS.duplicate()
-	order.sort_custom(func(a, b): return Progression.item_xp(a, def) < Progression.item_xp(b, def))
-	var need := Progression.xp_to_cap(unit)
-	var got := 0
-	for w in order:
-		var have := GameManager.item_count(w)
-		var xp := Progression.item_xp(w, def)
-		while have > 0 and got < need:
-			var trial := _train_sel.duplicate()
-			trial[w] = int(trial.get(w, 0)) + 1
-			if Progression.training_gold(mini(got + xp, need)) > GameManager.gold():
-				break
-			_train_sel = trial
-			got += xp
-			have -= 1
-	if _train_sel.is_empty():
-		UIKit.toast(self, "No wisps to use (or not enough Gold).", UIKit.MUTED)
-	_render_train()
-
-
-func _confirm_train() -> void:
-	var r := GameManager.train_unit_with(uid, _train_sel)
-	if not r.get("ok", false):
-		UIKit.toast(self, r.get("reason", "Cannot train."), UIKit.DANGER)
-		return
-	_train_popup.close()
-	AudioManager.play_sfx("level_up")
-	_build()
-	var p := FantasyPopup.open(self, "LEVEL UP!" if int(r["level_after"]) > int(r["level_before"]) else "TRAINED", 760, "boss")
-	p.name = "TrainResult"
-	p.content.add_child(UIKit.heading("Lv.%d  >  Lv.%d" % [int(r["level_before"]), int(r["level_after"])], UIKit.T_TITLE, UIKit.TEXT))
-	var g: Dictionary = r["gains"]
-	for key in STAT_KEYS:
-		p.content.add_child(UIKit.label("%s  +%d" % [key.to_upper(), int(g[key])], UIKit.T_NAME, UIKit.GOOD, HORIZONTAL_ALIGNMENT_CENTER, 8))
-	UIKit.sparkle(p.panel, Rect2(0, 0, 760, 400), UIKit.GOLD, 12)
-	var ok := FantasyButton.make("OK", "ember", Vector2(300, 110))
-	ok.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	p.content.add_child(ok)
-	ok.pressed.connect(p.close)

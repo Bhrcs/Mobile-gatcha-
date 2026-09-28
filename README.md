@@ -1,4 +1,4 @@
-# CINDERBOUND — prototype v0.4
+# CINDERBOUND — prototype v0.5
 
 An original 2D pixel-art, side-view, turn-based unit RPG built in **Godot 4.3 (GDScript)**.
 Every sprite, portrait, background, icon, UI texture, the pixel font, all sound effects and all
@@ -9,8 +9,8 @@ music in this project were created from scratch for Cinderbound (procedurally, b
 
 ## Play it
 
-**Windows (no install, no Godot needed):** unzip `build/Cinderbound_Phase4_Windows.zip` and double-click `Cinderbound.exe`
-(the zip also holds `HOW-TO-PLAY.txt`, `CHANGELOG.txt` and `CONTENT-GUIDE.md`).
+**Windows (no install, no Godot needed):** unzip `releases/Cinderbound_Phase5_Windows.zip` and double-click `Cinderbound.exe`
+(the zip also holds `HOW-TO-PLAY.txt`, `CHANGELOG.txt` and `UI-GUIDE.md`).
 It is a single self-contained file (engine + game data embedded) and can be moved anywhere.
 Windows SmartScreen may warn because the exe is unsigned — choose *More info → Run anyway*.
 
@@ -34,7 +34,18 @@ maximise; the layout keeps its width and grows taller on longer phones.
 Screens: title → starter select → story → Home (squad at camp, QUEST, UNITS / SQUAD / SUMMON / TOWER / ITEMS /
 MISSIONS tiles with locks + notification markers; bottom nav: Home / Units / Quest / Summon / Menu) → Quest map with
 world tabs → stage sheet → PREPARE → battle (AUTO, 1x/2x). Menu: Squad, Items, Missions, Codex, Towers, Profile,
-Settings, title. Features unlock gradually in World 1 (see `build/package/HOW-TO-PLAY.txt`).
+Settings, title. Features unlock gradually in World 1 (see `docs/player/HOW-TO-PLAY.txt`).
+
+## Phase 5 (v0.5) — complete UI / UX pass
+* Design system: text roles, spacing scale, semantic buttons, theme, tooltips, toasts, one confirmation dialog
+  (`scripts/ui/ui_kit.gd`, `scripts/core/ui_manager.gd`). Rules: `docs/player/UI-GUIDE.md`.
+* Navigation history + transitions (`scripts/core/scene_router.gd`), bottom nav HOME / QUEST / UNITS / SUMMON / MENU,
+  consistent BACK / "?" header, Esc / Enter on PC.
+* New screens: Quest hub (world select), Menu, Settings (tabs), Help & Guide (element chart), Training.
+* Units filter & sort (remembered), fixed card indicators, VIEW, skill fact chips, evolution WHERE TO FIND,
+  summon duplicates, connected tower floors, CLAIM ALL, item detail panel, name validation.
+* Battle: AUTO ON plate, boss PHASE / DANGER, stacked damage numbers, results SKIP, defeat tips.
+* Tests: `tests/run_tests.sh` now includes the Phase 5 full-flow click-through (`--phase=5`).
 
 ## Phase 4 (v0.4) — collection, summoning, evolution, progression, repeatable PvE
 * 12 heroes / 27 forms (4 per element, 3★–5★) with passives, leader skills, Burst levels 1–5 and evolution paths
@@ -49,7 +60,7 @@ Settings, title. Features unlock gradually in World 1 (see `build/package/HOW-TO
   stars, possible drops, first-clear gems.
 * Energy (offline regen), Rank-up rewards, daily / weekly missions + chest, 7-day login, inventory tabs, Profile.
 * Save v2 with migration (`scripts/save/save_manager.gd`) — old saves keep all progress.
-* Data reference: `build/package/CONTENT-GUIDE.md`. Content generator: `tools/make_content.py`.
+* Data reference: `docs/player/CONTENT-GUIDE.md`. Content generator: `tools/make_content.py`.
 * Tests: `tests/run_tests.sh` (2,061 rule checks, click-through flows incl. the full Phase 4 loop, balance sim).
   Visual probe for UI review: `tests/screen_probe.tscn`. Packaging: `tools/pack_zip.py` (zopfli, keeps the zip < 30 MiB).
 
@@ -63,7 +74,7 @@ Settings, title. Features unlock gradually in World 1 (see `build/package/HOW-TO
 * Impact: particles, impact flash, hit-stop, tiered shake, typed damage numbers (CRITICAL / ADVANTAGE / RESIST /
   heal / burn / FINISH), per-hero Burst cut-ins and effects, boss entrance, guard / special animations.
 * Portrait adventure map (`tools/route_map.py`, `route_pos` in stage data), sequenced victory screen, squad editor,
-  coach-mark tutorial, ember-dissolve battle transitions, new UI sounds. Full list: `build/package/CHANGELOG.txt`.
+  coach-mark tutorial, ember-dissolve battle transitions, new UI sounds. Full list: `docs/player/CHANGELOG.txt`.
 
 ---
 
@@ -115,6 +126,8 @@ scripts/
   ui/          ui_kit (theme + widgets)  battle_hud  party_card  battle_result  one script per screen
 tests/       logic_tests, ui_flow (clicks through the real UI), balance_sim, run_tests.sh
 tools/       Python generators for all art, the font and all audio (ignored by Godot)
+docs/        player/ (how to play, changelog, UI + content guides)  dev/ (phase plans and prompts)
+releases/    ready-to-play Windows zips
 ```
 Rules (`BattleModel`) never touch nodes, and visuals (`SkillExecutor`, views) never decide outcomes — the
 same model powers the game, the tests and the balance simulator.
@@ -135,7 +148,7 @@ same model powers the game, the tests and the balance simulator.
 GODOT=/path/to/godot tests/run_tests.sh        # macOS/Linux/Git-Bash
 ```
 On Windows without bash, run each line from `tests/run_tests.sh` with `Godot_v4.3-stable_win64_console.exe`.
-Current result (v0.4): **2,061/2,061 rule checks pass; the milestone flow passes for all 3 starters; settings +
+Current result (v0.5): **2,074/2,074 rule checks pass; UI flows 1-5 pass; the milestone flow passes for all 3 starters; settings +
 corrupted-save UI passes; the Phase 4 flow (auto battle, unlock popups, gift hero, summon ceremony + results, training,
 evolution + OBTAINED FROM, tower floor, missions, login, inventory, codex, profile, World 2, squad from PREPARE,
 energy popup) passes headless and with real mouse clicks**. Covered edge cases include Burst at exactly 100, Burst after loading

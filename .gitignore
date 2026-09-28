@@ -1,11 +1,4 @@
-# Godot cache / imports cache
 .godot/
-# build outputs (packages are attached to releases, not committed)
-build/*.zip
-build/windows/
-build/linux/
-build/package/*.exe
-build/package/*.pck
-# python
+build/
 __pycache__/
 *.pyc

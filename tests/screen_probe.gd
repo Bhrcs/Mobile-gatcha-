@@ -35,6 +35,24 @@ func _ready() -> void:
 		GameManager.add_gems(1500)
 		GameManager.profile["player"]["soul_shards"] = 45
 		GameManager.track("stage_clear", 3)
+	# stress data: --units=100 --items=200 --gold=big|zero
+	if args.has("units"):
+		var ids: Array = Database.characters.keys()
+		for i in int(args["units"]):
+			var uid := GameManager._add_unit(ids[i % ids.size()])
+			GameManager.get_unit(uid)["level"] = 1 + (i * 7) % 30
+			GameManager.get_unit(uid)["favorite"] = i % 9 == 0
+	if args.has("items"):
+		var item_ids: Array = Database.items.keys()
+		for i in int(args["items"]):
+			GameManager.add_item(item_ids[i % item_ids.size()], 1 + (i * 37) % 9999)
+	match args.get("gold", ""):
+		"big":
+			GameManager.add_gold(2_147_000_000 - GameManager.gold())
+			GameManager.add_gems(987_654_321)
+		"zero":
+			GameManager.add_gold(-GameManager.gold())
+			GameManager.add_gems(-GameManager.gems())
 	GameManager.save()
 	await get_tree().create_timer(0.3).timeout
 	var scene: String = args.get("scene", "home")
@@ -47,8 +65,8 @@ func _ready() -> void:
 		params["uid"] = args["uid"]
 	if args.has("world"):
 		params["world"] = args["world"]
-	if scene == "unit_detail" or scene == "evolve":
-		params["uid"] = GameManager.party_uids()[0]
+	if scene in ["unit_detail", "evolve", "train"]:
+		params["uid"] = GameManager.party_uids()[int(args.get("slot", "0"))]
 		if scene == "evolve":
 			GameManager.get_unit(params["uid"])["level"] = 15
 	SceneRouter.go(scene, params)
@@ -61,14 +79,23 @@ func _ready() -> void:
 			cur._do_summon(10)
 		"details":
 			cur._open_details()
-		"train":
-			cur._open_train()
-			await get_tree().create_timer(0.3).timeout
-			cur._auto_select()
 		"prepare":
 			StageInfo.open_prepare(cur, args.get("stage", "ashroot_01"))
 		"energy":
 			EnergyPopup.open(cur, "ashroot_05")
+		"filter":
+			cur._open_filter()
+		"defeat":
+			while cur.state != BattleController.State.PLAYER:
+				await get_tree().create_timer(0.1).timeout
+			cur._finish(false)
+		"victory":
+			while cur.state != BattleController.State.PLAYER:
+				await get_tree().create_timer(0.1).timeout
+			cur.model.xp_earned = int(args.get("xp", "4000"))
+			cur._finish(true)
+		"call":
+			cur.call(args.get("method", ""))
 		"rankup":
 			RankUpOverlay.play(cur, [{"rank": 12, "energy_max_up": 1, "gems": 50}])
 		"sources":

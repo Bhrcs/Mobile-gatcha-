@@ -320,6 +320,32 @@ func message(title: String, body: String, ok_text := "OK", parent: Node = null) 
 	return p
 
 
+# ------------------------------------------------------------------ guided tutorial
+## Reusable first-time guide for menus ("Tap QUEST", "Select Stage 1-1"): a
+## non-blocking coach mark on `target` that is shown until the player presses it
+## once. Each step is remembered in the save (Settings can reset them).
+## Returns the CoachMark (or null when the step is already done / not possible).
+func guide(step: String, target: Control, text: String, gesture := "tap") -> CoachMark:
+	if target == null or not GameManager.has_profile() or GameManager.coach_done(step):
+		return null
+	var scene := get_tree().current_scene
+	if scene == null or not (scene is Control):
+		return null
+	var c := CoachMark.show_on(scene, target, text, gesture, false)
+	c.name = "Guide_" + step
+	var done := func():
+		GameManager.mark_coach_done(step)
+		if is_instance_valid(c):
+			c.finish()
+	if target is BaseButton:
+		(target as BaseButton).pressed.connect(done, CONNECT_ONE_SHOT)
+	else:
+		target.gui_input.connect(func(e: InputEvent):
+			if e is InputEventMouseButton and not e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
+				done.call())
+	return c
+
+
 # ------------------------------------------------------------------ loading
 func show_loading(text := "") -> void:
 	if is_instance_valid(_loading):

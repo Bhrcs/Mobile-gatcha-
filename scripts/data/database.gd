@@ -124,6 +124,15 @@ func item_name(id: String) -> String:
 	return get_item(id).get("name", id.capitalize())
 
 
+## True when a stage fields at least one elite enemy (shown as an elite node).
+func stage_has_elite(id: String) -> bool:
+	for wave in get_stage(id).get("waves", []):
+		for e in wave:
+			if get_enemy(String(e.get("enemy", ""))).get("elite", false):
+				return true
+	return false
+
+
 func is_tower_stage(id: String) -> bool:
 	return towers.has(get_stage(id).get("world_id", ""))
 

@@ -1,16 +1,16 @@
 extends ScreenBase
-## Unit collection: rarity-framed cards, element filter chips and sort options.
-## Only filters/sorts backed by real data are offered.
+## Unit collection: rarity-framed cards with indicators in fixed places, quick
+## element chips and a FILTER & SORT overlay (element, rarity, role, can evolve,
+## favourites; level / rarity / power / stats / name / recent). The choice is
+## remembered between sessions.
 
-const SORTS := [["RECENT", "recent"], ["POWER", "power"], ["LEVEL", "level"], ["RARITY", "rarity"], ["ELEMENT", "element"],
-		["FAVORITE", "favorite"]]
 const ELEMENTS := ["all", "fire", "water", "nature"]
 
 var grid: GridContainer
 var count_label: Label
 var sort_button: FantasyButton
-var element_filter := "all"
-var sort_key := "recent"
+var filter_button: FantasyButton
+var state: Dictionary = {}
 var _chips: Dictionary = {}
 var _cards: Array[UnitCard] = []
 
@@ -18,7 +18,8 @@ var _cards: Array[UnitCard] = []
 func _ready() -> void:
 	if not require_profile():
 		return
-	var area := build_frame("bg_camp", "UNITS", "units", Callable(), 0.55)
+	state = UnitFilter.load_state()
+	var area := build_frame("bg_camp", "UNITS", "units", Callable(), 0.55, true, {"help": "units"})
 	var col := UIKit.vbox(12)
 	col.set_anchors_preset(Control.PRESET_FULL_RECT)
 	area.add_child(col)
@@ -47,15 +48,20 @@ func _ready() -> void:
 		row.add_child(chip)
 		_chips[el] = chip
 	row.add_child(UIKit.spacer())
-	var codex := FantasyButton.make("CODEX", "steel", Vector2(200, 96), "res://assets/icons/codex.png")
+	var codex := UIKit.btn("", "secondary", Vector2(96, 96), "res://assets/icons/codex.png")
 	codex.name = "CodexButton"
-	codex.add_theme_font_size_override("font_size", 28)
+	codex.tooltip_text = "Codex"
 	codex.pressed.connect(func(): SceneRouter.go("codex"))
 	row.add_child(codex)
-	sort_button = FantasyButton.make("", "steel", Vector2(300, 96))
+	filter_button = UIKit.btn("FILTER", "secondary", Vector2(190, 96), "res://assets/icons/filter.png")
+	filter_button.name = "FilterButton"
+	filter_button.add_theme_font_size_override("font_size", UIKit.T_SMALL)
+	filter_button.pressed.connect(_open_filter)
+	row.add_child(filter_button)
+	sort_button = UIKit.btn("", "secondary", Vector2(210, 96), "res://assets/icons/sort.png")
 	sort_button.name = "SortButton"
-	sort_button.add_theme_font_size_override("font_size", 30)
-	sort_button.pressed.connect(_cycle_sort)
+	sort_button.add_theme_font_size_override("font_size", UIKit.T_SMALL)
+	sort_button.pressed.connect(_open_filter)
 	row.add_child(sort_button)
 
 	var info := UIKit.hbox(12)
@@ -83,36 +89,29 @@ func _ready() -> void:
 
 
 func _set_filter(el: String) -> void:
-	element_filter = el
+	state["el"] = el
+	UnitFilter.save_state(state)
 	_rebuild()
 
 
-func _cycle_sort() -> void:
-	var i := 0
-	for n in SORTS.size():
-		if SORTS[n][1] == sort_key:
-			i = n
-	sort_key = SORTS[(i + 1) % SORTS.size()][1]
-	_rebuild()
-
-
-func _sort_label() -> String:
-	for s in SORTS:
-		if s[1] == sort_key:
-			return "SORT: " + s[0]
-	return "SORT"
+func _open_filter() -> void:
+	UnitFilter.open(self, state, func(_st): _rebuild())
 
 
 func _rebuild() -> void:
-	sort_button.text = _sort_label()
+	sort_button.text = UnitFilter.sort_label(state)
+	var active := UnitFilter.active_count(state)
+	filter_button.text = "FILTER" if active == 0 else "FILTER %d" % active
+	filter_button.set_selected(active > 0)
 	for el in _chips.keys():
 		var chip: Button = _chips[el]
-		var on: bool = el == element_filter
+		var on: bool = el == state["el"]
 		var sb := UIKit.tex_style("v2_chip_on.png" if on else "v2_chip.png", 9, 6, false)
 		for st in ["normal", "hover", "pressed", "hover_pressed", "focus"]:
 			chip.add_theme_stylebox_override(st, sb)
 		chip.modulate = Color.WHITE if on else Color(0.75, 0.74, 0.8)
 	for c in grid.get_children():
+		grid.remove_child(c)
 		c.queue_free()
 	_cards.clear()
 	var units: Array = []
@@ -120,10 +119,10 @@ func _rebuild() -> void:
 	for i in owned.size():
 		var u: Dictionary = owned[i]
 		var def := Database.get_character(u.get("char_id", ""))
-		if element_filter != "all" and def.get("element", "") != element_filter:
+		if not UnitFilter.matches(state, u, def):
 			continue
 		units.append({"unit": u, "def": def, "idx": i, "stats": GameManager.unit_stats(u)})
-	units.sort_custom(_compare)
+	units.sort_custom(func(a, b): return UnitFilter.compare(state, a, b))
 	for entry in units:
 		var card := UnitCard.make(entry["unit"])
 		card.tapped.connect(func(uid: String):
@@ -134,29 +133,18 @@ func _rebuild() -> void:
 	count_label.text = "UNITS  %d / %d    CODEX %d / %d" % [units.size(), owned.size(),
 			GameManager.profile.get("codex", []).size(), Database.family_ids().size()]
 	if units.is_empty():
-		var empty := UIKit.label("No units of this element yet.", UIKit.T_BODY, UIKit.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
-		empty.custom_minimum_size = Vector2(1000, 200)
-		grid.add_child(empty)
-
-
-func _compare(a: Dictionary, b: Dictionary) -> bool:
-	match sort_key:
-		"power":
-			return GameManager.unit_power(a["unit"]) > GameManager.unit_power(b["unit"])
-		"element":
-			var order := ["fire", "water", "nature"]
-			return order.find(a["def"].get("element", "")) < order.find(b["def"].get("element", "")) or \
-				(a["def"].get("element", "") == b["def"].get("element", "") and int(a["unit"]["level"]) > int(b["unit"]["level"]))
-		"favorite":
-			var fa := 1 if a["unit"].get("favorite", false) else 0
-			var fb := 1 if b["unit"].get("favorite", false) else 0
-			return fa > fb or (fa == fb and int(a["idx"]) > int(b["idx"]))
-		"level":
-			return int(a["unit"].get("level", 1)) > int(b["unit"].get("level", 1))
-		"rarity":
-			return int(a["def"].get("rarity", 3)) > int(b["def"].get("rarity", 3))
-		"atk":
-			return int(a["stats"].get("atk", 0)) > int(b["stats"].get("atk", 0))
-		"hp":
-			return int(a["stats"].get("hp", 0)) > int(b["stats"].get("hp", 0))
-	return int(a["idx"]) > int(b["idx"])   # recent: newest first
+		# empty state: say why and how to get out of it
+		var box := UIKit.vbox(UIKit.SP_M)
+		box.custom_minimum_size = Vector2(1000, 260)
+		box.alignment = BoxContainer.ALIGNMENT_CENTER
+		box.add_child(UIKit.label("No heroes match these filters.", UIKit.T_BODY, UIKit.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+		var clear := UIKit.btn("CLEAR FILTERS", "secondary", Vector2(360, 100))
+		clear.name = "ClearFilters"
+		clear.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		clear.pressed.connect(func():
+			for k in UnitFilter.DEFAULT:
+				state[k] = UnitFilter.DEFAULT[k]
+			UnitFilter.save_state(state)
+			_rebuild())
+		box.add_child(clear)
+		grid.add_child(box)

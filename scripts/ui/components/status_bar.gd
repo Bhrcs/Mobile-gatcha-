@@ -14,7 +14,7 @@ const CURRENCIES := {
 	"gold": ["res://assets/icons/gold.png", Color("#ffd35a"), "Gold",
 			"Used for training and evolution.\nEarned from every stage and tower floor."],
 	"shards": ["res://assets/icons/soul_shard.png", Color("#d9a8ff"), "Soul Shards",
-			"Made from duplicate heroes.\nTrade them for heroes in the Codex."],
+			"Made from duplicate summons.\nSpend them to raise a hero's Burst level."],
 }
 
 var _energy_l: Label

@@ -25,7 +25,7 @@ func _ready() -> void:
 	if not Database.towers.has(tower_id):
 		tower_id = Database.tower_order[0]
 	tower = Database.towers[tower_id]
-	var area := build_frame("bg_tower", "ELEMENTAL TOWERS", "", Callable(), 0.45)
+	var area := build_frame("bg_tower", "ELEMENTAL TOWERS", "tower", Callable(), 0.45, true, {"help": "tower"})
 	if not GameManager.feature_unlocked("tower"):
 		var lock := UIKit.wrap_label("The Towers open after clearing %s." % GameManager.feature_unlock_label("tower"), UIKit.T_NAME, UIKit.MUTED)
 		lock.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -79,12 +79,16 @@ func _ready() -> void:
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	col.add_child(scroll)
-	list = UIKit.vbox(8)
+	list = UIKit.vbox(0)
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(list)
 	var floors: Array = tower.get("stages", []).duplicate()
 	floors.reverse()            # climb upwards: top floor first
-	for fl in floors:
+	for i in floors.size():
+		var fl: Dictionary = floors[i]
+		if i > 0:
+			# the stair between this floor and the one above, lit once that floor is open
+			list.add_child(_connector(GameManager.is_stage_unlocked(floors[i - 1]["id"])))
 		var row := _floor_row(fl)
 		list.add_child(row)
 		rows[fl["id"]] = row
@@ -113,6 +117,27 @@ func _next_floor() -> String:
 	return best
 
 
+## Vertical stair segment in the tower's own path style (ember / tide / verdant).
+func _connector(lit: bool) -> Control:
+	var c := Control.new()
+	c.custom_minimum_size = Vector2(0, 34)
+	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var path := TextureRect.new()
+	var tname: String = {"fire": "ember", "water": "tide", "nature": "verdant"}.get(String(tower.get("element", "fire")), "ember")
+	path.texture = load("res://assets/ui/p5_path_%s.png" % tname)
+	path.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	path.stretch_mode = TextureRect.STRETCH_TILE
+	path.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	path.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	path.size = Vector2(12, 16)
+	path.scale = Vector2(3, 3)           # 1x pixel art shown at 3x
+	path.position = Vector2(40, -7)
+	path.modulate = Color.WHITE if lit else Color(0.35, 0.33, 0.4)
+	path.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	c.add_child(path)
+	return c
+
+
 func _floor_row(fl: Dictionary) -> Control:
 	var sid: String = fl["id"]
 	var unlocked := GameManager.is_stage_unlocked(sid)
@@ -124,6 +149,8 @@ func _floor_row(fl: Dictionary) -> Control:
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	p.add_child(h)
 	var badge := PanelFrame.make("slot", 4)
+	if unlocked:
+		badge.self_modulate = COLORS.get(tower.get("element", "fire"), Color.WHITE).lightened(0.3)
 	badge.custom_minimum_size = Vector2(96, 76)
 	badge.add_child(UIKit.label(str(int(fl.get("number", 0))), UIKit.T_NAME, UIKit.GOLD if unlocked else UIKit.MUTED,
 			HORIZONTAL_ALIGNMENT_CENTER, 8))

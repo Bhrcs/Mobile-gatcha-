@@ -38,42 +38,10 @@ func _ready() -> void:
 	var area := build_frame("bg_camp", String(world.get("name", "Quest")).to_upper(), "world_select",
 			Callable(), 0.6)
 
-	# ---- world tabs
-	var tabs := UIKit.hbox(10)
-	tabs.name = "WorldTabs"
-	tabs.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	tabs.offset_bottom = 96
-	area.add_child(tabs)
-	for w in Database.world_order:
-		var wd: Dictionary = Database.worlds[w]
-		var open := GameManager.world_unlocked(w)
-		var b := FantasyButton.make("%d  %s" % [int(wd.get("number", 1)), String(wd.get("name", "")).to_upper()],
-				"gold" if w == wid else "steel", Vector2(0, 92))
-		b.name = "World_" + w
-		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		b.add_theme_font_size_override("font_size", 28)
-		if not open:
-			b.modulate = Color(0.55, 0.53, 0.58)
-			b.icon = load("res://assets/icons/lock.png")
-			b.expand_icon = true
-			b.add_theme_constant_override("icon_max_width", 40)
-			var req: String = wd.get("requires", "")
-			b.pressed.connect(func(): UIKit.toast(self, "Clear %s to reach %s." % [GameManager.stage_label(req), wd.get("name", "")],
-					UIKit.MUTED))
-		elif w != wid:
-			var target := w
-			b.pressed.connect(func(): SceneRouter.go("stage_select", {"world": target}))
-		tabs.add_child(b)
-		var total := 0
-		for st in wd.get("stages", []):
-			total += 3
-		if open:
-			b.tooltip_text = "Stars %d / %d" % [GameManager.total_stars(w), total]
-
 	# ---- map (scrolls vertically)
 	var frame := PanelFrame.make("inset", 6)
 	frame.set_anchors_preset(Control.PRESET_FULL_RECT)
-	frame.offset_top = 104
+	frame.offset_top = 0
 	frame.offset_bottom = -SHEET_H - 10
 	area.add_child(frame)
 	map_scroll = ScrollContainer.new()
@@ -112,6 +80,8 @@ func _ready() -> void:
 	AudioManager.play_music(world.get("music", "world"))
 	if SceneRouter.params.get("prepare", false) and GameManager.is_stage_unlocked(start):
 		StageInfo.open_prepare(self, start)
+	elif GameManager.stages_cleared_count() == 0 and nodes.has(Database.stage_order[0]):
+		UIManager.guide("select_first_stage", sheet.find_child("StartButton", true, false), "Tap START to begin Stage 1-1.")
 
 
 func _process(delta: float) -> void:
@@ -137,13 +107,33 @@ func _latest_unlocked_in(wid: String) -> String:
 	return last
 
 
+## Node types, told apart by shape and icon (not colour alone):
+## locked (padlock), open (ember ring), elite (diamond), boss (large crest),
+## cleared (bronze ring + check), perfect (gold ring + check, all 3 stars).
 func _node_state(stage: Dictionary) -> String:
 	var sid: String = stage["id"]
 	if not GameManager.is_stage_unlocked(sid):
 		return "locked"
-	if GameManager.is_stage_cleared(sid) and not stage.get("boss", false):
-		return "cleared"
-	return "boss" if stage.get("boss", false) else "open"
+	if stage.get("boss", false):
+		return "boss"
+	if GameManager.is_stage_cleared(sid):
+		return "perfect" if GameManager.star_count(sid) >= 3 else "cleared"
+	return "elite" if Database.stage_has_elite(sid) else "open"
+
+
+func _node_tip(stage: Dictionary, st: String) -> String:
+	match st:
+		"locked":
+			return "Locked - clear the previous stage first."
+		"elite":
+			return "Elite foes: tougher enemies with extra tricks."
+		"boss":
+			return "Ancient Foe: a boss battle." + ("  Defeated." if GameManager.is_stage_cleared(stage["id"]) else "")
+		"perfect":
+			return "Cleared with all 3 stars."
+		"cleared":
+			return "Cleared - %d / 3 stars." % GameManager.star_count(stage["id"])
+	return "New stage - %d Energy." % int(stage.get("energy", 0))
 
 
 func _route_point(stage: Dictionary) -> Vector2:
@@ -161,6 +151,12 @@ func _build_nodes() -> void:
 		n.position = _route_point(stage) - Vector2(px, px) / 2.0 - Vector2(0, 16)
 		if boss and st == "locked":
 			n.modulate = Color(0.45, 0.4, 0.5)
+		if boss and GameManager.is_stage_cleared(sid):
+			var chk := UIKit.icon("res://assets/icons/check.png", 48)
+			chk.position = Vector2(px - 44, px - 52)
+			n.add_child(chk)
+		UIManager.attach_tooltip(n, "%s  %s" % [GameManager.stage_label(sid), stage.get("name", "") if st != "locked" else "???"],
+				_node_tip(stage, st))
 		n.pressed.connect(func(): _select(sid))
 		map_view.add_child(n)
 		nodes[sid] = n
@@ -316,7 +312,8 @@ func _build_sheet(sid: String) -> void:
 			HORIZONTAL_ALIGNMENT_LEFT, 10)
 	title.name = "StageTitle"
 	tv.add_child(title)
-	var sub := "ANCIENT FOE AWAITS" if boss else ("CLEARED" if cleared else ("NEW" if unlocked else "LOCKED"))
+	var elite := not boss and Database.stage_has_elite(sid)
+	var sub := "ANCIENT FOE AWAITS" if boss else ("CLEARED" if cleared else (("ELITE FOES" if elite else "NEW") if unlocked else "LOCKED"))
 	tv.add_child(UIKit.label(sub, UIKit.T_BODY, Color("#ff7a5a") if boss else (UIKit.GOOD if cleared else (UIKit.EMBER if unlocked else UIKit.MUTED)),
 			HORIZONTAL_ALIGNMENT_LEFT, 6))
 	head.add_child(tv)

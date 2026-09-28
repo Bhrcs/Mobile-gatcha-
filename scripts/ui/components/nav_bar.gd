@@ -20,7 +20,7 @@ static var _last_index := -1
 
 var current := ""
 var buttons: Array = []
-var _marker: TextureRect
+var _marker: ColorRect
 
 
 static func attach(parent: Control, current_tab: String) -> NavBar:
@@ -122,20 +122,19 @@ func _animate_selection(index: int) -> void:
 	await get_tree().process_frame
 	if not is_instance_valid(b) or b.size.x <= 0:
 		return
-	_marker = TextureRect.new()
+	# the marker lives inside the selected button (the bar itself is a container)
+	_marker = ColorRect.new()
 	_marker.name = "NavMarker"
-	_marker.texture = UIKit._box_icon(UIKit.GOLD, 4, 1)
-	_marker.stretch_mode = TextureRect.STRETCH_SCALE
-	_marker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_marker.color = UIKit.GOLD
 	_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_marker.size = Vector2(b.size.x * 0.5, 6)
-	add_child(_marker)
-	var target_x := b.global_position.x - global_position.x + b.size.x * 0.25
-	var y := b.global_position.y - global_position.y + b.size.y - 18
+	b.add_child(_marker)
+	var target_x := b.size.x * 0.25
+	var y := b.size.y - 18
 	var from_x := target_x
 	if _last_index >= 0 and _last_index != index and _last_index < buttons.size():
 		var pb: Button = buttons[_last_index]
-		from_x = pb.global_position.x - global_position.x + pb.size.x * 0.25
+		from_x = pb.global_position.x - b.global_position.x + pb.size.x * 0.25
 	_marker.position = Vector2(from_x, y)
 	_last_index = index
 	var tw := create_tween().set_parallel(true)

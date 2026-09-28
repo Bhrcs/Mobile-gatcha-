@@ -437,7 +437,9 @@ func _check_phase2(e: Combatant) -> void:
 		effects.particles(e.element, v.impact_point(), 30, 360.0)
 	camera.shake(18.0, 0.4)
 	hud.add_log(p2.get("announce", "%s grows furious!" % e.display_name), Color("#ff7a5a"))
-	await hud.show_warning("ENRAGED", p2.get("announce", ""))
+	if hud.plates.has(e):
+		hud.plates[e].refresh_phase()
+	await hud.show_warning("PHASE 2", p2.get("announce", ""))
 
 
 ## A boss calls minions: they rise in front of it.
@@ -568,6 +570,11 @@ func _finish(victory: bool) -> void:
 			SceneRouter.go("unit_detail", {"uid": GameManager.leader_uid()}, "replace"))
 	result.stage_select_pressed.connect(func(): SceneRouter.leave_battle(_map_scene(), {"highlight": stage_id}))
 	battle_finished.emit(victory)
+
+
+## Esc on PC opens the pause menu (UIManager calls this when no popup is open).
+func on_back() -> void:
+	_on_menu()
 
 
 func _on_menu() -> void:

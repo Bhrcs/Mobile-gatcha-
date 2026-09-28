@@ -88,6 +88,8 @@ func quit_game(code := 0) -> void:
 	_quitting = true
 	if has_profile():
 		save()
+	# callers may still be inside a scene's _ready (the tree is busy adding it)
+	await get_tree().process_frame
 	# freeze gameplay (battles keep firing sounds and timers otherwise), drop the
 	# current scene, then silence audio and give the audio thread time to let go
 	# let a running battle action finish so no coroutine is left waiting on a
@@ -1064,6 +1066,29 @@ func claim_mission(kind: String, mission_id: String) -> Dictionary:
 	return {}
 
 
+## CLAIM ALL: every finished mission (daily + weekly) and the daily chest.
+## Returns the combined reward plus "count" (0 when nothing was claimable).
+func claim_all_missions() -> Dictionary:
+	var total := {"gold": 0, "gems": 0, "soul_shards": 0, "items": {}, "count": 0}
+	for kind in ["daily", "weekly"]:
+		for m in Database.missions.get(kind, []):
+			if not mission_claimed(kind, m["id"]) and mission_progress(kind, m) >= int(m.get("target", 1)):
+				_merge_reward(total, claim_mission(kind, m["id"]))
+	if can_claim_chest():
+		_merge_reward(total, claim_chest())
+	return total
+
+
+static func _merge_reward(total: Dictionary, r: Dictionary) -> void:
+	if r.is_empty():
+		return
+	total["count"] = int(total["count"]) + 1
+	for k in ["gold", "gems", "soul_shards"]:
+		total[k] = int(total[k]) + int(r.get(k, 0))
+	for item_id in r.get("items", {}).keys():
+		total["items"][item_id] = int(total["items"].get(item_id, 0)) + int(r["items"][item_id])
+
+
 func daily_completed() -> int:
 	return profile["missions"]["daily_claimed"].size()
 
@@ -1197,9 +1222,24 @@ func mark_feature_announced(feature: String) -> void:
 		save()
 
 
+## Returns "" when the name is fine, otherwise a short reason to show the player.
+static func validate_player_name(n: String) -> String:
+	n = n.strip_edges()
+	if n.length() < 2:
+		return "Use at least 2 characters."
+	if n.length() > 16:
+		return "Use at most 16 characters."
+	var re := RegEx.create_from_string("^[A-Za-z0-9 _'\\-]+$")
+	if re.search(n) == null:
+		return "Letters, numbers, spaces, - ' and _ only."
+	if "  " in n:
+		return "Avoid double spaces."
+	return ""
+
+
 func set_player_name(n: String) -> void:
 	n = n.strip_edges().substr(0, 16)
-	if n.is_empty():
+	if not validate_player_name(n).is_empty():
 		return
 	profile["player"]["name"] = n
 	save()

@@ -132,7 +132,7 @@ func _build_top() -> void:
 	btn_speed.add_theme_font_size_override("font_size", 30)
 	btn_speed.pressed.connect(func(): set_speed(2.0 if speed < 1.5 else 1.0, true))
 	row.add_child(btn_speed)
-	btn_auto = FantasyButton.make("AUTO", "stone", Vector2(122, 88))
+	btn_auto = FantasyButton.make("AUTO", "stone", Vector2(150, 88))
 	btn_auto.name = "AutoButton"
 	btn_auto.add_theme_font_size_override("font_size", 28)
 	btn_auto.pressed.connect(func():
@@ -215,10 +215,41 @@ func _build_bottom() -> void:
 func set_auto(on: bool, emit := false) -> void:
 	auto_on = on and auto_available
 	btn_auto.apply_style("ember" if auto_on else "stone")
-	btn_auto.text = "AUTO" if auto_available else "AUTO"
+	btn_auto.text = "AUTO ON" if auto_on else "AUTO"
 	btn_auto.modulate = Color.WHITE if auto_available else Color(0.6, 0.6, 0.6)
+	_update_auto_band()
 	if emit:
 		auto_toggled.emit(auto_on)
+
+
+## Pulsing "AUTO BATTLE" plate just above the hero cards while auto is on, so it
+## is always obvious who is in control. Tapping it turns auto off.
+var _auto_band: PanelContainer
+
+
+func _update_auto_band() -> void:
+	if _auto_band == null and not auto_on:
+		return
+	if _auto_band == null:
+		_auto_band = PanelFrame.make("boss", 8)
+		_auto_band.name = "AutoBand"
+		var h := UIKit.hbox(UIKit.SP_S)
+		h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		h.add_child(UIKit.icon("res://assets/icons/auto.png", 32))
+		h.add_child(UIKit.label("AUTO BATTLE  -  tap to take control", UIKit.T_SMALL, UIKit.GOLD, HORIZONTAL_ALIGNMENT_LEFT, 5))
+		_auto_band.add_child(h)
+		_auto_band.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+		root.add_child(_auto_band)
+		UIKit.on_tap(_auto_band, func(): set_auto(false, true))
+		var tw := _auto_band.create_tween().set_loops()
+		tw.tween_property(_auto_band, "modulate:a", 0.65, 0.6).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(_auto_band, "modulate:a", 1.0, 0.6).set_trans(Tween.TRANS_SINE)
+	_auto_band.visible = auto_on
+	var sz := _auto_band.get_combined_minimum_size()
+	_auto_band.offset_right = -12
+	_auto_band.offset_left = -12 - sz.x
+	_auto_band.offset_bottom = -bottom_block - 8
+	_auto_band.offset_top = -bottom_block - 8 - sz.y
 
 
 func set_auto_available(on: bool) -> void:
@@ -277,6 +308,8 @@ func set_party(players: Array) -> void:
 	rows = max(rows, 1)
 	bottom_block = 22 + rows * (CARD_H + 8) + LOG_H + 16 + UIKit.safe_bottom()
 	_block.offset_top = -bottom_block
+	if _auto_band:
+		_update_auto_band()
 
 
 func set_header(stage: Dictionary, wave: int, wave_total: int, _turn: int) -> void:
@@ -455,21 +488,35 @@ func show_hint(hint: Dictionary) -> void:
 	var ok := FantasyButton.make("GOT IT", "ember", Vector2(340, 110))
 	ok.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	p.content.add_child(ok)
-	await ok.pressed
-	p.close()
+	p.name = "HintPopup"
+	ok.pressed.connect(p.close)
+	p.default_action = p.close
+	await p.tree_exited
 
 
 func show_menu(on_retreat: Callable) -> void:
+	if UIManager.has_popup("PauseMenu"):
+		return
 	var p := FantasyPopup.open(root, "PAUSED", 820)
-	var resume := FantasyButton.make("RESUME", "ember", Vector2(520, 116))
-	var settings := FantasyButton.make("SETTINGS", "steel", Vector2(520, 110))
-	var retreat := FantasyButton.make("RETREAT", "stone", Vector2(520, 110))
-	for b in [resume, settings, retreat]:
+	p.name = "PauseMenu"
+	var resume := UIKit.btn("RESUME", "primary", Vector2(520, 116))
+	resume.name = "ResumeButton"
+	var elements := UIKit.btn("ELEMENTS", "secondary", Vector2(520, 110), "res://assets/icons/element_chart.png")
+	elements.name = "PauseElements"
+	var settings := UIKit.btn("SETTINGS", "secondary", Vector2(520, 110))
+	settings.name = "PauseSettings"
+	var retreat := UIKit.btn("RETREAT", "danger", Vector2(520, 110))
+	retreat.name = "RetreatButton"
+	elements.pressed.connect(func(): ElementChart.popup(root))
+	for b in [resume, elements, settings, retreat]:
 		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		p.content.add_child(b)
 	p.content.add_child(UIKit.label("Retreating ends the battle without rewards (Energy is not refunded).", UIKit.T_SMALL, UIKit.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
 	resume.pressed.connect(p.close)
 	settings.pressed.connect(func(): SettingsPanel.open(root))
+	p.default_action = p.close
+	# retreating costs the run, so it asks once
 	retreat.pressed.connect(func():
-		p.close()
-		on_retreat.call())
+		UIManager.confirm("RETREAT?", "The battle ends without rewards and the Energy is not refunded.", "RETREAT", func():
+			p.close()
+			on_retreat.call(), {"danger": true, "parent": root}))
