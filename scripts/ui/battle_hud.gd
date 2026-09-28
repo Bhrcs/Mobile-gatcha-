@@ -455,21 +455,36 @@ func show_hint(hint: Dictionary) -> void:
 	var ok := FantasyButton.make("GOT IT", "ember", Vector2(340, 110))
 	ok.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	p.content.add_child(ok)
+	p.name = "HintPopup"
+	p.cancel_action = func(): ok.pressed.emit()
+	p.default_action = p.cancel_action
 	await ok.pressed
 	p.close()
 
 
 func show_menu(on_retreat: Callable) -> void:
+	if UIManager.has_popup("PauseMenu"):
+		return
 	var p := FantasyPopup.open(root, "PAUSED", 820)
-	var resume := FantasyButton.make("RESUME", "ember", Vector2(520, 116))
-	var settings := FantasyButton.make("SETTINGS", "steel", Vector2(520, 110))
-	var retreat := FantasyButton.make("RETREAT", "stone", Vector2(520, 110))
-	for b in [resume, settings, retreat]:
+	p.name = "PauseMenu"
+	var resume := UIKit.btn("RESUME", "primary", Vector2(520, 116))
+	resume.name = "ResumeButton"
+	var elements := UIKit.btn("ELEMENTS", "secondary", Vector2(520, 110), "res://assets/icons/element_chart.png")
+	elements.name = "PauseElements"
+	var settings := UIKit.btn("SETTINGS", "secondary", Vector2(520, 110))
+	settings.name = "PauseSettings"
+	var retreat := UIKit.btn("RETREAT", "danger", Vector2(520, 110))
+	retreat.name = "RetreatButton"
+	elements.pressed.connect(func(): ElementChart.popup(root))
+	for b in [resume, elements, settings, retreat]:
 		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		p.content.add_child(b)
 	p.content.add_child(UIKit.label("Retreating ends the battle without rewards (Energy is not refunded).", UIKit.T_SMALL, UIKit.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
 	resume.pressed.connect(p.close)
 	settings.pressed.connect(func(): SettingsPanel.open(root))
+	p.default_action = p.close
+	# retreating costs the run, so it asks once
 	retreat.pressed.connect(func():
-		p.close()
-		on_retreat.call())
+		UIManager.confirm("RETREAT?", "The battle ends without rewards and the Energy is not refunded.", "RETREAT", func():
+			p.close()
+			on_retreat.call(), {"danger": true, "parent": root}))

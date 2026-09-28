@@ -38,42 +38,10 @@ func _ready() -> void:
 	var area := build_frame("bg_camp", String(world.get("name", "Quest")).to_upper(), "world_select",
 			Callable(), 0.6)
 
-	# ---- world tabs
-	var tabs := UIKit.hbox(10)
-	tabs.name = "WorldTabs"
-	tabs.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	tabs.offset_bottom = 96
-	area.add_child(tabs)
-	for w in Database.world_order:
-		var wd: Dictionary = Database.worlds[w]
-		var open := GameManager.world_unlocked(w)
-		var b := FantasyButton.make("%d  %s" % [int(wd.get("number", 1)), String(wd.get("name", "")).to_upper()],
-				"gold" if w == wid else "steel", Vector2(0, 92))
-		b.name = "World_" + w
-		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		b.add_theme_font_size_override("font_size", 28)
-		if not open:
-			b.modulate = Color(0.55, 0.53, 0.58)
-			b.icon = load("res://assets/icons/lock.png")
-			b.expand_icon = true
-			b.add_theme_constant_override("icon_max_width", 40)
-			var req: String = wd.get("requires", "")
-			b.pressed.connect(func(): UIKit.toast(self, "Clear %s to reach %s." % [GameManager.stage_label(req), wd.get("name", "")],
-					UIKit.MUTED))
-		elif w != wid:
-			var target := w
-			b.pressed.connect(func(): SceneRouter.go("stage_select", {"world": target}))
-		tabs.add_child(b)
-		var total := 0
-		for st in wd.get("stages", []):
-			total += 3
-		if open:
-			b.tooltip_text = "Stars %d / %d" % [GameManager.total_stars(w), total]
-
 	# ---- map (scrolls vertically)
 	var frame := PanelFrame.make("inset", 6)
 	frame.set_anchors_preset(Control.PRESET_FULL_RECT)
-	frame.offset_top = 104
+	frame.offset_top = 0
 	frame.offset_bottom = -SHEET_H - 10
 	area.add_child(frame)
 	map_scroll = ScrollContainer.new()

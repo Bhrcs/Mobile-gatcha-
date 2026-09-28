@@ -9,7 +9,7 @@ const TIPS := [
 	"Light and Dark deal bonus damage to each other.",
 	"Tap a status icon in battle to see what it does.",
 	"Clear a stage without losing a hero for its third star.",
-	"Duplicate heroes become Soul Shards - trade them in the Codex.",
+	"Duplicate heroes become Soul Shards - use them to level up Bursts.",
 	"Tower floors give the evolution materials you need.",
 	"Your leader's skill works for the whole squad.",
 ]

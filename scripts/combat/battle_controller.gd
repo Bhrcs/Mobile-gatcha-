@@ -570,6 +570,11 @@ func _finish(victory: bool) -> void:
 	battle_finished.emit(victory)
 
 
+## Esc on PC opens the pause menu (UIManager calls this when no popup is open).
+func on_back() -> void:
+	_on_menu()
+
+
 func _on_menu() -> void:
 	if state != State.PLAYER:
 		return

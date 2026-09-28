@@ -425,6 +425,8 @@ func _login_popup() -> void:
 	claim.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	claim.add_shine()
 	p.content.add_child(claim)
+	p.cancel_action = func(): claim.pressed.emit()
+	p.default_action = p.cancel_action
 	await claim.pressed
 	if not is_inside_tree():
 		return
