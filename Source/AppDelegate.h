@@ -62,8 +62,4 @@ public:
     @since axmol-2.10.0
 	*/
     void applicationWillQuit() override;
-
-#if _AX_TESTS
-    int run(int argc, char** argv);
-#endif
 };

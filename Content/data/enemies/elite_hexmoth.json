@@ -1,0 +1,41 @@
+{
+ "id": "elite_hexmoth",
+ "name": "Elite Hexmoth",
+ "element": "nature",
+ "role": "debuffer",
+ "type": "Insect",
+ "base_stats": {
+  "hp": 342,
+  "atk": 49,
+  "def": 31,
+  "spd": 71
+ },
+ "skills": {
+  "normal": "dust_bite",
+  "special": "hex_powder",
+  "extra": "howl"
+ },
+ "ai": {
+  "profile": "debuffer",
+  "skill_chance": 0.3,
+  "targeting": "highest_atk",
+  "extra_every": 3
+ },
+ "rewards": {
+  "xp": 45,
+  "gold": [
+   21,
+   39
+  ]
+ },
+ "drop_table": "nature_elite",
+ "sprite": {
+  "sheet": "res://assets/enemies/hexmoth/hexmoth_sheet.png",
+  "meta": "res://assets/enemies/hexmoth/hexmoth_sheet.json",
+  "scale": 8
+ },
+ "description": "An elite, battle-hardened hexmoth. Stronger, and it knows one extra trick.",
+ "elite": true,
+ "tint": "#ffd060",
+ "variant_of": "hexmoth"
+}

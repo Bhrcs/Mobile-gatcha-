@@ -1,0 +1,130 @@
+{
+ "_comment": "Balance knobs. Tweak these instead of editing scripts.",
+ "unit_xp_curve": {
+  "base": 50,
+  "exponent": 1.5
+ },
+ "rank_xp_curve": {
+  "base": 60,
+  "exponent": 1.35
+ },
+ "rank_max": 99,
+ "burst": {
+  "max": 100,
+  "gain_attack": 34,
+  "gain_damaged": 6,
+  "gain_guard": 15
+ },
+ "combat": {
+  "def_factor": 0.3,
+  "min_damage_ratio": 0.1,
+  "crit_chance": 0.05,
+  "crit_multiplier": 1.5,
+  "variance_min": 0.95,
+  "variance_max": 1.05,
+  "guard_reduction": 0.5,
+  "taunt_weight": 4.0,
+  "wave_recovery_percent": 0.2
+ },
+ "enemy_scaling": {
+  "hp": 0.2,
+  "atk": 0.11,
+  "def": 0.1,
+  "spd": 0.03,
+  "xp": 1.0,
+  "gold": 0.35
+ },
+ "train_gold_per_xp": 1.5,
+ "party_size": 5,
+ "party_size_max_future": 5,
+ "max_level_by_rarity": {
+  "3": 15,
+  "4": 25,
+  "5": 35
+ },
+ "energy": {
+  "base_max": 20,
+  "per_rank": 0.5,
+  "cap": 60,
+  "regen_seconds": 180
+ },
+ "rank_rewards": {
+  "gems_every": 5,
+  "gems": 50
+ },
+ "training": {
+  "gold_per_xp": 0.5,
+  "element_bonus": 0.5
+ },
+ "burst_levels": {
+  "max": 5,
+  "xp": [
+   0,
+   4,
+   10,
+   18,
+   30
+  ],
+  "per_use": 1,
+  "shards_per_step": 20,
+  "shard_step_xp": 3
+ },
+ "power": {
+  "hp": 0.1,
+  "atk": 1.0,
+  "def": 0.8,
+  "rec": 0.5,
+  "burst_level": 0.03
+ },
+ "unlocks": {
+  "auto": "ashroot_04",
+  "units": "ashroot_05",
+  "squad": "ashroot_05",
+  "training": "ashroot_06",
+  "tower": "ashroot_07",
+  "evolution": "ashroot_08",
+  "summon": "ashroot_09",
+  "missions": "ashroot_10",
+  "world2": "ashroot_10"
+ },
+ "unlock_gifts": {
+  "ashroot_05": {
+   "hero_by_starter": {
+    "kael_emberclaw": "corin_saltmarsh",
+    "mira_tidesong": "wren_briarshot",
+    "thorne_mossguard": "rhea_flintwhistle"
+   },
+   "items": {
+    "radiant_wisp": 1
+   }
+  },
+  "ashroot_06": {
+   "items": {
+    "ember_wisp": 2,
+    "tide_wisp": 2,
+    "verdant_wisp": 2
+   }
+  },
+  "ashroot_08": {
+   "items": {
+    "ember_fragment": 2,
+    "tide_fragment": 2,
+    "sprout_fragment": 2
+   }
+  },
+  "ashroot_09": {
+   "gems": 150
+  }
+ },
+ "legacy_items": {
+  "fire_shard": "ember_fragment",
+  "water_shard": "tide_fragment",
+  "nature_shard": "sprout_fragment"
+ },
+ "inventory_stack_limit": 9999,
+ "starting_items": {
+  "ember_wisp": 1,
+  "tide_wisp": 1,
+  "verdant_wisp": 1
+ }
+}

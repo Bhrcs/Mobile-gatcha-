@@ -1,0 +1,78 @@
+{
+ "characters": [
+  "aldric_deepvow.json",
+  "corin_reefwarden.json",
+  "corin_saltmarsh.json",
+  "corin_tidebulwark.json",
+  "faye_everbloom.json",
+  "faye_lumenbloom.json",
+  "gorran_oakheart.json",
+  "kael_blazeheart.json",
+  "kael_cinderlord.json",
+  "kael_emberclaw.json",
+  "mira_tidecaller.json",
+  "mira_tidesong.json",
+  "mira_wavesage.json",
+  "nerys_frostwake.json",
+  "nerys_rimefang.json",
+  "rhea_flintwhistle.json",
+  "rhea_hearthsong.json",
+  "rhea_sunchoir.json",
+  "seraphine_pyrelance.json",
+  "thorne_ancientroot.json",
+  "thorne_mossguard.json",
+  "thorne_oakwarden.json",
+  "voss_ashmantle.json",
+  "voss_magmaborn.json",
+  "wren_briarshot.json",
+  "wren_galeleaf.json",
+  "wren_thornvolley.json"
+ ],
+ "enemies": [
+  "ancient_bramble_pup.json",
+  "bramble_pup.json",
+  "brine_eel.json",
+  "brine_leviathan.json",
+  "cinder_slime.json",
+  "deepwater_matron.json",
+  "drift_jelly.json",
+  "elder_glowcap.json",
+  "elite_bramble_pup.json",
+  "elite_brine_eel.json",
+  "elite_cinder_slime.json",
+  "elite_emberwisp.json",
+  "elite_hexmoth.json",
+  "elite_scorch_beetle.json",
+  "elite_shellcrab.json",
+  "elite_tidefin.json",
+  "emberwisp.json",
+  "emberwisp_tyrant.json",
+  "glowcap.json",
+  "hexmoth.json",
+  "moss_slime.json",
+  "salt_wraith.json",
+  "saltglass_colossus.json",
+  "scorch_beetle.json",
+  "scorch_matriarch.json",
+  "shellcrab.json",
+  "thornback_elder.json",
+  "tide_slime.json",
+  "tidefin.json"
+ ],
+ "items": [
+  "items.json"
+ ],
+ "skills": [
+  "enemy_skills.json",
+  "hero_skills.json"
+ ],
+ "stages": [
+  "ashroot_wilds.json",
+  "saltglass_reach.json"
+ ],
+ "towers": [
+  "ember_tower.json",
+  "tide_tower.json",
+  "verdant_tower.json"
+ ]
+}

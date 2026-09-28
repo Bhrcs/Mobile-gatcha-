@@ -24,124 +24,54 @@
  ****************************************************************************/
 
 #include "AppDelegate.h"
-#include "MainScene.h"
-
-#define USE_AUDIO_ENGINE 1
-
-#if USE_AUDIO_ENGINE
-#    include "audio/AudioEngine.h"
-#endif
-
-#if _AX_TESTS
-#   include "doctest/doctest.h"
-#endif
+#include "app/App.h"
+#include "audio/AudioEngine.h"
 
 using namespace ax;
-
-static ax::Size designResolutionSize = ax::Size(720, 1280);
 
 AppDelegate::AppDelegate() {}
 
 AppDelegate::~AppDelegate() {}
 
-// if you want a different context, modify the value of gfxContextAttrs
-// it will affect all platforms
 void AppDelegate::initGfxContextAttrs()
 {
-    // set graphics context attributes: red,green,blue,alpha,depth,stencil,multisamplesCount
-    GfxContextAttrs gfxContextAttrs = {8, 8, 8, 8, 24, 8, 0};
-    // since axmol-2.2 vsync was enabled in engine by default
-    // gfxContextAttrs.vsync = false;
-
-    RenderView::setGfxContextAttrs(gfxContextAttrs);
+    GfxContextAttrs attrs = {8, 8, 8, 8, 24, 8, 0};
+    RenderView::setGfxContextAttrs(attrs);
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-    // initialize director
     auto director = Director::getInstance();
-    auto renderView   = director->getRenderView();
-    if (!renderView)
+    auto view = director->getRenderView();
+    if (!view)
     {
 #if (AX_TARGET_PLATFORM != AX_PLATFORM_ANDROID) && (AX_TARGET_PLATFORM != AX_PLATFORM_IOS)
-        renderView = RenderViewImpl::createWithRect(
-            "Cinderbound", ax::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+        view = RenderViewImpl::createWithRect("Cinderbound", ax::Rect(0, 0, 576, 1024), 1.0f, true);
 #else
-        renderView = RenderViewImpl::create("Cinderbound");
+        view = RenderViewImpl::create("Cinderbound");
 #endif
-        director->setRenderView(renderView);
+        director->setRenderView(view);
     }
-
-    // turn on display FPS
-    director->setStatsDisplay(true);
-
-    // set FPS. the default value is 1.0/60 if you don't call this
+    director->setStatsDisplay(false);
     director->setAnimationInterval(1.0f / 60);
-
-    // Set the design resolution
-    renderView->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height,
-                                    ResolutionPolicy::SHOW_ALL);
-
-#if !_AX_TESTS
-    // create a scene. it's an autorelease object
-    auto scene = utils::createInstance<MainScene>();
-
-    // run
-    director->runWithScene(scene);
-#endif
-
+    App::start();
     return true;
 }
 
-// This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground()
 {
     Director::getInstance()->stopAnimation();
-
-#if USE_AUDIO_ENGINE
     AudioEngine::pauseAll();
-#endif
+    if (GM.has_profile()) GM.save();
 }
 
-// this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground()
 {
     Director::getInstance()->startAnimation();
-
-#if USE_AUDIO_ENGINE
     AudioEngine::resumeAll();
-#endif
 }
 
-void AppDelegate::applicationWillQuit() {}
-
-#if _AX_TESTS
-int AppDelegate::run(int argc, char** argv) {
-    AXLOGI("Running unit tests...\n");
-    fflush(stdout);
-    AXLOGI("Default resource path: {}\n", FileUtils::getInstance()->getDefaultResourceRootPath());
-    AXLOGI("Writable path: {}\n", FileUtils::getInstance()->getWritablePath());
-    {
-        for (auto& path : FileUtils::getInstance()->getSearchPaths())
-            AXLOGI("Search path: {}\n", path);
-    }
-    fflush(stdout);
-
-    ax::Director::getInstance()->init();
-
-    doctest::Context context;
-
-    //context.addFilter("test-case-exclude", "*math*"); // exclude test cases with "math" in their name
-    //context.setOption("abort-after", 5);              // stop test execution after 5 failed assertions
-
-    //context.setOption("order-by", "name");            // sort the test cases by their name
-
-    context.applyCommandLine(argc, argv);
-
-    // overrides
-    context.setOption("no-breaks", true);             // don't break in the debugger when assertions fail
-
-    int res = context.run(); // run
-    return res;
+void AppDelegate::applicationWillQuit()
+{
+    if (GM.has_profile()) GM.save();
 }
-#endif

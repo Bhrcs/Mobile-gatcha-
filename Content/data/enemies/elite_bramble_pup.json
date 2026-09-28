@@ -1,0 +1,41 @@
+{
+ "id": "elite_bramble_pup",
+ "name": "Elite Bramble Pup",
+ "element": "nature",
+ "role": "attacker",
+ "type": "Beast",
+ "base_stats": {
+  "hp": 450,
+  "atk": 58,
+  "def": 45,
+  "spd": 49
+ },
+ "skills": {
+  "normal": "bramble_bite",
+  "special": "thorn_rush",
+  "extra": "howl"
+ },
+ "ai": {
+  "profile": "attacker",
+  "skill_chance": 0.3,
+  "targeting": "random",
+  "extra_every": 3
+ },
+ "rewards": {
+  "xp": 42,
+  "gold": [
+   21,
+   39
+  ]
+ },
+ "drop_table": "nature_elite",
+ "sprite": {
+  "sheet": "res://assets/enemies/bramble_pup/bramble_pup_sheet.png",
+  "meta": "res://assets/enemies/bramble_pup/bramble_pup_sheet.json",
+  "scale": 8
+ },
+ "description": "An elite, battle-hardened bramble pup. Stronger, and it knows one extra trick.",
+ "elite": true,
+ "tint": "#ffd060",
+ "variant_of": "bramble_pup"
+}

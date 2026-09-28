@@ -1,0 +1,54 @@
+{
+ "cycle": [
+  {
+   "day": 1,
+   "reward": {
+    "gold": 3000
+   }
+  },
+  {
+   "day": 2,
+   "reward": {
+    "items": {
+     "radiant_wisp": 2
+    }
+   }
+  },
+  {
+   "day": 3,
+   "reward": {
+    "gems": 50
+   }
+  },
+  {
+   "day": 4,
+   "reward": {
+    "items": {
+     "ember_fragment": 2,
+     "tide_fragment": 2,
+     "sprout_fragment": 2
+    }
+   }
+  },
+  {
+   "day": 5,
+   "reward": {
+    "gems": 50
+   }
+  },
+  {
+   "day": 6,
+   "reward": {
+    "items": {
+     "prism_shard": 1
+    }
+   }
+  },
+  {
+   "day": 7,
+   "reward": {
+    "gems": 150
+   }
+  }
+ ]
+}

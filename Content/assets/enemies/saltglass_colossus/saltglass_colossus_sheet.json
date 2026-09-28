@@ -1,0 +1,38 @@
+{
+ "frame_size": [
+  64,
+  64
+ ],
+ "animations": {
+  "idle": {
+   "row": 0,
+   "frames": 4,
+   "fps": 4,
+   "loop": true
+  },
+  "attack": {
+   "row": 1,
+   "frames": 6,
+   "fps": 11,
+   "loop": false
+  },
+  "hit": {
+   "row": 2,
+   "frames": 2,
+   "fps": 10,
+   "loop": false
+  },
+  "death": {
+   "row": 3,
+   "frames": 5,
+   "fps": 8,
+   "loop": false
+  },
+  "special": {
+   "row": 4,
+   "frames": 8,
+   "fps": 10,
+   "loop": false
+  }
+ }
+}

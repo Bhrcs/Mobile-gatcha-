@@ -1,0 +1,197 @@
+{
+ "slash_ember": {
+  "frame_size": [
+   48,
+   48
+  ],
+  "frames": 5,
+  "fps": 22
+ },
+ "slash_steel": {
+  "frame_size": [
+   48,
+   48
+  ],
+  "frames": 5,
+  "fps": 22
+ },
+ "slash_heavy": {
+  "frame_size": [
+   48,
+   48
+  ],
+  "frames": 6,
+  "fps": 20
+ },
+ "hit_spark": {
+  "frame_size": [
+   24,
+   24
+  ],
+  "frames": 4,
+  "fps": 20
+ },
+ "hit_water": {
+  "frame_size": [
+   32,
+   32
+  ],
+  "frames": 5,
+  "fps": 16
+ },
+ "hit_nature": {
+  "frame_size": [
+   32,
+   32
+  ],
+  "frames": 5,
+  "fps": 16
+ },
+ "hit_fire": {
+  "frame_size": [
+   32,
+   32
+  ],
+  "frames": 6,
+  "fps": 18
+ },
+ "water_bolt": {
+  "frame_size": [
+   16,
+   16
+  ],
+  "frames": 4,
+  "fps": 12
+ },
+ "bubble": {
+  "frame_size": [
+   12,
+   12
+  ],
+  "frames": 3,
+  "fps": 8
+ },
+ "heal_ring": {
+  "frame_size": [
+   96,
+   32
+  ],
+  "frames": 7,
+  "fps": 12
+ },
+ "roots": {
+  "frame_size": [
+   64,
+   48
+  ],
+  "frames": 6,
+  "fps": 10
+ },
+ "embers": {
+  "frame_size": [
+   48,
+   48
+  ],
+  "frames": 6,
+  "fps": 12
+ },
+ "ember_bolt": {
+  "frame_size": [
+   16,
+   16
+  ],
+  "frames": 4,
+  "fps": 14,
+  "loop": true
+ },
+ "arrow": {
+  "frame_size": [
+   16,
+   16
+  ],
+  "frames": 4,
+  "fps": 12,
+  "loop": true
+ },
+ "tide_orb": {
+  "frame_size": [
+   16,
+   16
+  ],
+  "frames": 6,
+  "fps": 12,
+  "loop": true
+ },
+ "petal_bolt": {
+  "frame_size": [
+   16,
+   16
+  ],
+  "frames": 6,
+  "fps": 14,
+  "loop": true
+ },
+ "axe_cleave": {
+  "frame_size": [
+   48,
+   48
+  ],
+  "frames": 6,
+  "fps": 18,
+  "loop": false
+ },
+ "spear_thrust": {
+  "frame_size": [
+   48,
+   32
+  ],
+  "frames": 5,
+  "fps": 20,
+  "loop": false
+ },
+ "dagger_flurry": {
+  "frame_size": [
+   40,
+   40
+  ],
+  "frames": 7,
+  "fps": 20,
+  "loop": false
+ },
+ "petal_burst": {
+  "frame_size": [
+   40,
+   40
+  ],
+  "frames": 7,
+  "fps": 14,
+  "loop": false
+ },
+ "shield_flash": {
+  "frame_size": [
+   40,
+   48
+  ],
+  "frames": 6,
+  "fps": 14,
+  "loop": false
+ },
+ "hex_cloud": {
+  "frame_size": [
+   40,
+   40
+  ],
+  "frames": 7,
+  "fps": 12,
+  "loop": false
+ },
+ "buff_rise": {
+  "frame_size": [
+   40,
+   48
+  ],
+  "frames": 7,
+  "fps": 14,
+  "loop": false
+ }
+}

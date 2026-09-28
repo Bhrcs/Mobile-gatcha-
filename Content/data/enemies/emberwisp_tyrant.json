@@ -1,0 +1,55 @@
+{
+ "id": "emberwisp_tyrant",
+ "name": "Emberwisp Tyrant",
+ "element": "fire",
+ "role": "boss",
+ "type": "Tower Guardian",
+ "base_stats": {
+  "hp": 1300,
+  "atk": 80,
+  "def": 55,
+  "spd": 80
+ },
+ "skills": {
+  "normal": "wisp_flick",
+  "special": "inferno_nova"
+ },
+ "ai": {
+  "profile": "boss",
+  "skill_chance": 0.0,
+  "targeting": "random",
+  "pattern": [
+   "normal",
+   "curse",
+   "normal",
+   "charge"
+  ],
+  "curse": "kindle",
+  "phase2": {
+   "below": 0.5,
+   "atk_up": 0.25,
+   "pattern": [
+    "normal",
+    "charge"
+   ],
+   "announce": "The Tyrant flares white-hot!"
+  }
+ },
+ "rewards": {
+  "xp": 120,
+  "gold": [
+   120,
+   180
+  ]
+ },
+ "drop_table": "fire_boss",
+ "sprite": {
+  "sheet": "res://assets/enemies/emberwisp/emberwisp_sheet.png",
+  "meta": "res://assets/enemies/emberwisp/emberwisp_sheet.json",
+  "scale": 11
+ },
+ "description": "A guardian of the Ember Tower, grown huge on the tower's power.",
+ "boss": true,
+ "tint": "#ffe06a",
+ "variant_of": "emberwisp"
+}

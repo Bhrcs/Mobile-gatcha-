@@ -1,0 +1,73 @@
+{
+ "id": "rhea_flintwhistle",
+ "family": "rhea",
+ "name": "Rhea Flintwhistle",
+ "element": "fire",
+ "role": "Support",
+ "class": "SUPPORT",
+ "rarity": 3,
+ "form_index": 0,
+ "forms": [
+  "rhea_flintwhistle",
+  "rhea_hearthsong",
+  "rhea_sunchoir"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 15,
+ "experience": 0,
+ "base_stats": {
+  "hp": 700,
+  "atk": 110,
+  "def": 95,
+  "rec": 120,
+  "spd": 85
+ },
+ "growth": {
+  "hp": 26,
+  "atk": 3,
+  "def": 3,
+  "rec": 4,
+  "spd": 0
+ },
+ "normal_attack": "lantern_spark",
+ "burst": "hearthlight_hymn",
+ "passive": {
+  "name": "Kindling",
+  "description": "Allies' Burst gauges fill 10% faster.",
+  "effects": [
+   {
+    "kind": "burst_gain_up",
+    "value": 0.1,
+    "scope": "allies"
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Lamplighter's Lead",
+  "description": "All allies gain +8% Burst charge.",
+  "effects": [
+   {
+    "kind": "burst_gain_up",
+    "value": 0.08
+   }
+  ]
+ },
+ "evolution": {
+  "into": "rhea_hearthsong",
+  "gold": 2500,
+  "materials": {
+   "ember_fragment": 5,
+   "flame_core": 2
+  }
+ },
+ "sprite": {
+  "sheet": "res://assets/characters/rhea_flintwhistle/rhea_flintwhistle_sheet.png",
+  "meta": "res://assets/characters/rhea_flintwhistle/rhea_flintwhistle_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/rhea_flintwhistle/rhea_flintwhistle_portrait.png",
+ "weapon": "Lantern staff",
+ "description": "A cheerful fire-keeper. Her songs sharpen every blade in the squad.",
+ "lore": "A lamp-tender's daughter who talks to the flames she carries. Her lantern has never gone out, not even in the rain."
+}

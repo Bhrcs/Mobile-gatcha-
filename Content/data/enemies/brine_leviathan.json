@@ -1,0 +1,53 @@
+{
+ "id": "brine_leviathan",
+ "name": "Brine Leviathan",
+ "element": "water",
+ "role": "boss",
+ "type": "Tower Guardian",
+ "base_stats": {
+  "hp": 1350,
+  "atk": 82,
+  "def": 50,
+  "spd": 90
+ },
+ "skills": {
+  "normal": "eel_snap",
+  "special": "riptide_coil"
+ },
+ "ai": {
+  "profile": "boss",
+  "skill_chance": 0.0,
+  "targeting": "lowest_hp",
+  "pattern": [
+   "normal",
+   "normal",
+   "charge"
+  ],
+  "phase2": {
+   "below": 0.5,
+   "atk_up": 0.25,
+   "pattern": [
+    "normal",
+    "charge"
+   ],
+   "announce": "The Leviathan thrashes in a frenzy!"
+  }
+ },
+ "rewards": {
+  "xp": 120,
+  "gold": [
+   120,
+   180
+  ]
+ },
+ "drop_table": "water_boss",
+ "sprite": {
+  "sheet": "res://assets/enemies/brine_eel/brine_eel_sheet.png",
+  "meta": "res://assets/enemies/brine_eel/brine_eel_sheet.json",
+  "scale": 11
+ },
+ "description": "A guardian of the Tide Tower, grown huge on the tower's power.",
+ "boss": true,
+ "tint": "#6ad8ff",
+ "variant_of": "brine_eel"
+}

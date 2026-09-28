@@ -1,0 +1,77 @@
+{
+ "id": "kael_blazeheart",
+ "family": "kael",
+ "name": "Kael Blazeheart",
+ "element": "fire",
+ "role": "Attacker",
+ "class": "ATTACKER",
+ "rarity": 4,
+ "form_index": 1,
+ "forms": [
+  "kael_emberclaw",
+  "kael_blazeheart",
+  "kael_cinderlord"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 25,
+ "experience": 0,
+ "base_stats": {
+  "hp": 1178,
+  "atk": 227,
+  "def": 129,
+  "rec": 103,
+  "spd": 105
+ },
+ "growth": {
+  "hp": 33,
+  "atk": 6,
+  "def": 4,
+  "rec": 2,
+  "spd": 0
+ },
+ "normal_attack": "ember_slash",
+ "burst": "inferno_break_ii",
+ "passive": {
+  "name": "Ember Rush",
+  "description": "ATK +12% while HP is above 70%.",
+  "effects": [
+   {
+    "kind": "stat_up",
+    "stat": "atk",
+    "value": 0.12,
+    "condition": "hp_above",
+    "threshold": 0.7
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Hearthfire Vanguard",
+  "description": "Fire allies gain +10% ATK.",
+  "effects": [
+   {
+    "stat": "atk",
+    "value": 0.1,
+    "element": "fire"
+   }
+  ]
+ },
+ "evolution": {
+  "into": "kael_cinderlord",
+  "gold": 15000,
+  "materials": {
+   "flame_core": 8,
+   "infernal_crystal": 3,
+   "prism_shard": 1
+  }
+ },
+ "sprite": {
+  "sheet": "res://assets/characters/kael_blazeheart/kael_blazeheart_sheet.png",
+  "meta": "res://assets/characters/kael_blazeheart/kael_blazeheart_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/kael_blazeheart/kael_blazeheart_portrait.png",
+ "weapon": "Sword",
+ "description": "A young sellsword who fights up close. Hits hard and fast.",
+ "lore": "Kael grew up hauling coal in the smelting camps on the edge of the Wilds. When the embers under Ashroot began to stir, he traded his shovel for a blade forged from a cooled cinder."
+}

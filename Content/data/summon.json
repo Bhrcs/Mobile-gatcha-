@@ -1,0 +1,38 @@
+{
+ "banners": {
+  "standard": {
+   "id": "standard",
+   "name": "Embergate - Standard",
+   "currency": "gems",
+   "single_cost": 100,
+   "multi_cost": 1000,
+   "multi_count": 10,
+   "art": "res://assets/ui/banner_standard.png",
+   "description": "Every hero in the realm can answer the Embergate's call.",
+   "rates": {
+    "3": 0.75,
+    "4": 0.22,
+    "5": 0.03
+   },
+   "pool": [
+    "kael_emberclaw",
+    "mira_tidesong",
+    "thorne_mossguard",
+    "rhea_flintwhistle",
+    "corin_saltmarsh",
+    "wren_briarshot",
+    "voss_ashmantle",
+    "nerys_frostwake",
+    "faye_lumenbloom",
+    "seraphine_pyrelance",
+    "aldric_deepvow",
+    "gorran_oakheart"
+   ]
+  }
+ },
+ "duplicate_shards": {
+  "3": 10,
+  "4": 30,
+  "5": 100
+ }
+}

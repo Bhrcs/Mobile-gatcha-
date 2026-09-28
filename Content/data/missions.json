@@ -1,0 +1,113 @@
+{
+ "daily": [
+  {
+   "id": "d_stages",
+   "text": "Clear 3 stages",
+   "event": "stage_clear",
+   "target": 3,
+   "reward": {
+    "gold": 1500
+   }
+  },
+  {
+   "id": "d_burst",
+   "text": "Use Burst 3 times",
+   "event": "burst_use",
+   "target": 3,
+   "reward": {
+    "items": {
+     "radiant_wisp": 1
+    }
+   }
+  },
+  {
+   "id": "d_enemies",
+   "text": "Defeat 20 enemies",
+   "event": "enemy_kill",
+   "target": 20,
+   "reward": {
+    "gold": 1000
+   }
+  },
+  {
+   "id": "d_train",
+   "text": "Train a hero",
+   "event": "train",
+   "target": 1,
+   "reward": {
+    "items": {
+     "ember_wisp": 1,
+     "tide_wisp": 1,
+     "verdant_wisp": 1
+    }
+   }
+  },
+  {
+   "id": "d_tower",
+   "text": "Clear a Tower floor",
+   "event": "tower_clear",
+   "target": 1,
+   "reward": {
+    "gems": 10
+   }
+  }
+ ],
+ "daily_chest": {
+  "needed": 4,
+  "reward": {
+   "gems": 30,
+   "gold": 2000,
+   "items": {
+    "radiant_wisp": 1
+   }
+  }
+ },
+ "weekly": [
+  {
+   "id": "w_stages",
+   "text": "Clear 25 stages",
+   "event": "stage_clear",
+   "target": 25,
+   "reward": {
+    "gems": 100
+   }
+  },
+  {
+   "id": "w_bosses",
+   "text": "Defeat 5 bosses",
+   "event": "boss_kill",
+   "target": 5,
+   "reward": {
+    "gems": 50,
+    "items": {
+     "prism_shard": 1
+    }
+   }
+  },
+  {
+   "id": "w_tower",
+   "text": "Clear 10 Tower floors",
+   "event": "tower_clear",
+   "target": 10,
+   "reward": {
+    "items": {
+     "flame_core": 1,
+     "current_core": 1,
+     "verdant_core": 1
+    }
+   }
+  },
+  {
+   "id": "w_summon",
+   "text": "Summon 5 times",
+   "event": "summon",
+   "target": 5,
+   "reward": {
+    "gold": 5000,
+    "items": {
+     "spark_sigil": 1
+    }
+   }
+  }
+ ]
+}

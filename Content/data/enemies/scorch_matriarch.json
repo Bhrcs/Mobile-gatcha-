@@ -1,0 +1,52 @@
+{
+ "id": "scorch_matriarch",
+ "name": "Scorch Beetle Matriarch",
+ "element": "fire",
+ "role": "boss",
+ "type": "Tower Guardian",
+ "base_stats": {
+  "hp": 900,
+  "atk": 62,
+  "def": 60,
+  "spd": 40
+ },
+ "skills": {
+  "normal": "horn_jab",
+  "special": "scorch_charge"
+ },
+ "ai": {
+  "profile": "boss",
+  "skill_chance": 0.0,
+  "targeting": "random",
+  "pattern": [
+   "normal",
+   "curse",
+   "charge"
+  ],
+  "curse": "kindle",
+  "summon": {
+   "enemy": "cinder_slime",
+   "level_offset": -3,
+   "every": 3,
+   "count": 1,
+   "max": 2
+  }
+ },
+ "rewards": {
+  "xp": 120,
+  "gold": [
+   120,
+   180
+  ]
+ },
+ "drop_table": "fire_boss",
+ "sprite": {
+  "sheet": "res://assets/enemies/scorch_beetle/scorch_beetle_sheet.png",
+  "meta": "res://assets/enemies/scorch_beetle/scorch_beetle_sheet.json",
+  "scale": 11
+ },
+ "description": "A guardian of the Ember Tower, grown huge on the tower's power.",
+ "boss": true,
+ "tint": "#ff9a6a",
+ "variant_of": "scorch_beetle"
+}

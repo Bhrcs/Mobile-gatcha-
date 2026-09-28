@@ -2,3 +2,7 @@
 build/
 __pycache__/
 *.pyc
+build_*/
+/axmol/
+/out/
+/pkg/

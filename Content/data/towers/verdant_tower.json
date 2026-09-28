@@ -1,0 +1,1034 @@
+{
+ "id": "verdant_tower",
+ "name": "Verdant Tower",
+ "type": "tower",
+ "element": "nature",
+ "counter_element": "fire",
+ "description": "Climb for Sprout Fragments, Verdant Cores and Ancient Seeds.",
+ "materials": [
+  "sprout_fragment",
+  "verdant_core",
+  "ancient_seed"
+ ],
+ "music": "tower",
+ "stages": [
+  {
+   "id": "verdant_tower_01",
+   "number": 1,
+   "floor": 1,
+   "name": "Floor 1",
+   "background": "bg_tower_verdant",
+   "recommended_level": 6,
+   "energy": 5,
+   "recommended_power": 770,
+   "summary": "Floor 1 of the Verdant Tower. Bring Fire heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 6
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 5
+     }
+    ],
+    [
+     {
+      "enemy": "moss_slime",
+      "level": 6
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 5
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 480,
+    "gold": 200,
+    "first_clear_gold": 260
+   },
+   "drops": [
+    {
+     "item": "sprout_fragment",
+     "chance": 0.6,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.35,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_core",
+     "chance": 0.12,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "sprout_fragment": 3,
+     "verdant_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 14,
+     "text": "Clear within 14 turns"
+    }
+   ],
+   "unlocks": [
+    "verdant_tower_02"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "verdant_tower_02",
+   "number": 2,
+   "floor": 2,
+   "name": "Floor 2",
+   "background": "bg_tower_verdant",
+   "recommended_level": 8,
+   "energy": 5,
+   "recommended_power": 810,
+   "summary": "Floor 2 of the Verdant Tower. Bring Fire heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "moss_slime",
+      "level": 8
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 7
+     }
+    ],
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 8
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 7
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 660,
+    "gold": 250,
+    "first_clear_gold": 320
+   },
+   "drops": [
+    {
+     "item": "sprout_fragment",
+     "chance": 0.6,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.35,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_core",
+     "chance": 0.16999999999999998,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "sprout_fragment": 3,
+     "verdant_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 14,
+     "text": "Clear within 14 turns"
+    }
+   ],
+   "unlocks": [
+    "verdant_tower_03"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "verdant_tower_03",
+   "number": 3,
+   "floor": 3,
+   "name": "Floor 3",
+   "background": "bg_tower_verdant",
+   "recommended_level": 10,
+   "energy": 6,
+   "recommended_power": 950,
+   "summary": "Floor 3 of the Verdant Tower. Bring Fire heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 10
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 9
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 9
+     }
+    ],
+    [
+     {
+      "enemy": "moss_slime",
+      "level": 10
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 9
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 9
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 840,
+    "gold": 300,
+    "first_clear_gold": 380
+   },
+   "drops": [
+    {
+     "item": "sprout_fragment",
+     "chance": 0.6,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.35,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_core",
+     "chance": 0.22,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "sprout_fragment": 3,
+     "verdant_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 14,
+     "text": "Clear within 14 turns"
+    }
+   ],
+   "unlocks": [
+    "verdant_tower_04"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "verdant_tower_04",
+   "number": 4,
+   "floor": 4,
+   "name": "Floor 4",
+   "background": "bg_tower_verdant",
+   "recommended_level": 12,
+   "energy": 6,
+   "recommended_power": 1130,
+   "summary": "Floor 4 of the Verdant Tower. Bring Fire heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "glowcap",
+      "level": 12
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 11
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 11
+     }
+    ],
+    [
+     {
+      "enemy": "hexmoth",
+      "level": 12
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 11
+     },
+     {
+      "enemy": "glowcap",
+      "level": 11
+     }
+    ],
+    [
+     {
+      "enemy": "elite_hexmoth",
+      "level": 13
+     },
+     {
+      "enemy": "glowcap",
+      "level": 11
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 11
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1020,
+    "gold": 350,
+    "first_clear_gold": 440
+   },
+   "drops": [
+    {
+     "item": "sprout_fragment",
+     "chance": 0.6,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.35,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_core",
+     "chance": 0.27,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "sprout_fragment": 3,
+     "verdant_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "verdant_tower_05"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "verdant_tower_05",
+   "number": 5,
+   "floor": 5,
+   "name": "Guardian's Hall",
+   "background": "bg_tower_verdant",
+   "recommended_level": 14,
+   "energy": 7,
+   "recommended_power": 1330,
+   "summary": "The tower's guardian waits here.",
+   "waves": [
+    [
+     {
+      "enemy": "hexmoth",
+      "level": 14
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 13
+     },
+     {
+      "enemy": "glowcap",
+      "level": 13
+     }
+    ],
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 14
+     },
+     {
+      "enemy": "glowcap",
+      "level": 13
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 13
+     }
+    ],
+    [
+     {
+      "enemy": "elder_glowcap",
+      "level": 16
+     }
+    ]
+   ],
+   "boss": true,
+   "music": "boss",
+   "rewards": {
+    "xp": 1200,
+    "gold": 400,
+    "first_clear_gold": 500
+   },
+   "drops": [
+    {
+     "item": "verdant_core",
+     "chance": 0.32,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 50,
+    "items": {
+     "verdant_core": 2,
+     "verdant_wisp": 3,
+     "spark_sigil": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "verdant_tower_06"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "verdant_tower_06",
+   "number": 6,
+   "floor": 6,
+   "name": "Floor 6",
+   "background": "bg_tower_verdant",
+   "recommended_level": 18,
+   "energy": 7,
+   "recommended_power": 1830,
+   "summary": "Floor 6 of the Verdant Tower. Bring Fire heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 18
+     },
+     {
+      "enemy": "glowcap",
+      "level": 17
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 17
+     }
+    ],
+    [
+     {
+      "enemy": "glowcap",
+      "level": 18
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 17
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 17
+     }
+    ],
+    [
+     {
+      "enemy": "hexmoth",
+      "level": 18
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 17
+     },
+     {
+      "enemy": "glowcap",
+      "level": 17
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1380,
+    "gold": 450,
+    "first_clear_gold": 560
+   },
+   "drops": [
+    {
+     "item": "verdant_core",
+     "chance": 0.37,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "ancient_seed",
+     "chance": 0.12,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "ancient_seed": 1,
+     "radiant_wisp": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "verdant_tower_07"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "verdant_tower_07",
+   "number": 7,
+   "floor": 7,
+   "name": "Floor 7",
+   "background": "bg_tower_verdant",
+   "recommended_level": 20,
+   "energy": 8,
+   "recommended_power": 1910,
+   "summary": "Floor 7 of the Verdant Tower. Bring Fire heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "moss_slime",
+      "level": 20
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 19
+     },
+     {
+      "enemy": "glowcap",
+      "level": 19
+     }
+    ],
+    [
+     {
+      "enemy": "hexmoth",
+      "level": 20
+     },
+     {
+      "enemy": "glowcap",
+      "level": 19
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 19
+     }
+    ],
+    [
+     {
+      "enemy": "elite_bramble_pup",
+      "level": 21
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 19
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 19
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1560,
+    "gold": 500,
+    "first_clear_gold": 620
+   },
+   "drops": [
+    {
+     "item": "verdant_core",
+     "chance": 0.42000000000000004,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "ancient_seed",
+     "chance": 0.16,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "ancient_seed": 1,
+     "radiant_wisp": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "verdant_tower_08"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "verdant_tower_08",
+   "number": 8,
+   "floor": 8,
+   "name": "Floor 8",
+   "background": "bg_tower_verdant",
+   "recommended_level": 22,
+   "energy": 8,
+   "recommended_power": 1990,
+   "summary": "Floor 8 of the Verdant Tower. Bring Fire heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "hexmoth",
+      "level": 22
+     },
+     {
+      "enemy": "glowcap",
+      "level": 21
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 21
+     }
+    ],
+    [
+     {
+      "enemy": "glowcap",
+      "level": 22
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 21
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 21
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 21
+     }
+    ],
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 22
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 21
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 21
+     },
+     {
+      "enemy": "glowcap",
+      "level": 21
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1740,
+    "gold": 550,
+    "first_clear_gold": 680
+   },
+   "drops": [
+    {
+     "item": "ancient_seed",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "ancient_seed": 1,
+     "radiant_wisp": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "verdant_tower_09"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "verdant_tower_09",
+   "number": 9,
+   "floor": 9,
+   "name": "Floor 9",
+   "background": "bg_tower_verdant",
+   "recommended_level": 24,
+   "energy": 9,
+   "recommended_power": 2070,
+   "summary": "Floor 9 of the Verdant Tower. Bring Fire heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "glowcap",
+      "level": 24
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 23
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 23
+     }
+    ],
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 24
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 23
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 23
+     },
+     {
+      "enemy": "glowcap",
+      "level": 23
+     }
+    ],
+    [
+     {
+      "enemy": "elite_bramble_pup",
+      "level": 25
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 23
+     },
+     {
+      "enemy": "glowcap",
+      "level": 23
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 23
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1920,
+    "gold": 600,
+    "first_clear_gold": 740
+   },
+   "drops": [
+    {
+     "item": "ancient_seed",
+     "chance": 0.24,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "ancient_seed": 1,
+     "radiant_wisp": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "verdant_tower_10"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "verdant_tower_10",
+   "number": 10,
+   "floor": 10,
+   "name": "Guardian's Hall",
+   "background": "bg_tower_verdant",
+   "recommended_level": 26,
+   "energy": 9,
+   "recommended_power": 2460,
+   "summary": "The tower's guardian waits here.",
+   "waves": [
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 26
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 25
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 25
+     }
+    ],
+    [
+     {
+      "enemy": "moss_slime",
+      "level": 26
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 25
+     },
+     {
+      "enemy": "glowcap",
+      "level": 25
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 25
+     }
+    ],
+    [
+     {
+      "enemy": "thornback_elder",
+      "level": 28
+     }
+    ]
+   ],
+   "boss": true,
+   "music": "boss",
+   "rewards": {
+    "xp": 2100,
+    "gold": 650,
+    "first_clear_gold": 800
+   },
+   "drops": [
+    {
+     "item": "ancient_seed",
+     "chance": 0.28,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 100,
+    "items": {
+     "ancient_seed": 2,
+     "prism_shard": 1,
+     "radiant_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [],
+   "tier": 2
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "id": "glowcap",
+ "name": "Glowcap",
+ "element": "nature",
+ "role": "healer",
+ "type": "Fungus",
+ "base_stats": {
+  "hp": 200,
+  "atk": 30,
+  "def": 30,
+  "spd": 40
+ },
+ "skills": {
+  "normal": "cap_bonk",
+  "special": "glow_mend"
+ },
+ "ai": {
+  "profile": "healer",
+  "skill_chance": 0.1,
+  "targeting": "random"
+ },
+ "rewards": {
+  "xp": 15,
+  "gold": [
+   7,
+   13
+  ]
+ },
+ "drop_table": "nature_uncommon",
+ "sprite": {
+  "sheet": "res://assets/enemies/glowcap/glowcap_sheet.png",
+  "meta": "res://assets/enemies/glowcap/glowcap_sheet.json",
+  "scale": 8
+ },
+ "description": "A walking mushroom whose spores knit wounds shut - for its friends."
+}

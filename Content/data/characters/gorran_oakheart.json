@@ -1,0 +1,64 @@
+{
+ "id": "gorran_oakheart",
+ "family": "gorran",
+ "name": "Gorran Oakheart",
+ "element": "nature",
+ "role": "Breaker",
+ "class": "BREAKER",
+ "rarity": 5,
+ "form_index": 0,
+ "forms": [
+  "gorran_oakheart"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 35,
+ "experience": 0,
+ "base_stats": {
+  "hp": 2260,
+  "atk": 382,
+  "def": 307,
+  "rec": 160,
+  "spd": 80
+ },
+ "growth": {
+  "hp": 41,
+  "atk": 7,
+  "def": 6,
+  "rec": 2,
+  "spd": 0
+ },
+ "normal_attack": "oakheart_smash",
+ "burst": "grove_quake",
+ "passive": {
+  "name": "Bark Hide",
+  "description": "Takes 10% less damage.",
+  "effects": [
+   {
+    "kind": "damage_taken_down",
+    "value": 0.1
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Oakheart Stand",
+  "description": "Nature allies gain +10% max HP.",
+  "effects": [
+   {
+    "stat": "hp",
+    "value": 0.1,
+    "element": "nature"
+   }
+  ]
+ },
+ "evolution": null,
+ "sprite": {
+  "sheet": "res://assets/characters/gorran_oakheart/gorran_oakheart_sheet.png",
+  "meta": "res://assets/characters/gorran_oakheart/gorran_oakheart_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/gorran_oakheart/gorran_oakheart_portrait.png",
+ "weapon": "Great oak club",
+ "description": "A giant of living bark. Quakes the ground and breaks every enemy's defence.",
+ "lore": "A grove-giant who slept for a century in a hollow hill. He woke up because the ground grew warm, and he does not like being woken."
+}

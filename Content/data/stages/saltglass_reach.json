@@ -1,0 +1,889 @@
+{
+ "id": "saltglass_reach",
+ "name": "Saltglass Reach",
+ "type": "story",
+ "number": 2,
+ "order": 2,
+ "subtitle": "A coast of glittering salt-glass, drowned ruins and a stranded warship.",
+ "description": "The tides beyond the Wilds glitter with salt-glass. Something enormous sleeps in the spire.",
+ "route_map": "res://assets/environments/bg_routemap_w2.png",
+ "music": "world2",
+ "requires": "ashroot_10",
+ "stages": [
+  {
+   "id": "saltglass_01",
+   "number": 1,
+   "name": "Saltglass Shore",
+   "background": "bg_shore",
+   "route_pos": [
+    70,
+    420
+   ],
+   "recommended_level": 12,
+   "summary": "The beach glitters with shards of salt-glass. Something scuttles.",
+   "waves": [
+    [
+     {
+      "enemy": "tide_slime",
+      "level": 11
+     },
+     {
+      "enemy": "tide_slime",
+      "level": 11
+     },
+     {
+      "enemy": "tidefin",
+      "level": 12
+     }
+    ],
+    [
+     {
+      "enemy": "shellcrab",
+      "level": 12
+     },
+     {
+      "enemy": "tidefin",
+      "level": 12
+     }
+    ]
+   ],
+   "energy": 5,
+   "recommended_power": 1360,
+   "rewards": {
+    "xp": 1200,
+    "gold": 300,
+    "first_clear_gold": 400
+   },
+   "first_clear": {
+    "gems": 5
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 12,
+     "text": "Clear within 12 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "tide_fragment",
+     "chance": 0.4,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "battle2",
+   "unlocks": [
+    "saltglass_02"
+   ],
+   "hint": "shields"
+  },
+  {
+   "id": "saltglass_02",
+   "number": 2,
+   "name": "Tidepool Trail",
+   "background": "bg_shore",
+   "route_pos": [
+    156,
+    394
+   ],
+   "recommended_level": 13,
+   "summary": "Tidepools full of slimes, and a jelly that heals them.",
+   "waves": [
+    [
+     {
+      "enemy": "tide_slime",
+      "level": 12
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 12
+     },
+     {
+      "enemy": "tide_slime",
+      "level": 12
+     }
+    ],
+    [
+     {
+      "enemy": "brine_eel",
+      "level": 13
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 12
+     }
+    ]
+   ],
+   "energy": 5,
+   "recommended_power": 1390,
+   "rewards": {
+    "xp": 1450,
+    "gold": 360,
+    "first_clear_gold": 450
+   },
+   "first_clear": {
+    "gems": 5
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 12,
+     "text": "Clear within 12 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "tide_fragment",
+     "chance": 0.4,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "current_core",
+     "chance": 0.1,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "battle2",
+   "unlocks": [
+    "saltglass_03"
+   ]
+  },
+  {
+   "id": "saltglass_03",
+   "number": 3,
+   "name": "Crab Crossing",
+   "background": "bg_shore",
+   "route_pos": [
+    204,
+    350
+   ],
+   "recommended_level": 14,
+   "summary": "Shellcrabs hold the ford behind their crystal shells. Break through.",
+   "waves": [
+    [
+     {
+      "enemy": "shellcrab",
+      "level": 13
+     },
+     {
+      "enemy": "tidefin",
+      "level": 13
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 13
+     }
+    ],
+    [
+     {
+      "enemy": "shellcrab",
+      "level": 14
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 13
+     },
+     {
+      "enemy": "tide_slime",
+      "level": 13
+     }
+    ]
+   ],
+   "energy": 5,
+   "recommended_power": 1430,
+   "rewards": {
+    "xp": 1700,
+    "gold": 420,
+    "first_clear_gold": 500
+   },
+   "first_clear": {
+    "gems": 5
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "burst",
+     "min": 1,
+     "text": "Use Burst"
+    }
+   ],
+   "drops": [
+    {
+     "item": "current_core",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.15,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "battle2",
+   "unlocks": [
+    "saltglass_04"
+   ]
+  },
+  {
+   "id": "saltglass_04",
+   "number": 4,
+   "name": "Glimmer Grotto",
+   "background": "bg_caves",
+   "route_pos": [
+    128,
+    318
+   ],
+   "recommended_level": 15,
+   "summary": "Glowing caves where curses hang in the air.",
+   "waves": [
+    [
+     {
+      "enemy": "salt_wraith",
+      "level": 14
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 14
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 14
+     }
+    ],
+    [
+     {
+      "enemy": "salt_wraith",
+      "level": 15
+     },
+     {
+      "enemy": "glowcap",
+      "level": 14
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 15
+     }
+    ]
+   ],
+   "energy": 6,
+   "recommended_power": 1460,
+   "rewards": {
+    "xp": 1950,
+    "gold": 480,
+    "first_clear_gold": 550
+   },
+   "first_clear": {
+    "gems": 5
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 14,
+     "text": "Clear within 14 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "sprout_fragment",
+     "chance": 0.4,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_core",
+     "chance": 0.15,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "battle2",
+   "unlocks": [
+    "saltglass_05"
+   ],
+   "hint": "debuffs"
+  },
+  {
+   "id": "saltglass_05",
+   "number": 5,
+   "name": "Echoing Caves",
+   "background": "bg_caves",
+   "route_pos": [
+    56,
+    284
+   ],
+   "recommended_level": 16,
+   "summary": "The echoes carry a charging beetle's rumble.",
+   "waves": [
+    [
+     {
+      "enemy": "scorch_beetle",
+      "level": 15
+     },
+     {
+      "enemy": "emberwisp",
+      "level": 15
+     }
+    ],
+    [
+     {
+      "enemy": "scorch_beetle",
+      "level": 16
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 15
+     },
+     {
+      "enemy": "cinder_slime",
+      "level": 16
+     }
+    ]
+   ],
+   "energy": 6,
+   "recommended_power": 1750,
+   "rewards": {
+    "xp": 2200,
+    "gold": 540,
+    "first_clear_gold": 600
+   },
+   "first_clear": {
+    "gems": 5
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "burst",
+     "min": 2,
+     "text": "Use Burst 2 times"
+    }
+   ],
+   "drops": [
+    {
+     "item": "ember_fragment",
+     "chance": 0.4,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "flame_core",
+     "chance": 0.15,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "battle2",
+   "unlocks": [
+    "saltglass_06"
+   ],
+   "hint": "charge"
+  },
+  {
+   "id": "saltglass_06",
+   "number": 6,
+   "name": "Drowned Shrine",
+   "background": "bg_caves",
+   "route_pos": [
+    126,
+    248
+   ],
+   "recommended_level": 17,
+   "summary": "An old shrine half under the tide. Guarded by elites.",
+   "waves": [
+    [
+     {
+      "enemy": "drift_jelly",
+      "level": 16
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 16
+     },
+     {
+      "enemy": "tidefin",
+      "level": 16
+     }
+    ],
+    [
+     {
+      "enemy": "elite_shellcrab",
+      "level": 17
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 16
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 16
+     }
+    ]
+   ],
+   "energy": 6,
+   "recommended_power": 1790,
+   "rewards": {
+    "xp": 2450,
+    "gold": 600,
+    "first_clear_gold": 650
+   },
+   "first_clear": {
+    "gems": 5
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 14,
+     "text": "Clear within 14 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "current_core",
+     "chance": 0.25,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "abyss_crystal",
+     "chance": 0.05,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "battle2",
+   "unlocks": [
+    "saltglass_07"
+   ]
+  },
+  {
+   "id": "saltglass_07",
+   "number": 7,
+   "name": "Wreck of the Halcyon",
+   "background": "bg_wreck",
+   "route_pos": [
+    198,
+    208
+   ],
+   "recommended_level": 18,
+   "summary": "A great ship run aground. Its crew is long gone - but not its passengers.",
+   "waves": [
+    [
+     {
+      "enemy": "brine_eel",
+      "level": 17
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 17
+     },
+     {
+      "enemy": "emberwisp",
+      "level": 17
+     }
+    ],
+    [
+     {
+      "enemy": "elite_brine_eel",
+      "level": 18
+     },
+     {
+      "enemy": "glowcap",
+      "level": 17
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 18
+     }
+    ]
+   ],
+   "energy": 7,
+   "recommended_power": 1830,
+   "rewards": {
+    "xp": 2700,
+    "gold": 660,
+    "first_clear_gold": 700
+   },
+   "first_clear": {
+    "gems": 5
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "flame_core",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_core",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "battle2",
+   "unlocks": [
+    "saltglass_08"
+   ]
+  },
+  {
+   "id": "saltglass_08",
+   "number": 8,
+   "name": "Broken Keel",
+   "background": "bg_wreck",
+   "route_pos": [
+    122,
+    176
+   ],
+   "recommended_level": 20,
+   "summary": "Eels coil in the broken hull. They go for the weakest first.",
+   "waves": [
+    [
+     {
+      "enemy": "brine_eel",
+      "level": 19
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 19
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 19
+     }
+    ],
+    [
+     {
+      "enemy": "elite_scorch_beetle",
+      "level": 20
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 19
+     },
+     {
+      "enemy": "tide_slime",
+      "level": 19
+     }
+    ],
+    [
+     {
+      "enemy": "elite_brine_eel",
+      "level": 20
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 20
+     },
+     {
+      "enemy": "emberwisp",
+      "level": 19
+     }
+    ]
+   ],
+   "energy": 7,
+   "recommended_power": 1910,
+   "rewards": {
+    "xp": 2950,
+    "gold": 720,
+    "first_clear_gold": 750
+   },
+   "first_clear": {
+    "gems": 5
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 20,
+     "text": "Clear within 20 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "current_core",
+     "chance": 0.3,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "abyss_crystal",
+     "chance": 0.08,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "battle2",
+   "unlocks": [
+    "saltglass_09"
+   ]
+  },
+  {
+   "id": "saltglass_09",
+   "number": 9,
+   "name": "Stormdeck",
+   "background": "bg_wreck",
+   "route_pos": [
+    60,
+    132
+   ],
+   "recommended_level": 22,
+   "summary": "Lightning over the wreck. Every enemy here fights together.",
+   "waves": [
+    [
+     {
+      "enemy": "salt_wraith",
+      "level": 21
+     },
+     {
+      "enemy": "elite_hexmoth",
+      "level": 21
+     },
+     {
+      "enemy": "scorch_beetle",
+      "level": 21
+     }
+    ],
+    [
+     {
+      "enemy": "elite_shellcrab",
+      "level": 22
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 21
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 21
+     },
+     {
+      "enemy": "emberwisp",
+      "level": 21
+     }
+    ],
+    [
+     {
+      "enemy": "elite_emberwisp",
+      "level": 22
+     },
+     {
+      "enemy": "elite_brine_eel",
+      "level": 22
+     },
+     {
+      "enemy": "glowcap",
+      "level": 22
+     }
+    ]
+   ],
+   "energy": 8,
+   "recommended_power": 2270,
+   "rewards": {
+    "xp": 3200,
+    "gold": 780,
+    "first_clear_gold": 800
+   },
+   "first_clear": {
+    "gems": 5
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "burst",
+     "min": 3,
+     "text": "Use Burst 3 times"
+    }
+   ],
+   "drops": [
+    {
+     "item": "radiant_wisp",
+     "chance": 0.3,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "spark_sigil",
+     "chance": 0.1,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "battle2",
+   "unlocks": [
+    "saltglass_10"
+   ]
+  },
+  {
+   "id": "saltglass_10",
+   "number": 10,
+   "name": "The Saltglass Spire",
+   "background": "bg_spire",
+   "route_pos": [
+    128,
+    62
+   ],
+   "recommended_level": 24,
+   "summary": "The spire of saltglass, and the Colossus that grew from it.",
+   "waves": [
+    [
+     {
+      "enemy": "shellcrab",
+      "level": 23
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 23
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 23
+     }
+    ],
+    [
+     {
+      "enemy": "saltglass_colossus",
+      "level": 24
+     }
+    ]
+   ],
+   "energy": 8,
+   "recommended_power": 2360,
+   "rewards": {
+    "xp": 3450,
+    "gold": 840,
+    "first_clear_gold": 850
+   },
+   "first_clear": {
+    "gems": 25,
+    "items": {
+     "prism_shard": 1,
+     "abyss_crystal": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "burst",
+     "min": 2,
+     "text": "Use Burst 2 times"
+    }
+   ],
+   "drops": [
+    {
+     "item": "abyss_crystal",
+     "chance": 0.3,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "prism_shard",
+     "chance": 0.1,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "music": "boss",
+   "unlocks": [],
+   "hint": "boss2",
+   "boss": true
+  }
+ ]
+}

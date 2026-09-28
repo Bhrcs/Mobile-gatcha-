@@ -1,0 +1,36 @@
+{
+ "id": "tidefin",
+ "name": "Tidefin",
+ "element": "water",
+ "role": "attacker",
+ "type": "Beast",
+ "base_stats": {
+  "hp": 220,
+  "atk": 35,
+  "def": 30,
+  "spd": 50
+ },
+ "skills": {
+  "normal": "tail_swipe",
+  "special": "bubble_shot"
+ },
+ "ai": {
+  "profile": "attacker",
+  "skill_chance": 0.3,
+  "targeting": "random"
+ },
+ "rewards": {
+  "xp": 13,
+  "gold": [
+   6,
+   12
+  ]
+ },
+ "drop_table": "water_common",
+ "sprite": {
+  "sheet": "res://assets/enemies/tidefin/tidefin_sheet.png",
+  "meta": "res://assets/enemies/tidefin/tidefin_sheet.json",
+  "scale": 8
+ },
+ "description": "A long-legged fish that learned to walk on the shore."
+}

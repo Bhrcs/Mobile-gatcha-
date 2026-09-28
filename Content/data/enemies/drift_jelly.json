@@ -1,0 +1,36 @@
+{
+ "id": "drift_jelly",
+ "name": "Drift Jelly",
+ "element": "water",
+ "role": "healer",
+ "type": "Jelly",
+ "base_stats": {
+  "hp": 210,
+  "atk": 30,
+  "def": 28,
+  "spd": 45
+ },
+ "skills": {
+  "normal": "jelly_sting",
+  "special": "tidal_glow"
+ },
+ "ai": {
+  "profile": "healer",
+  "skill_chance": 0.1,
+  "targeting": "random"
+ },
+ "rewards": {
+  "xp": 16,
+  "gold": [
+   8,
+   14
+  ]
+ },
+ "drop_table": "water_uncommon",
+ "sprite": {
+  "sheet": "res://assets/enemies/drift_jelly/drift_jelly_sheet.png",
+  "meta": "res://assets/enemies/drift_jelly/drift_jelly_sheet.json",
+  "scale": 8
+ },
+ "description": "A glowing jelly whose light soothes its school."
+}

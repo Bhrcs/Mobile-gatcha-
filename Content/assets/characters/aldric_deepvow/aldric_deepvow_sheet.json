@@ -1,0 +1,50 @@
+{
+ "frame_size": [
+  48,
+  48
+ ],
+ "animations": {
+  "idle": {
+   "row": 0,
+   "frames": 4,
+   "fps": 6,
+   "loop": true
+  },
+  "attack": {
+   "row": 1,
+   "frames": 7,
+   "fps": 11,
+   "loop": false
+  },
+  "hit": {
+   "row": 2,
+   "frames": 3,
+   "fps": 10,
+   "loop": false
+  },
+  "victory": {
+   "row": 3,
+   "frames": 4,
+   "fps": 6,
+   "loop": true
+  },
+  "ko": {
+   "row": 4,
+   "frames": 2,
+   "fps": 6,
+   "loop": false
+  },
+  "burst": {
+   "row": 5,
+   "frames": 11,
+   "fps": 10,
+   "loop": false
+  },
+  "guard": {
+   "row": 6,
+   "frames": 3,
+   "fps": 6,
+   "loop": true
+  }
+ }
+}

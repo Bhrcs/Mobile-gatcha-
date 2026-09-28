@@ -1,0 +1,163 @@
+{
+ "ember_fragment": {
+  "name": "Ember Fragment",
+  "icon": "res://assets/icons/ember_fragment.png",
+  "category": "material",
+  "rarity": 1,
+  "description": "A splinter of stone that still holds fire.",
+  "use": "Evolves Fire heroes (3* to 4*).",
+  "sort": 10,
+  "element": "fire"
+ },
+ "flame_core": {
+  "name": "Flame Core",
+  "icon": "res://assets/icons/flame_core.png",
+  "category": "material",
+  "rarity": 2,
+  "description": "A heart of living flame in a crystal shell.",
+  "use": "Evolves Fire heroes.",
+  "sort": 11,
+  "element": "fire"
+ },
+ "infernal_crystal": {
+  "name": "Infernal Crystal",
+  "icon": "res://assets/icons/infernal_crystal.png",
+  "category": "material",
+  "rarity": 3,
+  "description": "Burns without fuel. Found high in the Ember Tower.",
+  "use": "Evolves Fire heroes (4* to 5*).",
+  "sort": 12,
+  "element": "fire"
+ },
+ "tide_fragment": {
+  "name": "Tide Fragment",
+  "icon": "res://assets/icons/tide_fragment.png",
+  "category": "material",
+  "rarity": 1,
+  "description": "Sea-glass that is always cool and damp.",
+  "use": "Evolves Water heroes (3* to 4*).",
+  "sort": 20,
+  "element": "water"
+ },
+ "current_core": {
+  "name": "Current Core",
+  "icon": "res://assets/icons/current_core.png",
+  "category": "material",
+  "rarity": 2,
+  "description": "A sphere with a tide trapped inside.",
+  "use": "Evolves Water heroes.",
+  "sort": 21,
+  "element": "water"
+ },
+ "abyss_crystal": {
+  "name": "Abyss Crystal",
+  "icon": "res://assets/icons/abyss_crystal.png",
+  "category": "material",
+  "rarity": 3,
+  "description": "Dark blue glass from the deep tower halls.",
+  "use": "Evolves Water heroes (4* to 5*).",
+  "sort": 22,
+  "element": "water"
+ },
+ "sprout_fragment": {
+  "name": "Sprout Fragment",
+  "icon": "res://assets/icons/sprout_fragment.png",
+  "category": "material",
+  "rarity": 1,
+  "description": "A green crystal with a seedling inside.",
+  "use": "Evolves Nature heroes (3* to 4*).",
+  "sort": 30,
+  "element": "nature"
+ },
+ "verdant_core": {
+  "name": "Verdant Core",
+  "icon": "res://assets/icons/verdant_core.png",
+  "category": "material",
+  "rarity": 2,
+  "description": "Warm, and it slowly grows moss.",
+  "use": "Evolves Nature heroes.",
+  "sort": 31,
+  "element": "nature"
+ },
+ "ancient_seed": {
+  "name": "Ancient Seed",
+  "icon": "res://assets/icons/ancient_seed.png",
+  "category": "material",
+  "rarity": 3,
+  "description": "A seed older than the Wilds themselves.",
+  "use": "Evolves Nature heroes (4* to 5*).",
+  "sort": 32,
+  "element": "nature"
+ },
+ "prism_shard": {
+  "name": "Prism Shard",
+  "icon": "res://assets/icons/prism_shard.png",
+  "category": "material",
+  "rarity": 3,
+  "description": "Holds every colour at once. Very rare.",
+  "use": "Needed for every 5* evolution.",
+  "sort": 40
+ },
+ "ember_wisp": {
+  "name": "Ember Wisp",
+  "icon": "res://assets/icons/ember_wisp.png",
+  "category": "training",
+  "rarity": 1,
+  "description": "A playful spark of experience.",
+  "use": "Training: 600 EXP (+50% for Fire heroes).",
+  "sort": 50,
+  "xp": 600,
+  "element": "fire"
+ },
+ "tide_wisp": {
+  "name": "Tide Wisp",
+  "icon": "res://assets/icons/tide_wisp.png",
+  "category": "training",
+  "rarity": 1,
+  "description": "A droplet of distilled experience.",
+  "use": "Training: 600 EXP (+50% for Water heroes).",
+  "sort": 51,
+  "xp": 600,
+  "element": "water"
+ },
+ "verdant_wisp": {
+  "name": "Verdant Wisp",
+  "icon": "res://assets/icons/verdant_wisp.png",
+  "category": "training",
+  "rarity": 1,
+  "description": "A seed-light of experience.",
+  "use": "Training: 600 EXP (+50% for Nature heroes).",
+  "sort": 52,
+  "xp": 600,
+  "element": "nature"
+ },
+ "radiant_wisp": {
+  "name": "Radiant Wisp",
+  "icon": "res://assets/icons/radiant_wisp.png",
+  "category": "training",
+  "rarity": 2,
+  "description": "A bright wisp any hero can learn from.",
+  "use": "Training: 2,500 EXP for any hero.",
+  "sort": 53,
+  "xp": 2500
+ },
+ "spark_sigil": {
+  "name": "Spark Sigil",
+  "icon": "res://assets/icons/spark_sigil.png",
+  "category": "training",
+  "rarity": 2,
+  "description": "A sigil that teaches a hero to channel Burst.",
+  "use": "Burst training: +3 Burst EXP.",
+  "sort": 54,
+  "burst_xp": 3
+ },
+ "minor_healing_herb": {
+  "name": "Minor Healing Herb",
+  "icon": "res://assets/icons/herb.png",
+  "category": "item",
+  "rarity": 1,
+  "description": "A bitter forest herb that knits small wounds.",
+  "use": "Kept for battle items in a future update.",
+  "sort": 60
+ }
+}

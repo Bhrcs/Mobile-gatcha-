@@ -1,0 +1,55 @@
+{
+ "id": "ancient_bramble_pup",
+ "name": "Ancient Bramble Pup",
+ "element": "nature",
+ "role": "boss",
+ "type": "Ancient Beast",
+ "base_stats": {
+  "hp": 760,
+  "atk": 54,
+  "def": 42,
+  "spd": 60
+ },
+ "skills": {
+  "normal": "ancient_maul",
+  "special": "verdant_rampage"
+ },
+ "ai": {
+  "profile": "boss",
+  "skill_chance": 0.0,
+  "targeting": "random",
+  "pattern": [
+   "normal",
+   "normal",
+   "charge"
+  ],
+  "summon": {
+   "enemy": "bramble_pup",
+   "level_offset": -2,
+   "every": 4,
+   "count": 1,
+   "max": 2
+  },
+  "hp_events": [
+   {
+    "below": 0.6,
+    "skill": "bark_armor"
+   }
+  ]
+ },
+ "rewards": {
+  "xp": 60,
+  "gold": [
+   60,
+   90
+  ]
+ },
+ "drop_table": "nature_boss",
+ "sprite": {
+  "sheet": "res://assets/enemies/ancient_bramble_pup/ancient_bramble_pup_sheet.png",
+  "meta": "res://assets/enemies/ancient_bramble_pup/ancient_bramble_pup_sheet.json",
+  "scale": 10
+ },
+ "description": "The oldest beast of the Wilds. Stone horns, burning eyes, and it calls its pack.",
+ "boss": true
+}

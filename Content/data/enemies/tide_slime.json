@@ -1,0 +1,36 @@
+{
+ "id": "tide_slime",
+ "name": "Tide Slime",
+ "element": "water",
+ "role": "attacker",
+ "type": "Slime",
+ "base_stats": {
+  "hp": 190,
+  "atk": 36,
+  "def": 22,
+  "spd": 38
+ },
+ "skills": {
+  "normal": "droplet_spit",
+  "special": "soaking_surge"
+ },
+ "ai": {
+  "profile": "attacker",
+  "skill_chance": 0.3,
+  "targeting": "random"
+ },
+ "rewards": {
+  "xp": 12,
+  "gold": [
+   6,
+   12
+  ]
+ },
+ "drop_table": "water_common",
+ "sprite": {
+  "sheet": "res://assets/enemies/tide_slime/tide_slime_sheet.png",
+  "meta": "res://assets/enemies/tide_slime/tide_slime_sheet.json",
+  "scale": 8
+ },
+ "description": "A slime of brine and foam. Squishes into a puddle when threatened."
+}

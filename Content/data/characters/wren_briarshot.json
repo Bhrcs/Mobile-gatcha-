@@ -1,0 +1,73 @@
+{
+ "id": "wren_briarshot",
+ "family": "wren",
+ "name": "Wren Briarshot",
+ "element": "nature",
+ "role": "Attacker",
+ "class": "ATTACKER",
+ "rarity": 3,
+ "form_index": 0,
+ "forms": [
+  "wren_briarshot",
+  "wren_thornvolley",
+  "wren_galeleaf"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 15,
+ "experience": 0,
+ "base_stats": {
+  "hp": 720,
+  "atk": 145,
+  "def": 80,
+  "rec": 70,
+  "spd": 105
+ },
+ "growth": {
+  "hp": 28,
+  "atk": 5,
+  "def": 3,
+  "rec": 2,
+  "spd": 0
+ },
+ "normal_attack": "briar_shot",
+ "burst": "thorn_volley",
+ "passive": {
+  "name": "Keen Eye",
+  "description": "Critical hit chance +6%.",
+  "effects": [
+   {
+    "kind": "crit_up",
+    "value": 0.06
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Hunter's Mark",
+  "description": "Nature allies gain +8% ATK.",
+  "effects": [
+   {
+    "stat": "atk",
+    "value": 0.08,
+    "element": "nature"
+   }
+  ]
+ },
+ "evolution": {
+  "into": "wren_thornvolley",
+  "gold": 2500,
+  "materials": {
+   "sprout_fragment": 5,
+   "verdant_core": 2
+  }
+ },
+ "sprite": {
+  "sheet": "res://assets/characters/wren_briarshot/wren_briarshot_sheet.png",
+  "meta": "res://assets/characters/wren_briarshot/wren_briarshot_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/wren_briarshot/wren_briarshot_portrait.png",
+ "weapon": "Briar bow",
+ "description": "A young archer. Rains arrows on every enemy at once.",
+ "lore": "A village scout who can split a hanging leaf at a hundred paces. Wren keeps a feather from every bird that ever led her home."
+}

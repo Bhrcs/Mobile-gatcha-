@@ -1,0 +1,41 @@
+{
+ "id": "elite_brine_eel",
+ "name": "Elite Brine Eel",
+ "element": "water",
+ "role": "fast",
+ "type": "Serpent",
+ "base_stats": {
+  "hp": 360,
+  "atk": 59,
+  "def": 28,
+  "spd": 99
+ },
+ "skills": {
+  "normal": "eel_snap",
+  "special": "riptide_coil",
+  "extra": "tidal_mend"
+ },
+ "ai": {
+  "profile": "attacker",
+  "skill_chance": 0.3,
+  "targeting": "lowest_hp",
+  "extra_every": 3
+ },
+ "rewards": {
+  "xp": 48,
+  "gold": [
+   24,
+   42
+  ]
+ },
+ "drop_table": "water_elite",
+ "sprite": {
+  "sheet": "res://assets/enemies/brine_eel/brine_eel_sheet.png",
+  "meta": "res://assets/enemies/brine_eel/brine_eel_sheet.json",
+  "scale": 8
+ },
+ "description": "An elite, battle-hardened brine eel. Stronger, and it knows one extra trick.",
+ "elite": true,
+ "tint": "#ffd060",
+ "variant_of": "brine_eel"
+}

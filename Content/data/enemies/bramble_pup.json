@@ -1,0 +1,36 @@
+{
+ "id": "bramble_pup",
+ "name": "Bramble Pup",
+ "element": "nature",
+ "role": "attacker",
+ "type": "Beast",
+ "base_stats": {
+  "hp": 250,
+  "atk": 45,
+  "def": 35,
+  "spd": 45
+ },
+ "skills": {
+  "normal": "bramble_bite",
+  "special": "thorn_rush"
+ },
+ "ai": {
+  "profile": "attacker",
+  "skill_chance": 0.3,
+  "targeting": "random"
+ },
+ "rewards": {
+  "xp": 14,
+  "gold": [
+   7,
+   13
+  ]
+ },
+ "drop_table": "nature_common",
+ "sprite": {
+  "sheet": "res://assets/enemies/bramble_pup/bramble_pup_sheet.png",
+  "meta": "res://assets/enemies/bramble_pup/bramble_pup_sheet.json",
+  "scale": 8
+ },
+ "description": "A wolf pup grown from thorns and bark. It bites first and sniffs later."
+}

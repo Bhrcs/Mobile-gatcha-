@@ -1,0 +1,36 @@
+{
+ "id": "cinder_slime",
+ "name": "Cinder Slime",
+ "element": "fire",
+ "role": "attacker",
+ "type": "Slime",
+ "base_stats": {
+  "hp": 180,
+  "atk": 40,
+  "def": 20,
+  "spd": 35
+ },
+ "skills": {
+  "normal": "slime_tackle",
+  "special": "scorch_splash"
+ },
+ "ai": {
+  "profile": "attacker",
+  "skill_chance": 0.3,
+  "targeting": "random"
+ },
+ "rewards": {
+  "xp": 12,
+  "gold": [
+   6,
+   12
+  ]
+ },
+ "drop_table": "fire_common",
+ "sprite": {
+  "sheet": "res://assets/enemies/cinder_slime/cinder_slime_sheet.png",
+  "meta": "res://assets/enemies/cinder_slime/cinder_slime_sheet.json",
+  "scale": 8
+ },
+ "description": "A lump of smouldering goo. Its core never quite cools."
+}

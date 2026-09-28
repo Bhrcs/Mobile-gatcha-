@@ -1,0 +1,73 @@
+{
+ "id": "faye_lumenbloom",
+ "family": "faye",
+ "name": "Faye Lumenbloom",
+ "element": "nature",
+ "role": "Healer",
+ "class": "HEALER",
+ "rarity": 4,
+ "form_index": 0,
+ "forms": [
+  "faye_lumenbloom",
+  "faye_everbloom"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 25,
+ "experience": 0,
+ "base_stats": {
+  "hp": 1045,
+  "atk": 150,
+  "def": 134,
+  "rec": 233,
+  "spd": 90
+ },
+ "growth": {
+  "hp": 28,
+  "atk": 4,
+  "def": 4,
+  "rec": 6,
+  "spd": 0
+ },
+ "normal_attack": "petal_dart",
+ "burst": "bloomsong",
+ "passive": {
+  "name": "Gentle Bloom",
+  "description": "Allies recover 2% max HP at the end of each turn.",
+  "effects": [
+   {
+    "kind": "regen",
+    "value": 0.02,
+    "scope": "allies"
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Garden Grace",
+  "description": "All allies gain +10% REC.",
+  "effects": [
+   {
+    "stat": "rec",
+    "value": 0.1
+   }
+  ]
+ },
+ "evolution": {
+  "into": "faye_everbloom",
+  "gold": 15000,
+  "materials": {
+   "verdant_core": 8,
+   "ancient_seed": 3,
+   "prism_shard": 1
+  }
+ },
+ "sprite": {
+  "sheet": "res://assets/characters/faye_lumenbloom/faye_lumenbloom_sheet.png",
+  "meta": "res://assets/characters/faye_lumenbloom/faye_lumenbloom_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/faye_lumenbloom/faye_lumenbloom_portrait.png",
+ "weapon": "Blossom wand",
+ "description": "A blossom healer. Heals over time and keeps the squad topped up.",
+ "lore": "Faye tends the moon-gardens at the edge of the Wilds, where flowers open only for the injured. She is gentler than anyone - until someone steps on her seedlings."
+}
