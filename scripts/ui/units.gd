@@ -111,6 +111,7 @@ func _rebuild() -> void:
 			chip.add_theme_stylebox_override(st, sb)
 		chip.modulate = Color.WHITE if on else Color(0.75, 0.74, 0.8)
 	for c in grid.get_children():
+		grid.remove_child(c)
 		c.queue_free()
 	_cards.clear()
 	var units: Array = []

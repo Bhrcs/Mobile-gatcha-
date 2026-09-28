@@ -385,6 +385,7 @@ func _arrival_popups() -> void:
 		await _login_popup()
 	if not is_inside_tree():
 		return
+	_guides.call_deferred()
 	var fresh: Array = []
 	for f in ["auto", "units", "training", "tower", "evolution", "summon", "missions", "world2"]:
 		if GameManager.feature_unlocked(f) and not GameManager.feature_announced(f) and \
@@ -397,6 +398,22 @@ func _arrival_popups() -> void:
 			if not is_inside_tree():
 				return
 			await _announce(f)
+
+
+## First-time guides, one at a time, most important first. Shown only when no
+## popup is open, so they never cover an announcement.
+func _guides() -> void:
+	await get_tree().create_timer(0.3).timeout
+	while is_inside_tree() and UIManager.top_popup() != null:
+		await get_tree().create_timer(0.25).timeout
+	if not is_inside_tree():
+		return
+	if not GameManager.coach_done("home_quest"):
+		UIManager.guide("home_quest", find_child("QuestButton", true, false), "Tap QUEST to continue your journey.")
+	elif GameManager.feature_unlocked("units") and not GameManager.coach_done("home_units"):
+		UIManager.guide("home_units", find_child("UnitsButton", true, false), "New heroes and upgrades live in UNITS.")
+	elif GameManager.feature_unlocked("summon") and not GameManager.coach_done("home_summon"):
+		UIManager.guide("home_summon", find_child("SummonButton", true, false), "The Embergate is open - summon new heroes here.")
 
 
 func _login_popup() -> void:
@@ -425,13 +442,18 @@ func _login_popup() -> void:
 	claim.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	claim.add_shine()
 	p.content.add_child(claim)
+	# wait for the popup to go away (never on the button itself: if the screen is
+	# left while waiting, an await on a freed button would never resume)
+	var chosen := [false]
+	claim.pressed.connect(func():
+		chosen[0] = true
+		p.close())
 	p.cancel_action = func(): claim.pressed.emit()
 	p.default_action = p.cancel_action
-	await claim.pressed
-	if not is_inside_tree():
+	await p.tree_exited
+	if not chosen[0] or not is_inside_tree():
 		return
 	var r := GameManager.claim_login()
-	p.close()
 	AudioManager.play_sfx("claim")
 	var rp := RewardPopup.open(self, "LOGIN REWARD", r, "Day %d of 7 - come back tomorrow for the next reward!" % int(r.get("day", 1)))
 	await rp.tree_exited

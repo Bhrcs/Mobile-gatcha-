@@ -16,6 +16,7 @@ for starter in kael_emberclaw mira_tidesong thorne_mossguard; do
 done
 run "settings + corrupted save UI" "$GODOT" --headless res://tests/ui_flow.tscn -- --phase=3
 run "phase 4 player flow (unlocks, summon, train, evolve, tower, missions, world 2)" "$GODOT" --headless res://tests/ui_flow.tscn -- --phase=4
+run "phase 5 full UI flow (title to home, history, esc/enter, filters, claim all)" "$GODOT" --headless res://tests/ui_flow.tscn -- --phase=5
 echo "=== balance simulation (informational)"
 timeout 900 "$GODOT" --headless res://tests/balance_sim.tscn 2>&1 | grep -E "^[a-z_]+ |^   "
 [ $fail -eq 0 ] && echo "ALL TESTS PASSED" || echo "SOME TESTS FAILED"

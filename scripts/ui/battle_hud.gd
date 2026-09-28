@@ -487,10 +487,9 @@ func show_hint(hint: Dictionary) -> void:
 	ok.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	p.content.add_child(ok)
 	p.name = "HintPopup"
-	p.cancel_action = func(): ok.pressed.emit()
-	p.default_action = p.cancel_action
-	await ok.pressed
-	p.close()
+	ok.pressed.connect(p.close)
+	p.default_action = p.close
+	await p.tree_exited
 
 
 func show_menu(on_retreat: Callable) -> void:

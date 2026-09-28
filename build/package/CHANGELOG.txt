@@ -1,6 +1,90 @@
 CINDERBOUND - CHANGELOG
 =======================
 
+v0.5.0 - Phase 5: complete UI / UX improvement
+----------------------------------------------
+No new gameplay systems, worlds, heroes or currencies - this update is about
+making every screen clearer, faster and more consistent. Saves carry over.
+
+DESIGN SYSTEM
+  * One set of text sizes (display 120 / title 80 / header 50 / name 40 /
+    body 30 / meta 20) and spacing steps (4 / 8 / 12 / 16 / 24 / 32).
+  * Buttons by meaning: primary (ember), secondary (steel), quiet (stone),
+    reward (gold) and a new crimson danger button; hover, pressed, disabled and
+    selected states; 0.25 s double-tap protection on every button.
+  * New pixel art: tabs, ON/OFF switches, slider knob, slim scrollbars, tooltip
+    plate, elite / perfect / cleared stage markers, tower paths and 17 new icons
+    (back, help, info, filter, sort, plus, minus, close, pause, element chart,
+    new, squad and five role icons).
+  * Long names shrink, then shorten with "..." and a tooltip - no overflow.
+  * Big numbers are shortened (12.4K, 1.3M) with exact values in tooltips.
+
+NAVIGATION
+  * Bottom bar is now HOME / QUEST / UNITS / SUMMON / MENU with an animated
+    selected tab (sliding marker, icon pop).
+  * BACK follows your real path through the menus, e.g. Units -> Details ->
+    Evolution -> Where to find -> Tower -> BACK returns to Evolution.
+  * Every screen has the same header: BACK, title, optional "?" help.
+  * Slide transitions for going deeper / back, quick fades between tabs, ember
+    dissolve for battles; "Reduce Motion" setting. Input is blocked mid-transition.
+  * Esc closes popups / goes back (pause in battle); Enter confirms.
+  * Loading cover only when a load really takes time (never a fake delay).
+
+NEW SCREENS
+  * QUEST hub (World Select): region cards with scenery, completion %, stars,
+    boss state and what unlocks them, plus the Elemental Towers card.
+  * MENU screen (replaces the menu popup) with large described tiles.
+  * SETTINGS screen with AUDIO / GAMEPLAY / GRAPHICS / ACCOUNT tabs, sliders and
+    switches; new Reduce Motion, Screen Margins and (phones) Vibration options.
+  * HELP & GUIDE: Basics, Battle, Elements (element chart), Heroes, Progress.
+  * TRAINING screen: Wisp cards with -1 / +1 / +5 / MAX and a live preview of
+    level, EXP bar, stat gains and Gold cost.
+
+SCREEN IMPROVEMENTS
+  * Home: clear order QUEST > UNITS / SUMMON > TOWER / MISSIONS / SQUAD; heroes
+    at the camp react when tapped; first-time guides ("Tap QUEST").
+  * Top bar: animated currency changes (green gain / red spend), tooltips.
+  * Stage map: distinct markers for new, elite, boss, cleared, 3-star and locked
+    stages, each with a tooltip; possible drops explain themselves on hover/hold.
+  * PREPARE and Squad: your squad's elements vs the foes' elements with one line
+    of advice and a shortcut to the element chart (advice only, never blocks).
+  * Units: indicators always in the same place on every card, role icons,
+    FILTER & SORT overlay (element, rarity, role, can evolve, favourites; 10 sort
+    options, high/low first, RESET) that is remembered; helpful empty state.
+  * Unit Details: VIEW (full-size hero with animation buttons), best stat marked,
+    short skill facts (targets, % ATK, hits, effects) above each description.
+  * Evolution: WHERE TO FIND for every material, one confirmation listing
+    exactly what is spent, EVOLUTION COMPLETE summary (new cap, Burst, Passive).
+  * Summon: confirmation shows cost and Gems left; DUPLICATE results are marked
+    with their Soul Shards; every result can be inspected.
+  * Towers: floors connected by each tower's own path (ember / tide / verdant).
+  * Missions: tab badges, CLAIM ALL, ticked login days.
+  * Items: slot grid with a detail panel (WHERE TO FIND, USE only when usable).
+  * Profile: name checked while typing (2-16 letters, numbers, spaces, - ' _).
+  * Errors say exactly what is missing ("Not enough Gems. Need 1,000 - you have
+    640.").
+
+BATTLE
+  * AUTO ON button plus a glowing AUTO BATTLE plate while heroes act alone
+    (tap it to take control).
+  * Boss plates show PHASE 1/2 and where phase 2 starts; DANGER - GUARD! pulses
+    while a foe charges a big attack.
+  * Status icons use the shared tooltip (hover / tap).
+  * Damage numbers that land together stack instead of overlapping.
+  * Pause menu: RESUME, ELEMENTS, SETTINGS, RETREAT (asks once).
+  * Results: SKIP button, Enter to continue, several level-ups at once shown as
+    LEVEL UP xN with the total stat gains.
+  * Defeat: one tip that fits the fight (power, elements or tactics) and RETRY /
+    EDIT SQUAD / STAGE SELECT with the retry Energy cost.
+
+SOUND & FEEL
+  * New sounds: back, confirm, error, coin, mission. One sound per meaning.
+  * Optional vibration on phones for confirms, summons and evolutions.
+
+TESTS
+  * Updated click-through tests for the new menus; new Phase 5 full-flow test;
+    resolution, long-text, extreme-resource and 100-hero / many-item checks.
+
 v0.4.0 - Phase 4: hero collection, summoning, evolution, progression, repeatable PvE
 -----------------------------------------------------------------------------------
 All heroes, enemies, portraits, summon and evolution art, icons, sounds and music

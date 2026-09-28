@@ -88,6 +88,8 @@ func quit_game(code := 0) -> void:
 	_quitting = true
 	if has_profile():
 		save()
+	# callers may still be inside a scene's _ready (the tree is busy adding it)
+	await get_tree().process_frame
 	# freeze gameplay (battles keep firing sounds and timers otherwise), drop the
 	# current scene, then silence audio and give the audio thread time to let go
 	# let a running battle action finish so no coroutine is left waiting on a

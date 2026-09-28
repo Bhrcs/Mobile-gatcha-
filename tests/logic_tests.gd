@@ -926,3 +926,23 @@ func test_every_starter_can_clear_stage_1() -> void:
 				wins += 1
 		check(wins == 30, "%s wins stage 1 every time (%d/30)" % [starter, wins])
 	sim.free()
+
+
+# ------------------------------------------------------------------ phase 5 UI helpers
+func test_ui_helpers() -> void:
+	for pair in [[999, "999"], [9999, "9,999"], [12400, "12.4K"], [1_300_000, "1.3M"], [2_100_000_000, "2.1B"], [-12400, "-12.4K"]]:
+		check(UIKit.format_compact(pair[0]) == pair[1], "format_compact(%d) = %s (got %s)" % [pair[0], pair[1], UIKit.format_compact(pair[0])])
+	check(GameManager.validate_player_name("Kael").is_empty(), "valid name accepted")
+	for bad in ["", "a", "12345678901234567", "<script>", "two  spaces"]:
+		check(not GameManager.validate_player_name(bad).is_empty(), "bad name rejected: '%s'" % bad)
+	# element advice: all-fire squad vs water foes warns, fire vs nature is good
+	check(StageInfo.matchup_advice(["fire"], ["water"])[1], "matchup warns when nothing beats the foes")
+	check(not StageInfo.matchup_advice(["fire"], ["nature"])[1], "matchup approves an advantage")
+	# unit filter state survives a save / load of settings
+	var st := UnitFilter.load_state()
+	st["el"] = "water"
+	st["sort"] = "atk"
+	UnitFilter.save_state(st)
+	var back := UnitFilter.load_state()
+	check(back["el"] == "water" and back["sort"] == "atk", "unit filter + sort remembered")
+	UnitFilter.save_state(UnitFilter.DEFAULT.merged({"sort": "recent", "desc": true}))

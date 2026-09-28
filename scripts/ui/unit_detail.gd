@@ -375,6 +375,8 @@ func _evolution_path(def: Dictionary) -> Control:
 ## Full-screen character viewer: big sprite on the element backdrop with
 ## animation buttons, portrait and description.
 func _open_viewer() -> void:
+	if UIManager.has_popup("CharacterViewer"):
+		return
 	var def := Database.get_character(unit.get("char_id", ""))
 	var p := FantasyPopup.open(self, "", 1040, "card_%s_lit" % def.get("element", "fire"))
 	p.name = "CharacterViewer"

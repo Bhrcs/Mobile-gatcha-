@@ -80,6 +80,8 @@ func _ready() -> void:
 	AudioManager.play_music(world.get("music", "world"))
 	if SceneRouter.params.get("prepare", false) and GameManager.is_stage_unlocked(start):
 		StageInfo.open_prepare(self, start)
+	elif GameManager.stages_cleared_count() == 0 and nodes.has(Database.stage_order[0]):
+		UIManager.guide("select_first_stage", sheet.find_child("StartButton", true, false), "Tap START to begin Stage 1-1.")
 
 
 func _process(delta: float) -> void:
