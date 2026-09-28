@@ -11,6 +11,8 @@ var info: Label
 var leader_label: Label
 var power_label: Label
 var selected := -1
+var stage_id := ""               # set when opened from a stage's PREPARE
+var matchup: VBoxContainer
 
 
 func _ready() -> void:
@@ -18,6 +20,7 @@ func _ready() -> void:
 		return
 	var back_to: String = SceneRouter.params.get("from_uid", "")
 	var return_to: String = SceneRouter.params.get("return_to", "")
+	stage_id = SceneRouter.params.get("stage_id", "")
 	if not return_to.is_empty():
 		back_fallback = return_to
 	elif not back_to.is_empty():
@@ -50,6 +53,8 @@ func _ready() -> void:
 	action_row = UIKit.hbox(12)
 	action_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	pv.add_child(action_row)
+	matchup = UIKit.vbox(0)
+	pv.add_child(matchup)
 
 	col.add_child(UIKit.label("RESERVE", UIKit.T_BODY, UIKit.GOLD, HORIZONTAL_ALIGNMENT_LEFT, 6))
 	var scroll := ScrollContainer.new()
@@ -83,6 +88,10 @@ func _refresh() -> void:
 	var ls := GameManager.leader_skill()
 	leader_label.text = "LEADER SKILL: %s - %s" % [ls.get("name", ""), ls.get("description", "")] if not ls.is_empty() else ""
 	power_label.text = "POWER %s" % UIKit.format_number(GameManager.squad_power())
+	for c in matchup.get_children():
+		c.queue_free()
+	if not stage_id.is_empty() and not Database.get_stage(stage_id).is_empty():
+		matchup.add_child(StageInfo.matchup_row(party, Database.get_stage(stage_id), self))
 	var w := _slot_width()
 	for i in GameManager.max_party_size():
 		slots_row.add_child(_slot(party[i] if i < party.size() else {}, i, w))
@@ -110,6 +119,7 @@ func _refresh() -> void:
 			lead.pressed.connect(func():
 				GameManager.set_leader(uid)
 				AudioManager.play_sfx("unit_select")
+				UIManager.toast("%s now leads the squad." % Database.get_character(GameManager.get_unit(uid).get("char_id", "")).get("name", ""), "success")
 				selected = 0
 				_refresh())
 			action_row.add_child(lead)
@@ -191,7 +201,7 @@ func _on_slot(index: int) -> void:
 
 func _add(uid: String) -> void:
 	if GameManager.party_uids().size() >= GameManager.max_party_size():
-		UIKit.toast(self, "The party is full. Remove a hero first.", UIKit.DANGER)
+		UIManager.toast("The squad is full. Select a squad slot and REMOVE a hero first.", "warning")
 		return
 	GameManager.toggle_party(uid)
 	AudioManager.play_sfx("unit_select")

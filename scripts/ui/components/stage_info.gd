@@ -99,11 +99,16 @@ static func rewards_row(stage: Dictionary, px := 88) -> Control:
 	h.name = "PossibleDrops"
 	h.add_child(UIKit.label("POSSIBLE\nDROPS", UIKit.T_SMALL, UIKit.GOLD, HORIZONTAL_ALIGNMENT_LEFT, 5))
 	var rewards: Dictionary = stage.get("rewards", {})
-	var items: Array = [RewardItem.make("res://assets/icons/xp.png", "%d" % int(rewards.get("xp", 0)), "", px),
-			RewardItem.make("res://assets/icons/gold.png", "%d" % int(rewards.get("gold", 0)), "", px)]
+	var xp_i := RewardItem.make("res://assets/icons/xp.png", "%d" % int(rewards.get("xp", 0)), "", px)
+	UIManager.attach_tooltip(xp_i, "EXP  %d" % int(rewards.get("xp", 0)), "Shared by the heroes in your squad.", "res://assets/icons/xp.png")
+	var gold_i := RewardItem.make("res://assets/icons/gold.png", "%d" % int(rewards.get("gold", 0)), "", px)
+	UIManager.attach_tooltip(gold_i, "Gold  %d" % int(rewards.get("gold", 0)), "Base Gold for a clear.", "res://assets/icons/gold.png")
+	var items: Array = [xp_i, gold_i]
 	for item_id in possible_drops(stage).slice(0, 7):
-		var ri := RewardItem.make(Database.get_item(item_id).get("icon", ""), "", "", px)
-		ri.tooltip_text = Database.item_name(item_id)
+		var def := Database.get_item(item_id)
+		var ri := RewardItem.make(def.get("icon", ""), "", "", px)
+		ri.name = "Drop_" + item_id
+		UIManager.attach_tooltip(ri, Database.item_name(item_id), String(def.get("description", "")), def.get("icon", ""))
 		items.append(ri)
 	for it in items:
 		it.hidden_start = false
@@ -125,6 +130,74 @@ static func rewards_row(stage: Dictionary, px := 88) -> Control:
 			f.add_child(UIKit.label("x%d" % int(fc["items"][item_id]), UIKit.T_SMALL, UIKit.TEXT, HORIZONTAL_ALIGNMENT_LEFT, 5))
 		col.add_child(f)
 	return col
+
+
+# ------------------------------------------------------------------ element matchup
+## Squad elements vs the stage's foes, with one line of advice. Advice only:
+## it never blocks departing.
+static func matchup_row(party: Array, stage: Dictionary, host: Control) -> Control:
+	var foes := elements(stage)
+	var mine: Array = []
+	for u in party:
+		var el: String = Database.get_character(u["char_id"]).get("element", "")
+		if not mine.has(el):
+			mine.append(el)
+	var box := PanelFrame.make("inset", 12)
+	box.name = "ElementMatchup"
+	var v := UIKit.vbox(UIKit.SP_S)
+	box.add_child(v)
+	var h := UIKit.hbox(UIKit.SP_M)
+	h.alignment = BoxContainer.ALIGNMENT_CENTER
+	h.add_child(UIKit.label("SQUAD", UIKit.T_SMALL, UIKit.SKY, HORIZONTAL_ALIGNMENT_LEFT, 5))
+	for el in mine:
+		h.add_child(UIKit.orb(el, 44))
+	h.add_child(UIKit.label("VS", UIKit.T_BODY, UIKit.MUTED, HORIZONTAL_ALIGNMENT_CENTER, 6))
+	h.add_child(UIKit.label("FOES", UIKit.T_SMALL, UIKit.SKY, HORIZONTAL_ALIGNMENT_LEFT, 5))
+	for el in foes:
+		h.add_child(UIKit.orb(el, 44))
+	var chart := UIKit.btn("", "quiet", Vector2(88, 88), "res://assets/icons/element_chart.png")
+	chart.name = "MatchupChart"
+	chart.tooltip_text = "Element chart"
+	chart.pressed.connect(func(): ElementChart.popup(host))
+	h.add_child(chart)
+	v.add_child(h)
+	var advice := matchup_advice(mine, foes)
+	var line := UIKit.hbox(UIKit.SP_S)
+	line.alignment = BoxContainer.ALIGNMENT_CENTER
+	line.add_child(UIKit.icon("res://assets/icons/warning.png" if advice[1] else "res://assets/icons/check.png", 36))
+	var l := UIKit.wrap_label(advice[0], UIKit.T_SMALL, UIKit.EMBER if advice[1] else UIKit.GOOD)
+	l.name = "MatchupAdvice"
+	l.custom_minimum_size.x = 780
+	line.add_child(l)
+	v.add_child(line)
+	return box
+
+
+## Returns [text, is_warning].
+static func matchup_advice(mine: Array, foes: Array) -> Array:
+	var uncovered: Array = []
+	for f in foes:
+		var covered := false
+		for m in mine:
+			if Database.element_multiplier(m, f) > 1.0:
+				covered = true
+		if not covered:
+			uncovered.append(f)
+	var threatened: Array = []
+	for m in mine:
+		for f in foes:
+			if Database.element_multiplier(f, m) > 1.0 and not threatened.has(m):
+				threatened.append(m)
+	if not uncovered.is_empty():
+		var f: String = uncovered[0]
+		var counter := ""
+		for el in Database.elements.keys():
+			if Database.element_multiplier(el, f) > 1.0:
+				counter = Database.element_name(el)
+		return ["No hero in your squad beats %s foes. %s heroes deal extra damage to them." % [Database.element_name(f), counter], true]
+	if not threatened.is_empty() and threatened.size() == mine.size():
+		return ["Every hero in your squad is weak to a foe here. Consider mixing elements.", true]
+	return ["Good matchup: your squad has an advantage against these foes.", false]
 
 
 # ------------------------------------------------------------------ prepare
@@ -185,6 +258,7 @@ static func open_prepare(parent: Control, stage_id: String, back_scene := "stage
 		warn.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		warn.custom_minimum_size.x = 900
 		p.content.add_child(warn)
+	p.content.add_child(matchup_row(party, stage, p))
 	var cost := int(stage.get("energy", 0))
 	p.content.add_child(UIKit.label("Energy: %d / %d   (cost %d)" % [GameManager.energy(), GameManager.max_energy(), cost],
 			UIKit.T_BODY, Color("#ffe07a") if GameManager.energy() >= cost else UIKit.DANGER, HORIZONTAL_ALIGNMENT_CENTER, 6))
