@@ -191,6 +191,9 @@ func streaks(pos: Vector2, color: Color, count: int = 5, length: float = 260.0) 
 
 
 # ------------------------------------------------------------------ numbers
+var _recent: Array = []     # [position, msec] of numbers launched just now
+
+
 ## kind: normal | player | crit | advantage | resist | heal | dot | finisher
 ## tag : "", "WEAK" (shown as ADVANTAGE), "RESIST"
 func damage_number(pos: Vector2, value: int, kind: String = "normal", tag: String = "", icon_path: String = "") -> void:
@@ -256,7 +259,15 @@ func floating_text(pos: Vector2, text: String, color: Color, size: int = 40) -> 
 
 ## Pop (scale overshoot) -> rise -> fade. Softer drift for small numbers.
 func _launch(n: Node2D, pos: Vector2, pop: float, soft: bool) -> void:
-	n.global_position = pos + Vector2(randf_range(-12, 12), randf_range(-6, 6))
+	# numbers landing on the same spot at the same time stack upwards instead of overlapping
+	var now := Time.get_ticks_msec()
+	var stack := 0
+	for r in _recent:
+		if now - int(r[1]) < 450 and (r[0] as Vector2).distance_to(pos) < 90.0:
+			stack += 1
+	_recent = _recent.filter(func(r): return now - int(r[1]) < 450)
+	_recent.append([pos, now])
+	n.global_position = pos + Vector2(randf_range(-10, 10) + (stack % 2) * 30 - 15 * mini(stack, 1), -52.0 * mini(stack, 4))
 	n.visible = true
 	n.modulate.a = 1.0
 	n.scale = Vector2.ONE * pop

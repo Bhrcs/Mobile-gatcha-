@@ -4,7 +4,8 @@ extends Control
 ##   VICTORY -> party cards -> EXP counts up and bars fill (LEVEL UP flash + sound)
 ##   -> gold counts up -> reward items pop into slots -> first-clear bonus ->
 ##   unlocks / rank -> CONTINUE.   Tap anywhere to fast-forward.
-## Defeat: short - DEFEAT, then RETRY / PARTY / STAGE SELECT.
+## A SKIP button (or a tap anywhere) fast-forwards; Enter continues on PC.
+## Defeat: short - DEFEAT, one useful tip, then RETRY / EDIT SQUAD / STAGE SELECT.
 
 signal next_pressed
 signal retry_pressed
@@ -16,6 +17,8 @@ var _content: VBoxContainer
 var _panel: PanelFrame
 var _fast := false
 var sequence_done := false     # the reveal animation has finished
+var _skip: FantasyButton
+var _default: FantasyButton    # Enter presses this once the sequence is done
 
 const FEATURE_NAMES := {"auto": "Auto Battle", "units": "Units", "squad": "Squad (5 heroes)", "training": "Training",
 		"tower": "Elemental Towers", "evolution": "Evolution", "summon": "Embergate Summoning",
@@ -29,7 +32,30 @@ func _init() -> void:
 
 func _gui_input(e: InputEvent) -> void:
 	if e is InputEventMouseButton and e.pressed:
-		_fast = true
+		_skip_now()
+
+
+func _skip_now() -> void:
+	_fast = true
+	if is_instance_valid(_skip):
+		_skip.visible = false
+
+
+func _unhandled_key_input(e: InputEvent) -> void:
+	if e is InputEventKey and e.pressed and not e.echo and (e.keycode == KEY_ENTER or e.keycode == KEY_KP_ENTER):
+		get_viewport().set_input_as_handled()
+		if not sequence_done:
+			_skip_now()
+		elif is_instance_valid(_default) and not _default.disabled and UIManager.top_popup() == null:
+			_default.pressed.emit()
+
+
+func _add_skip() -> void:
+	_skip = UIKit.btn("SKIP", "quiet", Vector2(200, 88))
+	_skip.name = "SkipResults"
+	_skip.position = Vector2(get_viewport_rect().size.x - 230, get_viewport_rect().size.y - 140 - UIKit.safe_bottom())
+	_skip.pressed.connect(_skip_now)
+	add_child(_skip)
 
 
 func _step(t: float) -> void:
@@ -143,6 +169,8 @@ func show_victory(summary: Dictionary, has_next: bool) -> void:
 	b_next.disabled = true
 	b_retry.disabled = true
 	_content.add_child(buttons)
+	_default = b_next
+	_add_skip()
 
 	# ---- sequence
 	await _step(0.3)
@@ -240,6 +268,8 @@ func show_victory(summary: Dictionary, has_next: bool) -> void:
 	b_next.disabled = false
 	b_retry.disabled = false
 	sequence_done = true
+	if is_instance_valid(_skip):
+		_skip.queue_free()
 
 
 func _counter(parent: Control, icon_path: String, color: Color) -> Label:
@@ -307,17 +337,23 @@ func _animate_xp(row: Dictionary) -> void:
 	var u: Dictionary = row["data"]
 	var bar: ResourceBar = row["bar"]
 	var level := int(u["before"]["level"])
+	var start_level := level
+	var n_ups: int = u["level_ups"].size()
 	for up in u["level_ups"]:
 		bar.set_values(bar.max_value, bar.max_value)
 		await _step(0.35)
 		if not is_inside_tree():
 			return
 		level = int(up["level"])
-		row["level"].text = "Lv.%d" % level
-		var g: Dictionary = up["gains"]
-		row["gains"].text = "HP +%d  ATK +%d  DEF +%d  REC +%d" % [g["hp"], g["atk"], g["def"], g["rec"]]
-		AudioManager.play_sfx("level_up")
+		row["level"].text = "Lv.%d > %d" % [start_level, level]
+		# gains are shown as the total since the battle started (several levels add up)
+		var total := GameManager.unit_stats({"char_id": u["char_id"], "level": level})
+		var base := GameManager.unit_stats({"char_id": u["char_id"], "level": start_level})
+		row["gains"].text = "HP +%d  ATK +%d  DEF +%d  REC +%d" % [int(total["hp"]) - int(base["hp"]), int(total["atk"]) - int(base["atk"]),
+				int(total["def"]) - int(base["def"]), int(total["rec"]) - int(base["rec"])]
+		AudioManager.play_sfx("level_up", 0.02, -2.0 if level - start_level == 1 else -6.0)
 		var stamp: Label = row["stamp"]
+		stamp.text = "LEVEL UP!" if n_ups <= 1 else "LEVEL UP x%d" % (level - start_level)
 		stamp.visible = true
 		_pop(stamp)
 		_pop(row["level"])
@@ -344,19 +380,59 @@ func _pop(c: Control) -> void:
 # ------------------------------------------------------------------ defeat
 func show_defeat() -> void:
 	_frame("DEFEAT", UIKit.DANGER, "boss")
-	var msg := UIKit.wrap_label("Your party has fallen. Nothing is lost - train your heroes or change your squad.", UIKit.T_BODY)
+	var msg := UIKit.wrap_label("Your squad has fallen. Nothing is lost.", UIKit.T_BODY)
 	msg.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	msg.custom_minimum_size.x = 940
 	_content.add_child(msg)
+	var tip := PanelFrame.make("inset", 16)
+	tip.name = "DefeatTip"
+	var th := UIKit.hbox(UIKit.SP_M)
+	tip.add_child(th)
+	th.add_child(UIKit.icon("res://assets/icons/info.png", 48))
+	var tl := UIKit.wrap_label(defeat_tip(), UIKit.T_BODY, Color("#fff0c0"))
+	tl.custom_minimum_size.x = 820
+	th.add_child(tl)
+	_content.add_child(tip)
 	var buttons := UIKit.hbox(16)
 	buttons.alignment = BoxContainer.ALIGNMENT_CENTER
-	var b_retry := FantasyButton.make("RETRY", "ember", Vector2(300, 120))
-	var b_party := FantasyButton.make("PARTY", "steel", Vector2(300, 120))
-	var b_stage := FantasyButton.make("STAGES", "stone", Vector2(300, 120))
+	var b_retry := UIKit.btn("RETRY", "primary", Vector2(300, 120))
+	b_retry.name = "RetryButton"
+	var b_party := UIKit.btn("EDIT SQUAD", "secondary", Vector2(320, 120))
+	b_party.name = "EditSquadButton"
+	var b_stage := UIKit.btn("STAGE SELECT", "quiet", Vector2(320, 120))
+	b_stage.name = "StageSelectButton"
+	b_stage.add_theme_font_size_override("font_size", UIKit.T_BODY)
 	b_retry.pressed.connect(func(): retry_pressed.emit())
 	b_party.pressed.connect(func(): party_pressed.emit())
 	b_stage.pressed.connect(func(): stage_select_pressed.emit())
 	for b in [b_retry, b_party, b_stage]:
 		buttons.add_child(b)
 	_content.add_child(buttons)
+	var cost := int(Database.get_stage(GameManager.current_stage_id).get("energy", 0))
+	_content.add_child(UIKit.label("Retry costs %d Energy (you have %d)." % [cost, GameManager.energy()], UIKit.T_SMALL, UIKit.MUTED,
+			HORIZONTAL_ALIGNMENT_CENTER, 5))
+	_default = b_retry
 	sequence_done = true
+
+
+## The most useful advice for this defeat: power first, then elements, then a general tip.
+static func defeat_tip() -> String:
+	var stage := Database.get_stage(GameManager.current_stage_id)
+	var rec := int(stage.get("recommended_power", 0))
+	var sp := GameManager.squad_power()
+	if rec > 0 and sp < rec:
+		return "Squad power %s is below the recommended %s. Train heroes with Wisps or evolve them, then try again." % [
+				UIKit.format_number(sp), UIKit.format_number(rec)]
+	var mine: Array = []
+	for u in GameManager.party_units():
+		var el: String = Database.get_character(u["char_id"]).get("element", "")
+		if not mine.has(el):
+			mine.append(el)
+	var advice: Array = StageInfo.matchup_advice(mine, StageInfo.elements(stage))
+	if advice[1]:
+		return advice[0]
+	var general := ["Swipe DOWN on a card to Guard when a foe shows DANGER - it halves the damage.",
+			"Save Bursts for the last wave or the boss: swipe UP on a full card.",
+			"A healer in the squad keeps everyone standing through long fights.",
+			"Your leader's Leader Skill boosts the whole squad - pick a leader that matches your team."]
+	return general[randi() % general.size()]

@@ -132,7 +132,7 @@ func _build_top() -> void:
 	btn_speed.add_theme_font_size_override("font_size", 30)
 	btn_speed.pressed.connect(func(): set_speed(2.0 if speed < 1.5 else 1.0, true))
 	row.add_child(btn_speed)
-	btn_auto = FantasyButton.make("AUTO", "stone", Vector2(122, 88))
+	btn_auto = FantasyButton.make("AUTO", "stone", Vector2(150, 88))
 	btn_auto.name = "AutoButton"
 	btn_auto.add_theme_font_size_override("font_size", 28)
 	btn_auto.pressed.connect(func():
@@ -215,10 +215,39 @@ func _build_bottom() -> void:
 func set_auto(on: bool, emit := false) -> void:
 	auto_on = on and auto_available
 	btn_auto.apply_style("ember" if auto_on else "stone")
-	btn_auto.text = "AUTO" if auto_available else "AUTO"
+	btn_auto.text = "AUTO ON" if auto_on else "AUTO"
 	btn_auto.modulate = Color.WHITE if auto_available else Color(0.6, 0.6, 0.6)
+	_update_auto_band()
 	if emit:
 		auto_toggled.emit(auto_on)
+
+
+## Pulsing "AUTO BATTLE" plate just above the hero cards while auto is on, so it
+## is always obvious who is in control. Tapping it turns auto off.
+var _auto_band: PanelContainer
+
+
+func _update_auto_band() -> void:
+	if _auto_band == null:
+		_auto_band = PanelFrame.make("boss", 8)
+		_auto_band.name = "AutoBand"
+		var h := UIKit.hbox(UIKit.SP_S)
+		h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		h.add_child(UIKit.icon("res://assets/icons/auto.png", 32))
+		h.add_child(UIKit.label("AUTO BATTLE  -  tap to take control", UIKit.T_SMALL, UIKit.GOLD, HORIZONTAL_ALIGNMENT_LEFT, 5))
+		_auto_band.add_child(h)
+		_auto_band.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+		root.add_child(_auto_band)
+		UIKit.on_tap(_auto_band, func(): set_auto(false, true))
+		var tw := _auto_band.create_tween().set_loops()
+		tw.tween_property(_auto_band, "modulate:a", 0.65, 0.6).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(_auto_band, "modulate:a", 1.0, 0.6).set_trans(Tween.TRANS_SINE)
+	_auto_band.visible = auto_on
+	var sz := _auto_band.get_combined_minimum_size()
+	_auto_band.offset_right = -12
+	_auto_band.offset_left = -12 - sz.x
+	_auto_band.offset_bottom = -bottom_block - 8
+	_auto_band.offset_top = -bottom_block - 8 - sz.y
 
 
 func set_auto_available(on: bool) -> void:
@@ -277,6 +306,8 @@ func set_party(players: Array) -> void:
 	rows = max(rows, 1)
 	bottom_block = 22 + rows * (CARD_H + 8) + LOG_H + 16 + UIKit.safe_bottom()
 	_block.offset_top = -bottom_block
+	if _auto_band:
+		_update_auto_band()
 
 
 func set_header(stage: Dictionary, wave: int, wave_total: int, _turn: int) -> void:

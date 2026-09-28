@@ -85,6 +85,15 @@ func _ready() -> void:
 			EnergyPopup.open(cur, "ashroot_05")
 		"filter":
 			cur._open_filter()
+		"defeat":
+			while cur.state != BattleController.State.PLAYER:
+				await get_tree().create_timer(0.1).timeout
+			cur._finish(false)
+		"victory":
+			while cur.state != BattleController.State.PLAYER:
+				await get_tree().create_timer(0.1).timeout
+			cur.model.xp_earned = int(args.get("xp", "4000"))
+			cur._finish(true)
 		"call":
 			cur.call(args.get("method", ""))
 		"rankup":

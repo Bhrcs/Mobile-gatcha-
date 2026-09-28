@@ -437,7 +437,9 @@ func _check_phase2(e: Combatant) -> void:
 		effects.particles(e.element, v.impact_point(), 30, 360.0)
 	camera.shake(18.0, 0.4)
 	hud.add_log(p2.get("announce", "%s grows furious!" % e.display_name), Color("#ff7a5a"))
-	await hud.show_warning("ENRAGED", p2.get("announce", ""))
+	if hud.plates.has(e):
+		hud.plates[e].refresh_phase()
+	await hud.show_warning("PHASE 2", p2.get("announce", ""))
 
 
 ## A boss calls minions: they rise in front of it.
