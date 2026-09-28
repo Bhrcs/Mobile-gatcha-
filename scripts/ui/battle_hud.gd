@@ -228,6 +228,8 @@ var _auto_band: PanelContainer
 
 
 func _update_auto_band() -> void:
+	if _auto_band == null and not auto_on:
+		return
 	if _auto_band == null:
 		_auto_band = PanelFrame.make("boss", 8)
 		_auto_band.name = "AutoBand"
