@@ -211,11 +211,11 @@ func _summon(count: int) -> void:
 		return
 	var cost := int(banner.get("single_cost", 100)) if count == 1 else int(banner.get("multi_cost", 1000))
 	if GameManager.gems() < cost:
-		UIKit.message(self, "NOT ENOUGH GEMS", "You need %d Gems (you have %d).\nEarn Gems from first clears, rank-ups, missions and login rewards." % [
-				cost, GameManager.gems()])
+		UIManager.not_enough("Gems", cost, GameManager.gems(), "Earn Gems from first clears, rank-ups, missions and login rewards.")
 		return
-	UIKit.confirm(self, "Summon %d time%s for %d Gems?" % [count, "" if count == 1 else "s", cost], func(): _do_summon(count),
-			"SUMMON")
+	UIManager.confirm("SUMMON x%d?" % count, "", "SUMMON", func(): _do_summon(count), {"name": "SummonConfirm", "lines": [
+			["res://assets/icons/gem.png", "Cost  %s Gems" % UIKit.format_number(cost), Color("#9ae8ff")],
+			["", "Gems left after:  %s" % UIKit.format_number(GameManager.gems() - cost), UIKit.MUTED]]})
 
 
 func _do_summon(count: int) -> void:
@@ -224,7 +224,7 @@ func _do_summon(count: int) -> void:
 	var r := GameManager.summon("standard", count)
 	if not r.get("ok", false):
 		_busy = false
-		UIKit.toast(self, r.get("reason", "The gate did not answer."), UIKit.DANGER)
+		UIManager.toast(r.get("reason", "The gate did not answer."), "error")
 		return
 	_refresh()
 	var ceremony := SummonCeremony.new()
@@ -271,8 +271,20 @@ func _show_results(results: Array) -> void:
 			var uid: String = e["uid"]
 			UIKit.on_tap(cell, func(): _new_hero_popup(uid))
 		else:
+			# duplicates are marked clearly and show exactly what they became
+			var dt := UIKit.tag("DUPLICATE", Color("#5a3a8a"))
+			dt.position = Vector2(4, 4)
+			art.add_child(dt)
+			art.modulate = Color(0.8, 0.78, 0.85)
 			shards += int(e["shards"])
-			v.add_child(UIKit.label("+%d SHARDS" % int(e["shards"]), UIKit.T_SMALL, Color("#d0a8ff"), HORIZONTAL_ALIGNMENT_CENTER, 5))
+			var sh := UIKit.hbox(2)
+			sh.alignment = BoxContainer.ALIGNMENT_CENTER
+			sh.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			sh.add_child(UIKit.icon("res://assets/icons/soul_shard.png", 24))
+			sh.add_child(UIKit.label("+%d" % int(e["shards"]), UIKit.T_SMALL, Color("#d0a8ff"), HORIZONTAL_ALIGNMENT_CENTER, 5))
+			v.add_child(sh)
+			var entry: Dictionary = e
+			UIKit.on_tap(cell, func(): _duplicate_popup(entry))
 		grid.add_child(cell)
 	if shards > 0:
 		var w := UIKit.wrap_label("Duplicates were converted into %d Soul Shards - use them to train any hero's Burst." % shards,
@@ -280,8 +292,8 @@ func _show_results(results: Array) -> void:
 		w.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		w.custom_minimum_size.x = 940
 		p.content.add_child(w)
-	if not new_ones.is_empty():
-		p.content.add_child(UIKit.label("Tap a NEW hero for DETAILS or ADD TO SQUAD.", UIKit.T_SMALL, UIKit.GOLD, HORIZONTAL_ALIGNMENT_CENTER, 5))
+	p.content.add_child(UIKit.label("Tap a hero to inspect it." + (" NEW heroes can join your squad." if not new_ones.is_empty() else ""),
+			UIKit.T_SMALL, UIKit.GOLD, HORIZONTAL_ALIGNMENT_CENTER, 5))
 	var row := UIKit.hbox(14)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	if new_ones.size() == 1:
@@ -292,6 +304,7 @@ func _show_results(results: Array) -> void:
 	cont.pressed.connect(p.close)
 	row.add_child(cont)
 	p.content.add_child(row)
+	p.default_action = p.close
 
 
 func _add_new_hero_buttons(row: Control, uid: String, popup: FantasyPopup) -> void:
@@ -307,13 +320,43 @@ func _add_new_hero_buttons(row: Control, uid: String, popup: FantasyPopup) -> vo
 	add.pressed.connect(func():
 		if GameManager.party_uids().size() >= GameManager.max_party_size():
 			popup.close()
-			UIKit.toast(self, "Your squad is full - choose who to swap out.", UIKit.GOLD)
+			UIManager.toast("Your squad is full - choose who to swap out.", "info")
 			SceneRouter.go("squad")
 		elif GameManager.toggle_party(uid):
 			add.disabled = true
 			add.text = "IN SQUAD"
-			AudioManager.play_sfx("unit_select"))
+			AudioManager.play_sfx("unit_select")
+			UIManager.toast("Added to your squad.", "success"))
 	row.add_child(add)
+
+
+## Inspecting a duplicate result: which hero, and what it turned into.
+func _duplicate_popup(e: Dictionary) -> void:
+	var d := Database.get_character(e["char_id"])
+	var p := FantasyPopup.open(self, "DUPLICATE", 860)
+	p.name = "DuplicatePopup"
+	p.tap_outside_closes = true
+	var fr := PanelFrame.make("rarity_%d" % clampi(int(e["rarity"]), 3, 6), 6)
+	fr.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	fr.add_child(UIKit.portrait_art(d, Vector2(240, 240)))
+	p.content.add_child(fr)
+	p.content.add_child(UIKit.label(d.get("name", ""), UIKit.T_NAME, UIKit.GOLD, HORIZONTAL_ALIGNMENT_CENTER, 8))
+	var w := UIKit.wrap_label("You already have a hero of this line, so this summon became Soul Shards.", UIKit.T_BODY)
+	w.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	w.custom_minimum_size.x = 780
+	p.content.add_child(w)
+	var h := UIKit.hbox(UIKit.SP_S)
+	h.alignment = BoxContainer.ALIGNMENT_CENTER
+	h.add_child(UIKit.icon("res://assets/icons/soul_shard.png", 56))
+	h.add_child(UIKit.label("+%d Soul Shards" % int(e["shards"]), UIKit.T_NAME, Color("#d0a8ff"), HORIZONTAL_ALIGNMENT_LEFT, 8))
+	p.content.add_child(h)
+	p.content.add_child(UIKit.label("Spend them on any hero's Burst level (Unit Details).", UIKit.T_SMALL, UIKit.MUTED,
+			HORIZONTAL_ALIGNMENT_CENTER, 5))
+	var ok := UIKit.btn("OK", "primary", Vector2(260, 100))
+	ok.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	ok.pressed.connect(p.close)
+	p.content.add_child(ok)
+	p.default_action = p.close
 
 
 func _new_hero_popup(uid: String) -> void:

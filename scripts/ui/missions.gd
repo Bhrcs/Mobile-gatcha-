@@ -2,16 +2,19 @@ extends ScreenBase
 ## Missions: 5 daily missions with a daily chest (claim 4), weekly missions and
 ## the 7-day login calendar. Progress resets at local midnight / on Mondays.
 
+const TABS := ["daily", "weekly", "login"]
+
 var body: VBoxContainer
 var tab := "daily"
-var _tabs: Dictionary = {}
+var tabs: CinderTabs
+var claim_all: FantasyButton
 var _reset_l: Label
 
 
 func _ready() -> void:
 	if not require_profile():
 		return
-	var area := build_frame("bg_camp", "MISSIONS", "", Callable(), 0.6)
+	var area := build_frame("bg_camp", "MISSIONS", "missions", Callable(), 0.6)
 	if not GameManager.feature_unlocked("missions"):
 		var lock := UIKit.wrap_label("Missions unlock after clearing %s." % GameManager.feature_unlock_label("missions"), UIKit.T_NAME, UIKit.MUTED)
 		lock.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -22,19 +25,17 @@ func _ready() -> void:
 	var col := UIKit.vbox(12)
 	col.set_anchors_preset(Control.PRESET_FULL_RECT)
 	area.add_child(col)
-	var tabs := UIKit.hbox(10)
-	for t in [["DAILY", "daily"], ["WEEKLY", "weekly"], ["LOGIN", "login"]]:
-		var b := FantasyButton.make(t[0], "steel", Vector2(0, 96))
-		b.name = "Tab_" + t[0]
-		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		b.add_theme_font_size_override("font_size", 32)
-		var key: String = t[1]
-		b.pressed.connect(func(): _set_tab(key))
-		tabs.add_child(b)
-		_tabs[key] = b
+	tabs = CinderTabs.make(["DAILY", "WEEKLY", "LOGIN"], 0, func(i: int): _set_tab(TABS[i]))
 	col.add_child(tabs)
-	_reset_l = UIKit.label("", UIKit.T_SMALL, UIKit.MUTED, HORIZONTAL_ALIGNMENT_CENTER, 4)
-	col.add_child(_reset_l)
+	var top := UIKit.hbox(UIKit.SP_M)
+	_reset_l = UIKit.label("", UIKit.T_SMALL, UIKit.MUTED, HORIZONTAL_ALIGNMENT_LEFT, 4)
+	_reset_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(_reset_l)
+	claim_all = UIKit.btn("CLAIM ALL", "reward", Vector2(300, 90))
+	claim_all.name = "ClaimAll"
+	claim_all.pressed.connect(_claim_all)
+	top.add_child(claim_all)
+	col.add_child(top)
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -42,16 +43,15 @@ func _ready() -> void:
 	body = UIKit.vbox(10)
 	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(body)
-	_set_tab(SceneRouter.params.get("tab", "daily"))
+	var start: String = SceneRouter.params.get("tab", "daily")
+	_set_tab(start if start in TABS else "daily")
 
 
 func _set_tab(t: String) -> void:
 	tab = t
-	for k in _tabs.keys():
-		_tabs[k].apply_style("gold" if k == t else "steel")
-		var old = _tabs[k].get_node_or_null("Badge")
-		if old:
-			old.queue_free()
+	SceneRouter.remember({"tab": t})
+	tabs.select(TABS.find(t), false)
+	var total := 0
 	for k in ["daily", "weekly"]:
 		var n := 0
 		for m in Database.missions.get(k, []):
@@ -59,11 +59,23 @@ func _set_tab(t: String) -> void:
 				n += 1
 		if k == "daily" and GameManager.can_claim_chest():
 			n += 1
-		if n > 0:
-			UIKit.badge(_tabs[k], str(n))
-	if GameManager.login_available():
-		UIKit.badge(_tabs["login"])
+		tabs.set_badge(TABS.find(k), str(n) if n > 0 else "")
+		total += n
+	tabs.set_badge(2, "!" if GameManager.login_available() else "")
+	claim_all.visible = total > 0 and t != "login"
+	claim_all.text = "CLAIM ALL (%d)" % total
 	_render()
+
+
+func _claim_all() -> void:
+	var r := GameManager.claim_all_missions()
+	if int(r.get("count", 0)) <= 0:
+		UIManager.toast("Nothing to claim yet.", "info")
+		return
+	UIManager.sfx("claim")
+	UIManager.haptic("confirm")
+	RewardPopup.open(self, "%d REWARDS CLAIMED" % int(r["count"]), r)
+	_set_tab(tab)
 
 
 func _render() -> void:
@@ -234,8 +246,15 @@ func _login_calendar() -> void:
 		v.add_child(ic)
 		v.add_child(UIKit.label(_reward_text(r), UIKit.T_SMALL, UIKit.TEXT, HORIZONTAL_ALIGNMENT_CENTER, 5))
 		if done:
-			v.add_child(UIKit.label("CLAIMED", UIKit.T_SMALL, UIKit.GOOD, HORIZONTAL_ALIGNMENT_CENTER, 5))
-			cell.modulate = Color(0.7, 0.7, 0.75)
+			var ch := UIKit.hbox(4)
+			ch.alignment = BoxContainer.ALIGNMENT_CENTER
+			ch.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			ch.add_child(UIKit.icon("res://assets/icons/check.png", 32))
+			ch.add_child(UIKit.label("CLAIMED", UIKit.T_SMALL, UIKit.GOOD, HORIZONTAL_ALIGNMENT_CENTER, 5))
+			v.add_child(ch)
+			ic.modulate = Color(0.6, 0.6, 0.65)
+		elif is_next and avail:
+			v.add_child(UIKit.label("TODAY", UIKit.T_SMALL, UIKit.GOLD, HORIZONTAL_ALIGNMENT_CENTER, 5))
 		grid.add_child(cell)
 	var b := FantasyButton.make("CLAIM DAY %d" % (today + 1) if avail else "COME BACK TOMORROW", "gold" if avail else "stone", Vector2(560, 120))
 	b.name = "ClaimLogin"

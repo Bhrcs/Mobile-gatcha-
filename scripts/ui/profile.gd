@@ -8,7 +8,7 @@ var body: VBoxContainer
 func _ready() -> void:
 	if not require_profile():
 		return
-	var area := build_frame("bg_camp", "PROFILE", "", Callable(), 0.6)
+	var area := build_frame("bg_camp", "PROFILE", "profile", Callable(), 0.6)
 	var scroll := ScrollContainer.new()
 	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -120,23 +120,44 @@ func _date(ts: int) -> String:
 
 func _rename() -> void:
 	var p := FantasyPopup.open(self, "YOUR NAME", 860)
+	p.name = "RenamePopup"
 	var e := LineEdit.new()
 	e.name = "NameEdit"
-	e.text = GameManager.profile["player"].get("name", "Wayfarer")
+	e.text = GameManager.player_name()
 	e.max_length = 16
 	e.custom_minimum_size = Vector2(700, 90)
 	e.add_theme_font_size_override("font_size", UIKit.T_NAME)
 	e.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	e.select_all_on_focus = true
 	p.content.add_child(e)
+	var hint := UIKit.label("", UIKit.T_SMALL, UIKit.MUTED, HORIZONTAL_ALIGNMENT_CENTER, 5)
+	hint.name = "NameHint"
+	p.content.add_child(hint)
 	var row := UIKit.hbox(14)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	var ok := FantasyButton.make("SAVE", "ember", Vector2(280, 110))
-	ok.pressed.connect(func():
-		GameManager.set_player_name(e.text)
-		p.close()
-		_build())
-	row.add_child(ok)
-	var c := FantasyButton.make("CANCEL", "stone", Vector2(280, 110))
+	var c := UIKit.btn("CANCEL", "quiet", Vector2(280, 110))
 	c.pressed.connect(p.close)
 	row.add_child(c)
+	var ok := UIKit.btn("SAVE", "primary", Vector2(280, 110))
+	ok.name = "SaveName"
+	row.add_child(ok)
 	p.content.add_child(row)
+	# live validation: the reason is shown under the field, SAVE only when valid
+	var check := func(t: String):
+		var why := GameManager.validate_player_name(t)
+		hint.text = why if not why.is_empty() else "%d / 16" % t.strip_edges().length()
+		hint.add_theme_color_override("font_color", UIKit.EMBER if not why.is_empty() else UIKit.MUTED)
+		ok.disabled = not why.is_empty()
+	e.text_changed.connect(check)
+	check.call(e.text)
+	var save := func():
+		if ok.disabled:
+			return
+		GameManager.set_player_name(e.text)
+		UIManager.toast("Name saved.", "success")
+		p.close()
+		_build()
+	ok.pressed.connect(save)
+	e.text_submitted.connect(func(_t): save.call())
+	p.default_action = save
+	e.grab_focus.call_deferred()
