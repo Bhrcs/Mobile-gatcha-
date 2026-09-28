@@ -9,7 +9,7 @@ music in this project were created from scratch for Cinderbound (procedurally, b
 
 ## Play it
 
-**Windows (no install, no Godot needed):** unzip `build/Cinderbound_Phase5_Windows.zip` (built locally, not committed to git) and double-click `Cinderbound.exe`
+**Windows (no install, no Godot needed):** unzip `releases/Cinderbound_Phase5_Windows.zip` and double-click `Cinderbound.exe`
 (the zip also holds `HOW-TO-PLAY.txt`, `CHANGELOG.txt` and `UI-GUIDE.md`).
 It is a single self-contained file (engine + game data embedded) and can be moved anywhere.
 Windows SmartScreen may warn because the exe is unsigned — choose *More info → Run anyway*.
@@ -34,11 +34,11 @@ maximise; the layout keeps its width and grows taller on longer phones.
 Screens: title → starter select → story → Home (squad at camp, QUEST, UNITS / SQUAD / SUMMON / TOWER / ITEMS /
 MISSIONS tiles with locks + notification markers; bottom nav: Home / Units / Quest / Summon / Menu) → Quest map with
 world tabs → stage sheet → PREPARE → battle (AUTO, 1x/2x). Menu: Squad, Items, Missions, Codex, Towers, Profile,
-Settings, title. Features unlock gradually in World 1 (see `build/package/HOW-TO-PLAY.txt`).
+Settings, title. Features unlock gradually in World 1 (see `docs/player/HOW-TO-PLAY.txt`).
 
 ## Phase 5 (v0.5) — complete UI / UX pass
 * Design system: text roles, spacing scale, semantic buttons, theme, tooltips, toasts, one confirmation dialog
-  (`scripts/ui/ui_kit.gd`, `scripts/core/ui_manager.gd`). Rules: `build/package/UI-GUIDE.md`.
+  (`scripts/ui/ui_kit.gd`, `scripts/core/ui_manager.gd`). Rules: `docs/player/UI-GUIDE.md`.
 * Navigation history + transitions (`scripts/core/scene_router.gd`), bottom nav HOME / QUEST / UNITS / SUMMON / MENU,
   consistent BACK / "?" header, Esc / Enter on PC.
 * New screens: Quest hub (world select), Menu, Settings (tabs), Help & Guide (element chart), Training.
@@ -60,7 +60,7 @@ Settings, title. Features unlock gradually in World 1 (see `build/package/HOW-TO
   stars, possible drops, first-clear gems.
 * Energy (offline regen), Rank-up rewards, daily / weekly missions + chest, 7-day login, inventory tabs, Profile.
 * Save v2 with migration (`scripts/save/save_manager.gd`) — old saves keep all progress.
-* Data reference: `build/package/CONTENT-GUIDE.md`. Content generator: `tools/make_content.py`.
+* Data reference: `docs/player/CONTENT-GUIDE.md`. Content generator: `tools/make_content.py`.
 * Tests: `tests/run_tests.sh` (2,061 rule checks, click-through flows incl. the full Phase 4 loop, balance sim).
   Visual probe for UI review: `tests/screen_probe.tscn`. Packaging: `tools/pack_zip.py` (zopfli, keeps the zip < 30 MiB).
 
@@ -74,7 +74,7 @@ Settings, title. Features unlock gradually in World 1 (see `build/package/HOW-TO
 * Impact: particles, impact flash, hit-stop, tiered shake, typed damage numbers (CRITICAL / ADVANTAGE / RESIST /
   heal / burn / FINISH), per-hero Burst cut-ins and effects, boss entrance, guard / special animations.
 * Portrait adventure map (`tools/route_map.py`, `route_pos` in stage data), sequenced victory screen, squad editor,
-  coach-mark tutorial, ember-dissolve battle transitions, new UI sounds. Full list: `build/package/CHANGELOG.txt`.
+  coach-mark tutorial, ember-dissolve battle transitions, new UI sounds. Full list: `docs/player/CHANGELOG.txt`.
 
 ---
 
@@ -126,6 +126,8 @@ scripts/
   ui/          ui_kit (theme + widgets)  battle_hud  party_card  battle_result  one script per screen
 tests/       logic_tests, ui_flow (clicks through the real UI), balance_sim, run_tests.sh
 tools/       Python generators for all art, the font and all audio (ignored by Godot)
+docs/        player/ (how to play, changelog, UI + content guides)  dev/ (phase plans and prompts)
+releases/    ready-to-play Windows zips
 ```
 Rules (`BattleModel`) never touch nodes, and visuals (`SkillExecutor`, views) never decide outcomes — the
 same model powers the game, the tests and the balance simulator.

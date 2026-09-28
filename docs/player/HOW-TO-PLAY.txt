@@ -1,0 +1,179 @@
+CINDERBOUND - HOW TO PLAY  (v0.5.0)
+===================================
+
+START
+  Double-click Cinderbound.exe. No install, no Godot, no extra files needed.
+  Windows SmartScreen may warn because the file is unsigned:
+  choose "More info" -> "Run anyway".
+  The game opens in a tall phone-shaped window. Resize or maximise it freely;
+  the layout scales and stays sharp.
+  Your old save loads automatically - nothing is lost (see SAVES).
+
+THE LOOP
+  Clear stages -> earn EXP, Gold, materials, Wisps and Gems -> train and evolve
+  your heroes -> summon new heroes -> climb the towers -> push into new regions.
+  Nothing can be bought with real money; everything is earned by playing.
+
+GETTING AROUND
+  Bottom bar: HOME - QUEST - UNITS - SUMMON - MENU.
+  BACK (top left) always returns to the screen you came from, even after long
+  detours (Units -> Details -> Evolution -> Where to find -> Tower -> BACK takes
+  you straight back to Evolution). The "?" (top right) opens Help & Guide.
+  PC keys: Esc = close a popup / go back (pause in battle), Enter = confirm.
+  Hover (PC) or tap and hold (touch) icons, currencies and rewards for details.
+
+TOP BAR (every screen)
+  RANK + EXP bar (tap: PROFILE), ENERGY (current / max and the time to the next
+  point - tap for details), GEMS and GOLD. Big numbers are shortened
+  (12.4K, 1.3M); hover or hold for the exact value. Gains flash green, spending
+  flashes red.
+
+HOME
+  Your squad around the campfire (tap a hero, tap again for a reaction), the big
+  QUEST button, then UNITS and SUMMON, then TOWER, MISSIONS and SQUAD.
+  Locked buttons show a padlock and say which stage opens them. Red markers mean
+  something is waiting (a new hero, an evolution that is ready, rewards to claim).
+  First-time guides point at the next thing to try.
+
+MENU
+  Squad, Items, Missions, Towers, Codex, Profile, Settings, Help & Guide and the
+  title screen.
+
+FEATURES UNLOCK AS YOU PLAY
+  Clear 1-4   Auto Battle
+  Clear 1-5   Units and a 5-hero Squad (+ a new hero joins you)
+  Clear 1-6   Training (+ Wisps)
+  Clear 1-7   Elemental Towers
+  Clear 1-8   Evolution (+ Fragments)
+  Clear 1-9   Summoning at the Embergate (+ 150 Gems)
+  Clear 1-10  Missions and World 2: Saltglass Reach
+  Each new feature is introduced with a short popup the first time.
+
+QUEST
+  The QUEST tab shows every region as a card: completion %, stars, whether its
+  boss is defeated, or what opens it. The Elemental Towers card is here too.
+  On a region's map the stage markers tell you what to expect:
+    ring = new stage   diamond = elite foes   crest = boss
+    ring + check = cleared   gold ring + check = all 3 stars   padlock = locked
+  Tap a stage for its details: Energy cost, your Squad Power vs the recommended
+  power, the three STAR objectives, POSSIBLE DROPS (hover / hold for each item)
+  and the FIRST CLEAR reward. START opens PREPARE: your squad, the leader skill,
+  and your squad's elements against the foes' elements with one line of advice.
+  EDIT SQUAD if you like, then DEPART (this spends the Energy).
+  Squad Power and element advice never stop you - you can always depart.
+
+ENERGY
+  Stages cost 2-5 Energy, tower floors 5-9. You regain 1 Energy every 3 minutes,
+  also while the game is closed. Every Rank Up refills Energy completely, and Max
+  Energy grows as your Rank rises. If you are short, a popup shows how long to wait.
+
+BATTLE CONTROLS (touch or mouse)
+  Choose target     tap an enemy on the field or its plate at the top
+  Attack            TAP a hero card
+  Burst             SWIPE UP on a hero card when its Burst gauge says READY
+  Guard             SWIPE DOWN on a hero card (half damage until your next turn)
+  AUTO              heroes act on their own (Burst when useful, Guard against
+                    charged attacks). While AUTO is on, a glowing AUTO BATTLE plate
+                    sits above the cards - tap it (or AUTO) to take over.
+  1x / 2x           battle speed. Settings -> default speed / start on AUTO.
+  MENU / Esc        pause: RESUME, ELEMENTS (the element chart), SETTINGS, RETREAT.
+  Keyboard: A attack, B Burst, G guard, Tab / Left / Right change target, 1-5 hero.
+
+BATTLE BASICS
+  Elements: Fire beats Nature, Nature beats Water, Water beats Fire (+25% / -25%).
+  Elements are shown by symbol (flame, drop, leaf) as well as colour.
+  Statuses: Burn and Poison hurt each turn; Regen heals; ATK/DEF/REC Up and Down;
+  Shields absorb damage; Provoke draws attacks. Hover or tap an icon to read it.
+  Enemy roles: attackers, healers (defeat them first), tanks with shells, buffers,
+  debuffers, and chargers. ELITE enemies wear a gold frame and know an extra trick.
+  DANGER - GUARD!: the foe is charging a devastating attack - Guard, heal or
+  finish it first. Boss plates show PHASE 1/2 and a mark on the HP bar where the
+  boss changes phase.
+  STARS: each stage has 3 objectives (clear it, no hero defeated, a turn limit or
+  Burst count). Your best result per objective is kept.
+
+RESULTS
+  Victory reveals stars, EXP (heroes can gain several levels at once), Gold,
+  items and first-clear rewards. Tap anywhere or SKIP to fast-forward; Enter
+  continues. Defeat gives one tip for that fight and RETRY / EDIT SQUAD /
+  STAGE SELECT.
+
+HEROES
+  12 heroes, 4 per element, rarity 3 to 5 stars. Each has a role, stats (HP, ATK,
+  DEF, REC), a normal attack, a Burst, a Passive and a Leader Skill (works when the
+  hero leads the squad - e.g. Kael: Fire allies +8% ATK).
+  UNITS: quick element buttons plus FILTER & SORT (element, rarity, role, can
+         evolve, favourites; sort by recent, level, rarity, power, HP, ATK, DEF,
+         REC, name or element, high or low first). Your choice is remembered.
+         Every card shows the same markers in the same places: squad/leader top
+         left, NEW / EVOLVE / MAX top right, lock and favourite bottom left,
+         rarity stars bottom right. CODEX shows every hero you have met.
+  DETAILS: VIEW (full-size hero with animations), stats (the hero's best stat is
+         marked), skills with short facts (targets, % ATK, hits, effects),
+         passive, leader skill, Burst level, evolution path, LOCK / FAV, TRAIN,
+         EVOLVE, SQUAD.
+  Level caps: 3-star 15, 4-star 25, 5-star 35.
+
+TRAINING
+  TRAIN opens the Training screen: each Wisp card has -1 / +1 / +5 / MAX
+  (Ember / Tide / Verdant give +50% to heroes of their element, Radiant Wisps work
+  for everyone). The preview shows Lv now -> new Lv, the EXP bar, stat gains and
+  the Gold cost before you confirm; nothing is spent until you press TRAIN.
+  AUTO picks same-element Wisps first. Heroes also gain EXP from every won battle.
+
+BURST LEVELS (1-5)
+  +1 Burst EXP each time a hero uses Burst in a won battle, or train it with a
+  Spark Sigil or 20 Soul Shards. Every Burst improves differently (more damage,
+  stronger heals or shields, longer buffs, lower gauge cost...).
+
+EVOLUTION
+  At max level, EVOLVE shows the current form -> next form, the stat changes,
+  the materials (owned / needed) and the Gold cost. WHERE TO FIND lists every
+  stage, tower floor, mission or login day that gives a material, with GO buttons;
+  BACK brings you right back to the evolution screen. One confirmation shows
+  exactly what will be used, then EVOLUTION COMPLETE sums up what changed.
+  The hero restarts at Lv.1 with a higher cap and keeps its Burst level.
+  Evolution never needs duplicate heroes.
+
+SUMMONING - THE EMBERGATE
+  1 summon = 100 Gems, 10 summons = 1000 Gems (the cost is on each button).
+  Rates: 3-star 75%, 4-star 22%, 5-star 3% (DETAILS lists every hero's chance).
+  A hero you already own (any form) is marked DUPLICATE and becomes Soul Shards
+  instead: 10 / 30 / 100. Tap any result to inspect it; NEW heroes can be added to
+  the squad straight away. SKIP appears once you have watched your first summon.
+  Results are saved before the animation plays.
+  Gems: first clears, rank milestones (every 5 ranks), missions and login rewards.
+
+TOWERS
+  Ember, Tide and Verdant Tower, 10 floors each, climbed floor by floor along the
+  tower's own path. Floors get harder and cost more Energy; floors 5 and 10 hold a
+  guardian boss. Each tower is the best place to farm its element's Fragments,
+  Cores and Crystals; floor 10 gives a Prism Shard (needed for 5-star evolutions).
+
+MISSIONS & LOGIN
+  Five daily missions (claim 4 to open the Daily Chest) and weekly missions, each
+  with a progress bar. CLAIM ALL collects everything that is finished at once.
+  The 7-day login calendar never resets - claimed days are ticked, a missed day
+  simply continues where you left off.
+
+ITEMS
+  Tabs: MATERIALS, TRAINING, ITEMS, OTHER (Gems, Gold, Soul Shards, Energy).
+  Tap an item: the panel below shows what it does, WHERE TO FIND, and USE for
+  items you can use from here (Wisps -> pick a hero to train).
+
+SETTINGS (MENU -> SETTINGS, also on the title screen and in the battle pause menu)
+  AUDIO     Master / Music / Effects volume.
+  GAMEPLAY  Default battle speed, start battles on AUTO, damage numbers,
+            reset tutorial tips (vibration on phones).
+  GRAPHICS  Fullscreen, screen shake, battle effects, reduce motion (no sliding
+            menus), screen margins (extra space for notches / rounded corners).
+  ACCOUNT   Name and profile, save info, title screen, version.
+
+HELP & GUIDE
+  MENU -> HELP, or the "?" on a screen: Basics, Battle, Elements (chart),
+  Heroes and Progress in short entries.
+
+SAVES
+  Automatic. Stored in %APPDATA%\Godot\app_userdata\Cinderbound\
+  (cinderbound_save.json + .bak backup, cinderbound_settings.json for settings).
+  Saves from v0.1-v0.4 load with all progress kept.

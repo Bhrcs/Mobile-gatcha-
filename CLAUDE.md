@@ -6,12 +6,16 @@ Brave Frontier assets, frames, fonts, icons or exact menu structure).
 Built in **Godot 4.3 (GDScript)**, gl_compatibility renderer. All art, audio and the pixel font are
 generated from scratch by the Python scripts in `tools/`.
 
+## Working style
+- Owner wants ponytail (minimal / lazy-senior-dev) mode on everything to save credits: smallest working
+  diff, short replies.
+
 ## Current status
 
 - Phases 1–4 are complete and shipped (last package: `Cinderbound_Phase4_Windows.zip`, v0.4.0).
 - Phase 5 (UI/UX pass, v0.5.0) is complete on branch `phase5-ui-ux`: package
-  `build/Cinderbound_Phase5_Windows.zip` (not committed), rules in `build/package/UI-GUIDE.md`,
-  changes in `build/package/CHANGELOG.txt`, requirements in `docs/PHASE5_PROMPT.md`.
+  `releases/Cinderbound_Phase5_Windows.zip`, rules in `docs/player/UI-GUIDE.md`,
+  changes in `docs/player/CHANGELOG.txt`, requirements in `docs/dev/PHASE5_PROMPT.md`.
 - Zip budget is tight (≈12 KB under 30 MiB with `ZOPFLI_ITER=5`); new assets need space found first.
 
 ## Architecture
