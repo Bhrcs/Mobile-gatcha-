@@ -9,7 +9,7 @@ music in this project were created from scratch for Cinderbound (procedurally, b
 
 ## Play it
 
-**Windows (no install, no Godot needed):** unzip `build/Cinderbound_Phase5_Windows.zip` (attached to the GitHub release, not committed) and double-click `Cinderbound.exe`
+**Windows (no install, no Godot needed):** unzip `build/Cinderbound_Phase5_Windows.zip` (built locally, not committed to git) and double-click `Cinderbound.exe`
 (the zip also holds `HOW-TO-PLAY.txt`, `CHANGELOG.txt` and `UI-GUIDE.md`).
 It is a single self-contained file (engine + game data embedded) and can be moved anywhere.
 Windows SmartScreen may warn because the exe is unsigned — choose *More info → Run anyway*.
