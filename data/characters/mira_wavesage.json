@@ -1,0 +1,66 @@
+{
+ "id": "mira_wavesage",
+ "family": "mira",
+ "name": "Mira Wavesage",
+ "element": "water",
+ "role": "Healer",
+ "class": "HEALER",
+ "rarity": 5,
+ "form_index": 2,
+ "forms": [
+  "mira_tidesong",
+  "mira_tidecaller",
+  "mira_wavesage"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 35,
+ "experience": 0,
+ "base_stats": {
+  "hp": 1820,
+  "atk": 260,
+  "def": 243,
+  "rec": 399,
+  "spd": 90
+ },
+ "growth": {
+  "hp": 33,
+  "atk": 5,
+  "def": 5,
+  "rec": 7,
+  "spd": 0
+ },
+ "normal_attack": "tidal_bolt",
+ "burst": "wavesong_renewal",
+ "passive": {
+  "name": "Flowing Grace",
+  "description": "Healing received by allies +15%.",
+  "effects": [
+   {
+    "kind": "heal_received_up",
+    "value": 0.15,
+    "scope": "allies"
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Tidal Blessing",
+  "description": "All allies gain +12% REC.",
+  "effects": [
+   {
+    "stat": "rec",
+    "value": 0.12
+   }
+  ]
+ },
+ "evolution": null,
+ "sprite": {
+  "sheet": "res://assets/characters/mira_wavesage/mira_wavesage_sheet.png",
+  "meta": "res://assets/characters/mira_wavesage/mira_wavesage_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/mira_wavesage/mira_wavesage_portrait.png",
+ "weapon": "Crystal staff",
+ "description": "A wandering water mage. Keeps allies standing with tides of healing.",
+ "lore": "Mira follows the rivers from spring to sea, mending whoever she finds along the way. She says water remembers everyone it has touched."
+}

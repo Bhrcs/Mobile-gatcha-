@@ -1,0 +1,36 @@
+{
+ "id": "emberwisp",
+ "name": "Emberwisp",
+ "element": "fire",
+ "role": "buffer",
+ "type": "Spirit",
+ "base_stats": {
+  "hp": 170,
+  "atk": 42,
+  "def": 18,
+  "spd": 70
+ },
+ "skills": {
+  "normal": "wisp_flick",
+  "special": "kindle"
+ },
+ "ai": {
+  "profile": "buffer",
+  "skill_chance": 0.15,
+  "targeting": "random"
+ },
+ "rewards": {
+  "xp": 15,
+  "gold": [
+   7,
+   13
+  ]
+ },
+ "drop_table": "fire_uncommon",
+ "sprite": {
+  "sheet": "res://assets/enemies/emberwisp/emberwisp_sheet.png",
+  "meta": "res://assets/enemies/emberwisp/emberwisp_sheet.json",
+  "scale": 8
+ },
+ "description": "A floating flame that fans its allies into a frenzy."
+}

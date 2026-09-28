@@ -1,0 +1,42 @@
+{
+ "id": "elite_scorch_beetle",
+ "name": "Elite Scorch Beetle",
+ "element": "fire",
+ "role": "burst",
+ "type": "Insect",
+ "base_stats": {
+  "hp": 468,
+  "atk": 65,
+  "def": 58,
+  "spd": 33
+ },
+ "skills": {
+  "normal": "horn_jab",
+  "special": "scorch_charge",
+  "extra": "flare_up"
+ },
+ "ai": {
+  "profile": "charger",
+  "skill_chance": 0.0,
+  "targeting": "random",
+  "charge_every": 3,
+  "extra_every": 3
+ },
+ "rewards": {
+  "xp": 51,
+  "gold": [
+   24,
+   45
+  ]
+ },
+ "drop_table": "fire_elite",
+ "sprite": {
+  "sheet": "res://assets/enemies/scorch_beetle/scorch_beetle_sheet.png",
+  "meta": "res://assets/enemies/scorch_beetle/scorch_beetle_sheet.json",
+  "scale": 8
+ },
+ "description": "An elite, battle-hardened scorch beetle. Stronger, and it knows one extra trick.",
+ "elite": true,
+ "tint": "#ffd060",
+ "variant_of": "scorch_beetle"
+}

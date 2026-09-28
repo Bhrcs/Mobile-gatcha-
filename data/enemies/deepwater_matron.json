@@ -1,0 +1,52 @@
+{
+ "id": "deepwater_matron",
+ "name": "Deepwater Matron",
+ "element": "water",
+ "role": "boss",
+ "type": "Tower Guardian",
+ "base_stats": {
+  "hp": 950,
+  "atk": 55,
+  "def": 55,
+  "spd": 45
+ },
+ "skills": {
+  "normal": "jelly_sting",
+  "special": "maelstrom"
+ },
+ "ai": {
+  "profile": "boss",
+  "skill_chance": 0.0,
+  "targeting": "random",
+  "pattern": [
+   "normal",
+   "heal",
+   "charge"
+  ],
+  "heal": "tidal_glow",
+  "summon": {
+   "enemy": "tide_slime",
+   "level_offset": -3,
+   "every": 3,
+   "count": 1,
+   "max": 2
+  }
+ },
+ "rewards": {
+  "xp": 120,
+  "gold": [
+   120,
+   180
+  ]
+ },
+ "drop_table": "water_boss",
+ "sprite": {
+  "sheet": "res://assets/enemies/drift_jelly/drift_jelly_sheet.png",
+  "meta": "res://assets/enemies/drift_jelly/drift_jelly_sheet.json",
+  "scale": 11
+ },
+ "description": "A guardian of the Tide Tower, grown huge on the tower's power.",
+ "boss": true,
+ "tint": "#9ad0ff",
+ "variant_of": "drift_jelly"
+}

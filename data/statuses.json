@@ -1,0 +1,110 @@
+{
+ "burn": {
+  "name": "Burn",
+  "negative": true,
+  "kind": "dot",
+  "dot_percent_max_hp": 0.05,
+  "icon": "res://assets/icons/status_burn.png",
+  "color": "#ff7a2a",
+  "desc": "Loses 5% max HP at the end of each turn."
+ },
+ "poison": {
+  "name": "Poison",
+  "negative": true,
+  "kind": "dot",
+  "dot_percent_max_hp": 0.04,
+  "icon": "res://assets/icons/status_poison.png",
+  "color": "#b06ae0",
+  "desc": "Loses 4% max HP at the end of each turn."
+ },
+ "regen": {
+  "name": "Regen",
+  "negative": false,
+  "kind": "hot",
+  "icon": "res://assets/icons/status_regen.png",
+  "color": "#8ae05a",
+  "desc": "Recovers HP at the end of each turn."
+ },
+ "def_up": {
+  "name": "DEF Up",
+  "negative": false,
+  "kind": "stat_mod",
+  "stat": "def",
+  "sign": 1,
+  "icon": "res://assets/icons/status_def_up.png",
+  "color": "#7ae05a",
+  "desc": "DEF is raised."
+ },
+ "atk_up": {
+  "name": "ATK Up",
+  "negative": false,
+  "kind": "stat_mod",
+  "stat": "atk",
+  "sign": 1,
+  "icon": "res://assets/icons/status_atk_up.png",
+  "color": "#ffb04a",
+  "desc": "ATK is raised."
+ },
+ "rec_up": {
+  "name": "REC Up",
+  "negative": false,
+  "kind": "stat_mod",
+  "stat": "rec",
+  "sign": 1,
+  "icon": "res://assets/icons/status_rec_up.png",
+  "color": "#ff8ab0",
+  "desc": "REC (healing power) is raised."
+ },
+ "atk_down": {
+  "name": "ATK Down",
+  "negative": true,
+  "kind": "stat_mod",
+  "stat": "atk",
+  "sign": -1,
+  "icon": "res://assets/icons/status_atk_down.png",
+  "color": "#d06a6a",
+  "desc": "ATK is lowered."
+ },
+ "def_down": {
+  "name": "DEF Down",
+  "negative": true,
+  "kind": "stat_mod",
+  "stat": "def",
+  "sign": -1,
+  "icon": "res://assets/icons/status_def_down.png",
+  "color": "#d0a06a",
+  "desc": "DEF is lowered."
+ },
+ "shield": {
+  "name": "Shield",
+  "negative": false,
+  "kind": "shield",
+  "icon": "res://assets/icons/status_shield.png",
+  "color": "#8ad8ff",
+  "desc": "Absorbs damage until broken."
+ },
+ "damage_reduction": {
+  "name": "Bastion",
+  "negative": false,
+  "kind": "damage_reduction",
+  "icon": "res://assets/icons/status_guard_wall.png",
+  "color": "#c8a878",
+  "desc": "Takes less damage."
+ },
+ "taunt": {
+  "name": "Provoke",
+  "negative": false,
+  "kind": "taunt",
+  "icon": "res://assets/icons/status_taunt.png",
+  "color": "#ff5a4a",
+  "desc": "Draws enemy attacks."
+ },
+ "charging": {
+  "name": "Charging",
+  "negative": false,
+  "kind": "charge",
+  "icon": "res://assets/icons/status_charge.png",
+  "color": "#ffe04a",
+  "desc": "Gathering power for a devastating attack next turn!"
+ }
+}

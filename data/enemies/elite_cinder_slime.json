@@ -1,0 +1,41 @@
+{
+ "id": "elite_cinder_slime",
+ "name": "Elite Cinder Slime",
+ "element": "fire",
+ "role": "attacker",
+ "type": "Slime",
+ "base_stats": {
+  "hp": 324,
+  "atk": 52,
+  "def": 26,
+  "spd": 38
+ },
+ "skills": {
+  "normal": "slime_tackle",
+  "special": "scorch_splash",
+  "extra": "flare_up"
+ },
+ "ai": {
+  "profile": "attacker",
+  "skill_chance": 0.3,
+  "targeting": "random",
+  "extra_every": 3
+ },
+ "rewards": {
+  "xp": 36,
+  "gold": [
+   18,
+   36
+  ]
+ },
+ "drop_table": "fire_elite",
+ "sprite": {
+  "sheet": "res://assets/enemies/cinder_slime/cinder_slime_sheet.png",
+  "meta": "res://assets/enemies/cinder_slime/cinder_slime_sheet.json",
+  "scale": 8
+ },
+ "description": "An elite, battle-hardened cinder slime. Stronger, and it knows one extra trick.",
+ "elite": true,
+ "tint": "#ffd060",
+ "variant_of": "cinder_slime"
+}

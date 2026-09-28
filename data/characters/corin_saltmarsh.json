@@ -1,0 +1,74 @@
+{
+ "id": "corin_saltmarsh",
+ "family": "corin",
+ "name": "Corin Saltmarsh",
+ "element": "water",
+ "role": "Defender",
+ "class": "DEFENDER",
+ "rarity": 3,
+ "form_index": 0,
+ "forms": [
+  "corin_saltmarsh",
+  "corin_reefwarden",
+  "corin_tidebulwark"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 15,
+ "experience": 0,
+ "base_stats": {
+  "hp": 900,
+  "atk": 115,
+  "def": 150,
+  "rec": 75,
+  "spd": 65
+ },
+ "growth": {
+  "hp": 34,
+  "atk": 3,
+  "def": 5,
+  "rec": 2,
+  "spd": 0
+ },
+ "normal_attack": "trident_jab",
+ "burst": "tidal_bulwark",
+ "passive": {
+  "name": "Steady Keel",
+  "description": "Own DEF +10%.",
+  "effects": [
+   {
+    "kind": "stat_up",
+    "stat": "def",
+    "value": 0.1
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Harbor Line",
+  "description": "Water allies gain +8% DEF.",
+  "effects": [
+   {
+    "stat": "def",
+    "value": 0.08,
+    "element": "water"
+   }
+  ]
+ },
+ "evolution": {
+  "into": "corin_reefwarden",
+  "gold": 2500,
+  "materials": {
+   "tide_fragment": 5,
+   "current_core": 2
+  }
+ },
+ "sprite": {
+  "sheet": "res://assets/characters/corin_saltmarsh/corin_saltmarsh_sheet.png",
+  "meta": "res://assets/characters/corin_saltmarsh/corin_saltmarsh_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/corin_saltmarsh/corin_saltmarsh_portrait.png",
+ "weapon": "Trident & shell buckler",
+ "description": "A sturdy sailor-guard. Shields the whole squad and draws the enemy's fury.",
+ "lore": "A harbour guard from the salt-flats who has never abandoned a post. His buckler is a giant shell he pulled from a wreck with his bare hands."
+}

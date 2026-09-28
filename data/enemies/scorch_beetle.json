@@ -1,0 +1,37 @@
+{
+ "id": "scorch_beetle",
+ "name": "Scorch Beetle",
+ "element": "fire",
+ "role": "burst",
+ "type": "Insect",
+ "base_stats": {
+  "hp": 260,
+  "atk": 50,
+  "def": 45,
+  "spd": 30
+ },
+ "skills": {
+  "normal": "horn_jab",
+  "special": "scorch_charge"
+ },
+ "ai": {
+  "profile": "charger",
+  "skill_chance": 0.0,
+  "targeting": "random",
+  "charge_every": 3
+ },
+ "rewards": {
+  "xp": 17,
+  "gold": [
+   8,
+   15
+  ]
+ },
+ "drop_table": "fire_uncommon",
+ "sprite": {
+  "sheet": "res://assets/enemies/scorch_beetle/scorch_beetle_sheet.png",
+  "meta": "res://assets/enemies/scorch_beetle/scorch_beetle_sheet.json",
+  "scale": 8
+ },
+ "description": "A beetle that stokes the furnace in its shell before a devastating charge."
+}

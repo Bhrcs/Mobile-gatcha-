@@ -1,0 +1,69 @@
+{
+ "id": "kael_cinderlord",
+ "family": "kael",
+ "name": "Kael Cinderlord",
+ "element": "fire",
+ "role": "Attacker",
+ "class": "ATTACKER",
+ "rarity": 5,
+ "form_index": 2,
+ "forms": [
+  "kael_emberclaw",
+  "kael_blazeheart",
+  "kael_cinderlord"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 35,
+ "experience": 0,
+ "base_stats": {
+  "hp": 2088,
+  "atk": 393,
+  "def": 238,
+  "rec": 160,
+  "spd": 105
+ },
+ "growth": {
+  "hp": 39,
+  "atk": 7,
+  "def": 5,
+  "rec": 2,
+  "spd": 0
+ },
+ "normal_attack": "ember_slash",
+ "burst": "cinder_cataclysm",
+ "passive": {
+  "name": "Ember Rush",
+  "description": "ATK +15% while HP is above 70%.",
+  "effects": [
+   {
+    "kind": "stat_up",
+    "stat": "atk",
+    "value": 0.15,
+    "condition": "hp_above",
+    "threshold": 0.7
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Hearthfire Vanguard",
+  "description": "Fire allies gain +12% ATK.",
+  "effects": [
+   {
+    "stat": "atk",
+    "value": 0.12,
+    "element": "fire"
+   }
+  ]
+ },
+ "evolution": null,
+ "sprite": {
+  "sheet": "res://assets/characters/kael_cinderlord/kael_cinderlord_sheet.png",
+  "meta": "res://assets/characters/kael_cinderlord/kael_cinderlord_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/kael_cinderlord/kael_cinderlord_portrait.png",
+ "weapon": "Sword",
+ "description": "A young sellsword who fights up close. Hits hard and fast.",
+ "lore": "Kael grew up hauling coal in the smelting camps on the edge of the Wilds. When the embers under Ashroot began to stir, he traded his shovel for a blade forged from a cooled cinder."
+}

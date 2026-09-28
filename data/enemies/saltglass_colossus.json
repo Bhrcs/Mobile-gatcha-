@@ -1,0 +1,54 @@
+{
+ "id": "saltglass_colossus",
+ "name": "Saltglass Colossus",
+ "element": "water",
+ "role": "boss",
+ "type": "Colossus",
+ "base_stats": {
+  "hp": 1400,
+  "atk": 70,
+  "def": 70,
+  "spd": 50
+ },
+ "skills": {
+  "normal": "glass_club",
+  "special": "shatterstorm"
+ },
+ "ai": {
+  "profile": "boss",
+  "skill_chance": 0.0,
+  "targeting": "lowest_hp",
+  "pattern": [
+   "normal",
+   "curse",
+   "normal",
+   "charge"
+  ],
+  "curse": "brine_curse",
+  "phase2": {
+   "below": 0.5,
+   "atk_up": 0.3,
+   "pattern": [
+    "normal",
+    "charge"
+   ],
+   "announce": "The Colossus cracks - its core blazes!",
+   "skill": "glass_carapace"
+  }
+ },
+ "rewards": {
+  "xp": 150,
+  "gold": [
+   150,
+   220
+  ]
+ },
+ "drop_table": "water_boss",
+ "sprite": {
+  "sheet": "res://assets/enemies/saltglass_colossus/saltglass_colossus_sheet.png",
+  "meta": "res://assets/enemies/saltglass_colossus/saltglass_colossus_sheet.json",
+  "scale": 10
+ },
+ "description": "A giant of sea-worn stone and saltglass. When its shell breaks, its core burns.",
+ "boss": true
+}

@@ -1,0 +1,107 @@
+{
+ "basic_attack": {
+  "title": "First Steps",
+  "lines": [
+   "Tap your hero's card to attack the enemy with the target marker.",
+   "Every attack fills the BURST gauge. When the card glows, swipe up on it to unleash a Burst!"
+  ]
+ },
+ "targeting": {
+  "title": "Choosing a Target",
+  "lines": [
+   "Tap an enemy (or its plate at the top) to aim at it. The ember sigil marks your target.",
+   "Finish weakened foes first so fewer enemies can hit back."
+  ]
+ },
+ "elements": {
+  "title": "Elements",
+  "lines": [
+   "Fire beats Nature, Nature beats Water, Water beats Fire.",
+   "ADVANTAGE hits deal 125% damage. Hitting a resistant foe deals 75% and shows RESIST."
+  ]
+ },
+ "waves": {
+  "title": "Waves",
+  "lines": [
+   "Some stages have several waves. HP and Burst carry over between waves.",
+   "The wave counter at the top shows how many fights remain."
+  ]
+ },
+ "burst": {
+  "title": "Burst Timing",
+  "lines": [
+   "Burst energy is gained by attacking and by taking damage. It carries between waves.",
+   "Holding a full Burst for a tough wave can turn the fight around."
+  ]
+ },
+ "guard": {
+  "title": "Guard",
+  "lines": [
+   "Swipe DOWN on a hero card to Guard: half damage until your next turn, plus a little Burst.",
+   "Use it when an enemy is charging a big attack."
+  ]
+ },
+ "burn": {
+  "title": "Burn",
+  "lines": [
+   "Burning units lose 5% of their max HP at the end of every turn.",
+   "Mira's Restoring Current can wash away a Burn."
+  ]
+ },
+ "boss": {
+  "title": "Mini-Boss",
+  "lines": [
+   "The Ancient Bramble Pup calls its pack and hardens its bark when hurt.",
+   "Every few turns it CHARGES a rampage that hits the whole party - Guard when you see the warning!"
+  ]
+ },
+ "healers": {
+  "title": "Enemy Healers",
+  "lines": [
+   "Glowcaps mend their friends when they get hurt.",
+   "Defeat healers first, or their allies keep coming back."
+  ]
+ },
+ "buffs": {
+  "title": "Buffs",
+  "lines": [
+   "Emberwisps fan their allies' flames: +ATK for a few turns.",
+   "Watch the status icons on each enemy plate. Tap and hold an icon to read it."
+  ]
+ },
+ "debuffs": {
+  "title": "Debuffs",
+  "lines": [
+   "Hexmoths weaken your heroes with ATK Down and DEF Down.",
+   "Healers like Mira can wash negative statuses away."
+  ]
+ },
+ "elites": {
+  "title": "Elite Enemies",
+  "lines": [
+   "ELITE enemies wear a gold frame. They are tougher, know one extra trick",
+   "and drop better materials."
+  ]
+ },
+ "shields": {
+  "title": "Shields",
+  "lines": [
+   "Some enemies raise a Shield that absorbs damage before HP.",
+   "Break it with many hits - breakers and multi-hit heroes shine here."
+  ]
+ },
+ "charge": {
+  "title": "Charging Attacks",
+  "lines": [
+   "When an enemy shows the CHARGING warning, its next move is a devastating attack.",
+   "Guard, heal or finish it off before it strikes!"
+  ]
+ },
+ "boss2": {
+  "title": "The Saltglass Colossus",
+  "lines": [
+   "The Colossus curses your armour and targets your weakest hero.",
+   "Below half HP it cracks open and hits much harder. Save a Burst for that moment."
+  ]
+ }
+}

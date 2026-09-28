@@ -1,0 +1,1377 @@
+{
+ "_comment": "power = total ATK multiplier split across hits. level_bonus = per Burst level above 1.",
+ "ember_slash": {
+  "name": "Ember Slash",
+  "kind": "normal",
+  "description": "Rushes in and cuts twice. 100% ATK over 2 hits.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2,
+   4
+  ],
+  "hit_effect": "slash_ember",
+  "impact_effect": "hit_spark",
+  "sfx_hit": "sword"
+ },
+ "inferno_break": {
+  "name": "Inferno Break",
+  "kind": "burst",
+  "description": "Three rapid strikes and a heavy downward slash. 220% ATK over 6 hits, 20% chance to Burn.",
+  "target": "enemy_single",
+  "power": 2.2,
+  "hits": 6,
+  "motion": "melee",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.12,
+   "chance": 0.05
+  },
+  "hit_weights": [
+   1,
+   1,
+   1,
+   1.5,
+   1.5,
+   2
+  ],
+  "hit_frames": [
+   3,
+   5,
+   7,
+   9,
+   9,
+   9
+  ],
+  "burst_fx": "ember_rush",
+  "hit_effect": "slash_ember",
+  "final_effect": "slash_heavy",
+  "impact_effect": "hit_fire",
+  "sfx_hit": "sword",
+  "shake": 1.0,
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.2,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ },
+ "inferno_break_ii": {
+  "name": "Inferno Break II",
+  "kind": "burst",
+  "description": "A hotter Inferno Break. 270% ATK over 6 hits, 35% chance to Burn.",
+  "target": "enemy_single",
+  "power": 2.7,
+  "hits": 6,
+  "motion": "melee",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.14,
+   "chance": 0.05
+  },
+  "hit_weights": [
+   1,
+   1,
+   1,
+   1.5,
+   1.5,
+   2.2
+  ],
+  "hit_frames": [
+   3,
+   5,
+   7,
+   9,
+   9,
+   9
+  ],
+  "burst_fx": "ember_rush",
+  "hit_effect": "slash_ember",
+  "final_effect": "slash_heavy",
+  "impact_effect": "hit_fire",
+  "sfx_hit": "sword",
+  "shake": 1.0,
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.35,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ },
+ "cinder_cataclysm": {
+  "name": "Cinder Cataclysm",
+  "kind": "burst",
+  "description": "Kael's finishing art: 340% ATK over 6 hits, 50% Burn, and his ATK rises 20% for 2 turns.",
+  "target": "enemy_single",
+  "power": 3.4,
+  "hits": 6,
+  "motion": "melee",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.16,
+   "value": 0.03
+  },
+  "hit_weights": [
+   1,
+   1,
+   1,
+   1.5,
+   1.5,
+   2.6
+  ],
+  "hit_frames": [
+   3,
+   5,
+   7,
+   9,
+   9,
+   9
+  ],
+  "burst_fx": "ember_rush",
+  "hit_effect": "slash_ember",
+  "final_effect": "slash_heavy",
+  "impact_effect": "hit_fire",
+  "sfx_hit": "sword",
+  "shake": 1.2,
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.5,
+    "duration": 3,
+    "on": "target"
+   },
+   {
+    "type": "status",
+    "status": "atk_up",
+    "value": 0.2,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "lantern_spark": {
+  "name": "Lantern Spark",
+  "kind": "normal",
+  "description": "Flicks a spark from her lantern. 90% ATK over 2 hits.",
+  "target": "enemy_single",
+  "power": 0.9,
+  "hits": 2,
+  "motion": "ranged",
+  "anim": "attack",
+  "release_frame": 3,
+  "projectile": "ember_bolt",
+  "impact_effect": "hit_fire",
+  "sfx_cast": "fire",
+  "sfx_hit": "fire"
+ },
+ "hearthlight_hymn": {
+  "name": "Hearthlight Hymn",
+  "kind": "burst",
+  "description": "All allies gain +20% ATK for 3 turns and recover 10% max HP.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "value": 0.03,
+   "heal": 0.02
+  },
+  "release_frame": 5,
+  "field_effect": "buff_rise",
+  "sfx_cast": "fire",
+  "burst_fx": "hearth_hymn",
+  "effects": [
+   {
+    "type": "status",
+    "status": "atk_up",
+    "value": 0.2,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "heal",
+    "percent_max_hp": 0.1,
+    "rec_multiplier": 0.3,
+    "on": "allies"
+   }
+  ]
+ },
+ "hearthlight_hymn_ii": {
+  "name": "Hearthlight Hymn II",
+  "kind": "burst",
+  "description": "All allies gain +25% ATK for 3 turns, recover 12% max HP and gain 10 Burst.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "value": 0.03,
+   "burst": 3
+  },
+  "release_frame": 5,
+  "field_effect": "buff_rise",
+  "sfx_cast": "fire",
+  "burst_fx": "hearth_hymn",
+  "effects": [
+   {
+    "type": "status",
+    "status": "atk_up",
+    "value": 0.25,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "heal",
+    "percent_max_hp": 0.12,
+    "rec_multiplier": 0.3,
+    "on": "allies"
+   },
+   {
+    "type": "burst",
+    "value": 10,
+    "on": "allies"
+   }
+  ]
+ },
+ "sunchoir_anthem": {
+  "name": "Sunchoir Anthem",
+  "kind": "burst",
+  "description": "All allies gain +30% ATK and +20% REC for 3 turns, recover 15% max HP and lose 1 negative status.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "value": 0.03,
+   "duration_at": [
+    4
+   ]
+  },
+  "release_frame": 5,
+  "field_effect": "buff_rise",
+  "sfx_cast": "fire",
+  "burst_fx": "hearth_hymn",
+  "effects": [
+   {
+    "type": "status",
+    "status": "atk_up",
+    "value": 0.3,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "rec_up",
+    "value": 0.2,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "heal",
+    "percent_max_hp": 0.15,
+    "rec_multiplier": 0.4,
+    "on": "allies"
+   },
+   {
+    "type": "cleanse",
+    "count": 1,
+    "on": "allies"
+   }
+  ]
+ },
+ "ash_cleave": {
+  "name": "Ash Cleave",
+  "kind": "normal",
+  "description": "Two heavy chops. 110% ATK over 2 hits, 30% chance to lower DEF by 15%.",
+  "target": "enemy_single",
+  "power": 1.1,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   3,
+   5
+  ],
+  "hit_effect": "axe_cleave",
+  "impact_effect": "hit_fire",
+  "sfx_hit": "sword",
+  "shake": 0.3,
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_down",
+    "value": 0.15,
+    "duration": 2,
+    "chance": 0.3,
+    "on": "target"
+   }
+  ]
+ },
+ "rending_quake": {
+  "name": "Rending Quake",
+  "kind": "burst",
+  "description": "Shatters one foe's guard. 260% ATK over 4 hits and lowers DEF by 30% for 3 turns.",
+  "target": "enemy_single",
+  "power": 2.6,
+  "hits": 4,
+  "motion": "melee",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.12,
+   "value": 0.03
+  },
+  "hit_frames": [
+   4,
+   5,
+   6,
+   6
+  ],
+  "hit_weights": [
+   1,
+   1,
+   1.5,
+   2
+  ],
+  "hit_effect": "axe_cleave",
+  "final_effect": "slash_heavy",
+  "impact_effect": "hit_fire",
+  "sfx_hit": "sword",
+  "shake": 1.0,
+  "burst_fx": "ember_rush",
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_down",
+    "value": 0.3,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "target"
+   }
+  ]
+ },
+ "magma_sunder": {
+  "name": "Magma Sunder",
+  "kind": "burst",
+  "description": "Splits the ground under every foe. 200% ATK to all over 4 hits and lowers their DEF by 30% for 3 turns.",
+  "target": "enemy_all",
+  "power": 2.0,
+  "hits": 4,
+  "motion": "melee",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.1,
+   "duration_at": [
+    5
+   ]
+  },
+  "hit_frames": [
+   4,
+   5,
+   6,
+   6
+  ],
+  "hit_weights": [
+   1,
+   1,
+   1.5,
+   2
+  ],
+  "hit_effect": "axe_cleave",
+  "final_effect": "slash_heavy",
+  "impact_effect": "hit_fire",
+  "sfx_hit": "sword",
+  "shake": 1.2,
+  "burst_fx": "ember_rush",
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_down",
+    "value": 0.3,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "target"
+   }
+  ]
+ },
+ "pyre_thrust": {
+  "name": "Pyre Thrust",
+  "kind": "normal",
+  "description": "Three blinding thrusts. 110% ATK over 3 hits.",
+  "target": "enemy_single",
+  "power": 1.1,
+  "hits": 3,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2,
+   4,
+   6
+  ],
+  "hit_effect": "spear_thrust",
+  "impact_effect": "hit_fire",
+  "sfx_hit": "sword"
+ },
+ "phoenix_lance": {
+  "name": "Phoenix Lance",
+  "kind": "burst",
+  "description": "Seven strikes that end in a burst of flame. 380% ATK over 7 hits, 50% chance to Burn.",
+  "target": "enemy_single",
+  "power": 3.8,
+  "hits": 7,
+  "motion": "melee",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.15,
+   "gauge": 4
+  },
+  "hit_frames": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   9
+  ],
+  "hit_weights": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1.5,
+   3
+  ],
+  "hit_effect": "spear_thrust",
+  "final_effect": "slash_heavy",
+  "impact_effect": "hit_fire",
+  "sfx_hit": "sword",
+  "shake": 1.2,
+  "burst_fx": "ember_rush",
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.5,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ },
+ "tidal_bolt": {
+  "name": "Tidal Bolt",
+  "kind": "normal",
+  "description": "Launches compressed water. 90% ATK over 3 hits.",
+  "target": "enemy_single",
+  "power": 0.9,
+  "hits": 3,
+  "motion": "ranged",
+  "anim": "attack",
+  "release_frame": 2,
+  "projectile": "water_bolt",
+  "impact_effect": "hit_water",
+  "sfx_cast": "water",
+  "sfx_hit": "water_hit"
+ },
+ "restoring_current": {
+  "name": "Restoring Current",
+  "kind": "burst",
+  "description": "Heals all allies for 25% max HP + REC, removes 1 negative status and grants +15% DEF for 3 turns.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "heal": 0.03
+  },
+  "release_frame": 6,
+  "field_effect": "heal_ring",
+  "sfx_cast": "water",
+  "burst_fx": "tide_ring",
+  "effects": [
+   {
+    "type": "heal",
+    "percent_max_hp": 0.25,
+    "rec_multiplier": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "cleanse",
+    "count": 1,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.15,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   }
+  ]
+ },
+ "restoring_current_ii": {
+  "name": "Restoring Current II",
+  "kind": "burst",
+  "description": "Heals all allies for 30% max HP + REC, removes 2 negative statuses and grants +20% DEF for 3 turns.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "heal": 0.03,
+   "gauge": 4
+  },
+  "release_frame": 6,
+  "field_effect": "heal_ring",
+  "sfx_cast": "water",
+  "burst_fx": "tide_ring",
+  "effects": [
+   {
+    "type": "heal",
+    "percent_max_hp": 0.3,
+    "rec_multiplier": 1.1,
+    "on": "allies"
+   },
+   {
+    "type": "cleanse",
+    "count": 2,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.2,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   }
+  ]
+ },
+ "wavesong_renewal": {
+  "name": "Wavesong Renewal",
+  "kind": "burst",
+  "description": "Heals all allies for 35% max HP + REC, cleanses all negative statuses, grants +20% DEF and Regen (5% per turn) for 3 turns.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "heal": 0.03,
+   "duration_at": [
+    4
+   ]
+  },
+  "release_frame": 6,
+  "field_effect": "heal_ring",
+  "sfx_cast": "water",
+  "burst_fx": "tide_ring",
+  "effects": [
+   {
+    "type": "heal",
+    "percent_max_hp": 0.35,
+    "rec_multiplier": 1.2,
+    "on": "allies"
+   },
+   {
+    "type": "cleanse",
+    "count": 9,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.2,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "regen",
+    "value": 0.05,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   }
+  ]
+ },
+ "trident_jab": {
+  "name": "Trident Jab",
+  "kind": "normal",
+  "description": "Two quick jabs. 95% ATK over 2 hits.",
+  "target": "enemy_single",
+  "power": 0.95,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2,
+   4
+  ],
+  "hit_effect": "spear_thrust",
+  "impact_effect": "hit_water",
+  "sfx_hit": "water_hit"
+ },
+ "tidal_bulwark": {
+  "name": "Tidal Bulwark",
+  "kind": "burst",
+  "description": "Every ally gains a Shield worth 15% of Corin's max HP for 3 turns; Corin draws enemy attacks for 2 turns.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "shield": 0.03
+  },
+  "release_frame": 5,
+  "field_effect": "shield_flash",
+  "sfx_cast": "guard",
+  "burst_fx": "bulwark",
+  "effects": [
+   {
+    "type": "shield",
+    "percent_caster_hp": 0.15,
+    "duration": 3,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "taunt",
+    "value": 1.0,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "tidal_bulwark_ii": {
+  "name": "Tidal Bulwark II",
+  "kind": "burst",
+  "description": "Shields worth 20% of Corin's max HP for every ally, +15% DEF for 3 turns; Corin draws enemy attacks.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "shield": 0.03
+  },
+  "release_frame": 5,
+  "field_effect": "shield_flash",
+  "sfx_cast": "guard",
+  "burst_fx": "bulwark",
+  "effects": [
+   {
+    "type": "shield",
+    "percent_caster_hp": 0.2,
+    "duration": 3,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.15,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "taunt",
+    "value": 1.0,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "reef_aegis": {
+  "name": "Reef Aegis",
+  "kind": "burst",
+  "description": "Shields worth 25% of Corin's max HP for every ally, +25% DEF for 3 turns, Corin takes 30% less damage and draws enemy attacks.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "shield": 0.03,
+   "gauge": 4
+  },
+  "release_frame": 5,
+  "field_effect": "shield_flash",
+  "sfx_cast": "guard",
+  "burst_fx": "bulwark",
+  "effects": [
+   {
+    "type": "shield",
+    "percent_caster_hp": 0.25,
+    "duration": 3,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.25,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "damage_reduction",
+    "value": 0.3,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   },
+   {
+    "type": "status",
+    "status": "taunt",
+    "value": 1.0,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "frost_flurry": {
+  "name": "Frost Flurry",
+  "kind": "normal",
+  "description": "Four quick cuts. 100% ATK over 4 hits.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 4,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2,
+   3,
+   4,
+   5
+  ],
+  "hit_effect": "dagger_flurry",
+  "impact_effect": "hit_water",
+  "sfx_hit": "sword"
+ },
+ "rimefang_waltz": {
+  "name": "Rimefang Waltz",
+  "kind": "burst",
+  "description": "Seven frozen cuts. 300% ATK over 7 hits and lowers the target's ATK by 20% for 3 turns.",
+  "target": "enemy_single",
+  "power": 3.0,
+  "hits": 7,
+  "motion": "melee",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.14,
+   "value": 0.02
+  },
+  "hit_frames": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9
+  ],
+  "hit_weights": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2.5
+  ],
+  "hit_effect": "dagger_flurry",
+  "final_effect": "slash_heavy",
+  "impact_effect": "hit_water",
+  "sfx_hit": "sword",
+  "shake": 0.8,
+  "burst_fx": "frost_waltz",
+  "effects": [
+   {
+    "type": "status",
+    "status": "atk_down",
+    "value": 0.2,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "target"
+   }
+  ]
+ },
+ "glacial_requiem": {
+  "name": "Glacial Requiem",
+  "kind": "burst",
+  "description": "Seven cuts of living ice. 380% ATK over 7 hits, lowers the target's ATK and DEF by 25% for 3 turns.",
+  "target": "enemy_single",
+  "power": 3.8,
+  "hits": 7,
+  "motion": "melee",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.15,
+   "gauge": 4
+  },
+  "hit_frames": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9
+  ],
+  "hit_weights": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   3
+  ],
+  "hit_effect": "dagger_flurry",
+  "final_effect": "slash_heavy",
+  "impact_effect": "hit_water",
+  "sfx_hit": "sword",
+  "shake": 1.0,
+  "burst_fx": "frost_waltz",
+  "effects": [
+   {
+    "type": "status",
+    "status": "atk_down",
+    "value": 0.25,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "target"
+   },
+   {
+    "type": "status",
+    "status": "def_down",
+    "value": 0.25,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "target"
+   }
+  ]
+ },
+ "glyph_bolt": {
+  "name": "Glyph Bolt",
+  "kind": "normal",
+  "description": "A spinning tide-glyph. 100% ATK over 2 hits.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 2,
+  "motion": "ranged",
+  "anim": "attack",
+  "release_frame": 3,
+  "projectile": "tide_orb",
+  "impact_effect": "hit_water",
+  "sfx_cast": "water",
+  "sfx_hit": "water_hit"
+ },
+ "deepvow_litany": {
+  "name": "Deepvow Litany",
+  "kind": "burst",
+  "description": "Every foe's ATK drops 25% for 3 turns; all allies gain +25% REC and recover 15% max HP.",
+  "target": "enemy_all",
+  "power": 0.6,
+  "hits": 1,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "value": 0.03,
+   "heal": 0.02
+  },
+  "release_frame": 6,
+  "field_effect": "hex_cloud",
+  "sfx_cast": "water",
+  "burst_fx": "litany",
+  "impact_effect": "hit_water",
+  "sfx_hit": "water_hit",
+  "effects": [
+   {
+    "type": "status",
+    "status": "atk_down",
+    "value": 0.25,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "foes"
+   },
+   {
+    "type": "status",
+    "status": "rec_up",
+    "value": 0.25,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "heal",
+    "percent_max_hp": 0.15,
+    "rec_multiplier": 0.5,
+    "on": "allies"
+   }
+  ]
+ },
+ "root_hammer": {
+  "name": "Root Hammer",
+  "kind": "normal",
+  "description": "A hammer swing then a shield bash. 95% ATK over 2 hits.",
+  "target": "enemy_single",
+  "power": 0.95,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2,
+   4
+  ],
+  "impact_effect": "hit_nature",
+  "sfx_hit": "nature",
+  "shake": 0.3
+ },
+ "ancient_bastion": {
+  "name": "Ancient Bastion",
+  "kind": "burst",
+  "description": "Roots rise around the party: all allies gain +30% DEF for 3 turns. Thorne takes 40% less damage for 2 turns and draws enemy attacks.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "value": 0.03,
+   "duration_at": [
+    4
+   ]
+  },
+  "release_frame": 4,
+  "field_effect": "roots",
+  "sfx_cast": "nature",
+  "shake": 0.6,
+  "burst_fx": "grove_bastion",
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.3,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "damage_reduction",
+    "value": 0.4,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   },
+   {
+    "type": "status",
+    "status": "taunt",
+    "value": 1.0,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "ancient_bastion_ii": {
+  "name": "Ancient Bastion II",
+  "kind": "burst",
+  "description": "All allies gain +35% DEF for 3 turns and a Shield worth 10% of Thorne's max HP. Thorne takes 45% less damage and draws enemy attacks.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "value": 0.03,
+   "shield": 0.02
+  },
+  "release_frame": 4,
+  "field_effect": "roots",
+  "sfx_cast": "nature",
+  "shake": 0.6,
+  "burst_fx": "grove_bastion",
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.35,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "shield",
+    "percent_caster_hp": 0.1,
+    "duration": 3,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "damage_reduction",
+    "value": 0.45,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   },
+   {
+    "type": "status",
+    "status": "taunt",
+    "value": 1.0,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "worldroot_citadel": {
+  "name": "Worldroot Citadel",
+  "kind": "burst",
+  "description": "The grove itself stands guard: +40% DEF and a Shield worth 15% of Thorne's max HP for all allies; Regen 4% for 3 turns; Thorne draws enemy attacks and takes 50% less damage.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "value": 0.03,
+   "gauge": 4
+  },
+  "release_frame": 4,
+  "field_effect": "roots",
+  "sfx_cast": "nature",
+  "shake": 0.8,
+  "burst_fx": "grove_bastion",
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.4,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "shield",
+    "percent_caster_hp": 0.15,
+    "duration": 3,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "regen",
+    "value": 0.04,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "damage_reduction",
+    "value": 0.5,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   },
+   {
+    "type": "status",
+    "status": "taunt",
+    "value": 1.0,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "briar_shot": {
+  "name": "Briar Shot",
+  "kind": "normal",
+  "description": "Two quick arrows. 95% ATK over 2 hits.",
+  "target": "enemy_single",
+  "power": 0.95,
+  "hits": 2,
+  "motion": "ranged",
+  "anim": "attack",
+  "release_frame": 4,
+  "projectile": "arrow",
+  "impact_effect": "hit_nature",
+  "sfx_cast": "sword",
+  "sfx_hit": "nature"
+ },
+ "thorn_volley": {
+  "name": "Thorn Volley",
+  "kind": "burst",
+  "description": "A rain of thorned arrows. 150% ATK to all foes over 3 hits.",
+  "target": "enemy_all",
+  "power": 1.5,
+  "hits": 3,
+  "motion": "ranged",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.1
+  },
+  "release_frame": 7,
+  "projectile": "arrow",
+  "impact_effect": "hit_nature",
+  "sfx_cast": "nature",
+  "sfx_hit": "nature",
+  "burst_fx": "volley"
+ },
+ "thorn_volley_ii": {
+  "name": "Thorn Volley II",
+  "kind": "burst",
+  "description": "180% ATK to all foes over 3 hits; 30% chance to Poison.",
+  "target": "enemy_all",
+  "power": 1.8,
+  "hits": 3,
+  "motion": "ranged",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.1,
+   "chance": 0.05
+  },
+  "release_frame": 7,
+  "projectile": "arrow",
+  "impact_effect": "hit_nature",
+  "sfx_cast": "nature",
+  "sfx_hit": "nature",
+  "burst_fx": "volley",
+  "effects": [
+   {
+    "type": "status",
+    "status": "poison",
+    "chance": 0.3,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ },
+ "galeleaf_tempest": {
+  "name": "Galeleaf Tempest",
+  "kind": "burst",
+  "description": "A storm of golden arrows: 230% ATK to all foes over 3 hits; 50% Poison; Wren's ATK +20% for 2 turns.",
+  "target": "enemy_all",
+  "power": 2.3,
+  "hits": 3,
+  "motion": "ranged",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.12,
+   "gauge": 4
+  },
+  "release_frame": 7,
+  "projectile": "arrow",
+  "impact_effect": "hit_nature",
+  "sfx_cast": "nature",
+  "sfx_hit": "nature",
+  "burst_fx": "volley",
+  "effects": [
+   {
+    "type": "status",
+    "status": "poison",
+    "chance": 0.5,
+    "duration": 3,
+    "on": "target"
+   },
+   {
+    "type": "status",
+    "status": "atk_up",
+    "value": 0.2,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "petal_dart": {
+  "name": "Petal Dart",
+  "kind": "normal",
+  "description": "A spinning petal. 85% ATK over 2 hits.",
+  "target": "enemy_single",
+  "power": 0.85,
+  "hits": 2,
+  "motion": "ranged",
+  "anim": "attack",
+  "release_frame": 3,
+  "projectile": "petal_bolt",
+  "impact_effect": "hit_nature",
+  "sfx_cast": "nature",
+  "sfx_hit": "nature"
+ },
+ "bloomsong": {
+  "name": "Bloomsong",
+  "kind": "burst",
+  "description": "Heals all allies for 22% max HP + REC and grants Regen (5% per turn) for 3 turns.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "heal": 0.03,
+   "value": 0.01
+  },
+  "release_frame": 5,
+  "field_effect": "petal_burst",
+  "sfx_cast": "heal",
+  "burst_fx": "bloom",
+  "effects": [
+   {
+    "type": "heal",
+    "percent_max_hp": 0.22,
+    "rec_multiplier": 0.9,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "regen",
+    "value": 0.05,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   }
+  ]
+ },
+ "everbloom_chorus": {
+  "name": "Everbloom Chorus",
+  "kind": "burst",
+  "description": "Heals all allies for 30% max HP + REC, Regen 7% for 3 turns and +15% REC.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "burst",
+  "level_bonus": {
+   "heal": 0.03,
+   "value": 0.01,
+   "gauge": 4
+  },
+  "release_frame": 5,
+  "field_effect": "petal_burst",
+  "sfx_cast": "heal",
+  "burst_fx": "bloom",
+  "effects": [
+   {
+    "type": "heal",
+    "percent_max_hp": 0.3,
+    "rec_multiplier": 1.1,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "regen",
+    "value": 0.07,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   },
+   {
+    "type": "status",
+    "status": "rec_up",
+    "value": 0.15,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "allies"
+   }
+  ]
+ },
+ "oakheart_smash": {
+  "name": "Oakheart Smash",
+  "kind": "normal",
+  "description": "Two earth-shaking blows. 110% ATK over 2 hits, 35% chance to lower DEF by 15%.",
+  "target": "enemy_single",
+  "power": 1.1,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   3,
+   4
+  ],
+  "impact_effect": "hit_nature",
+  "sfx_hit": "nature",
+  "shake": 0.4,
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_down",
+    "value": 0.15,
+    "duration": 2,
+    "chance": 0.35,
+    "on": "target"
+   }
+  ]
+ },
+ "grove_quake": {
+  "name": "Grove Quake",
+  "kind": "burst",
+  "description": "The whole field heaves: 220% ATK to all foes over 4 hits and lowers their DEF by 30% for 3 turns.",
+  "target": "enemy_all",
+  "power": 2.2,
+  "hits": 4,
+  "motion": "melee",
+  "anim": "burst",
+  "level_bonus": {
+   "power": 0.1,
+   "value": 0.03
+  },
+  "hit_frames": [
+   5,
+   6,
+   7,
+   7
+  ],
+  "hit_weights": [
+   1,
+   1,
+   1.5,
+   2.5
+  ],
+  "impact_effect": "hit_nature",
+  "final_effect": "slash_heavy",
+  "sfx_hit": "nature",
+  "shake": 1.3,
+  "burst_fx": "grove_bastion",
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_down",
+    "value": 0.3,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "target"
+   }
+  ]
+ }
+}

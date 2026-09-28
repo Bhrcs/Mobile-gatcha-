@@ -1,0 +1,41 @@
+{
+ "id": "elite_shellcrab",
+ "name": "Elite Shellcrab",
+ "element": "water",
+ "role": "tank",
+ "type": "Crustacean",
+ "base_stats": {
+  "hp": 576,
+  "atk": 44,
+  "def": 78,
+  "spd": 27
+ },
+ "skills": {
+  "normal": "pincer",
+  "special": "shell_up",
+  "extra": "tidal_mend"
+ },
+ "ai": {
+  "profile": "tank",
+  "skill_chance": 0.0,
+  "targeting": "random",
+  "extra_every": 3
+ },
+ "rewards": {
+  "xp": 48,
+  "gold": [
+   24,
+   42
+  ]
+ },
+ "drop_table": "water_elite",
+ "sprite": {
+  "sheet": "res://assets/enemies/shellcrab/shellcrab_sheet.png",
+  "meta": "res://assets/enemies/shellcrab/shellcrab_sheet.json",
+  "scale": 8
+ },
+ "description": "An elite, battle-hardened shellcrab. Stronger, and it knows one extra trick.",
+ "elite": true,
+ "tint": "#ffd060",
+ "variant_of": "shellcrab"
+}

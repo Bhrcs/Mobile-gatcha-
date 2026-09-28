@@ -1,0 +1,793 @@
+{
+ "id": "ashroot_wilds",
+ "name": "Ashroot Wilds",
+ "description": "Forest, stone and old ruins, scarred by fires that burn from below.",
+ "music": "world",
+ "stages": [
+  {
+   "id": "ashroot_01",
+   "number": 1,
+   "name": "First Steps",
+   "background": "bg_forest",
+   "map_pos": [
+    40,
+    225
+   ],
+   "recommended_level": 1,
+   "summary": "A lone creature blocks the trail.",
+   "hint": "basic_attack",
+   "waves": [
+    [
+     {
+      "enemy_by_leader_element": {
+       "fire": "cinder_slime",
+       "water": "tidefin",
+       "nature": "bramble_pup"
+      },
+      "level": 1,
+      "hp_scale": 3.0
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 45,
+    "gold": 40,
+    "first_clear_gold": 60
+   },
+   "unlocks": [
+    "ashroot_02"
+   ],
+   "route_pos": [
+    64,
+    420
+   ],
+   "energy": 2,
+   "recommended_power": 330,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 6,
+     "text": "Clear within 6 turns"
+    }
+   ],
+   "drops": [],
+   "first_clear": {
+    "gems": 5
+   },
+   "music": "battle"
+  },
+  {
+   "id": "ashroot_02",
+   "number": 2,
+   "name": "Into the Brush",
+   "background": "bg_forest",
+   "map_pos": [
+    80,
+    195
+   ],
+   "recommended_level": 2,
+   "summary": "Two beasts rustle in the undergrowth.",
+   "hint": "targeting",
+   "waves": [
+    [
+     {
+      "enemy": "cinder_slime",
+      "level": 1
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 1
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 140,
+    "gold": 50,
+    "first_clear_gold": 60
+   },
+   "unlocks": [
+    "ashroot_03"
+   ],
+   "route_pos": [
+    152,
+    398
+   ],
+   "energy": 2,
+   "recommended_power": 340,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 6,
+     "text": "Clear within 6 turns"
+    }
+   ],
+   "drops": [],
+   "first_clear": {
+    "gems": 5
+   },
+   "music": "battle"
+  },
+  {
+   "id": "ashroot_03",
+   "number": 3,
+   "name": "Elemental Trouble",
+   "background": "bg_forest",
+   "map_pos": [
+    115,
+    160
+   ],
+   "recommended_level": 3,
+   "summary": "Fire, water and nature - pick your targets wisely.",
+   "hint": "elements",
+   "waves": [
+    [
+     {
+      "enemy": "cinder_slime",
+      "level": 2
+     },
+     {
+      "enemy": "tidefin",
+      "level": 2
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 2
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 220,
+    "gold": 60,
+    "first_clear_gold": 80
+   },
+   "unlocks": [
+    "ashroot_04"
+   ],
+   "route_pos": [
+    206,
+    356
+   ],
+   "energy": 2,
+   "recommended_power": 350,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 8,
+     "text": "Clear within 8 turns"
+    }
+   ],
+   "drops": [],
+   "first_clear": {
+    "gems": 5
+   },
+   "music": "battle"
+  },
+  {
+   "id": "ashroot_04",
+   "number": 4,
+   "name": "Broken Trail",
+   "background": "bg_ruins",
+   "map_pos": [
+    150,
+    125
+   ],
+   "recommended_level": 4,
+   "summary": "Tougher creatures nest among the fallen stones.",
+   "hint": "waves",
+   "waves": [
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 3,
+      "hp_scale": 1.4
+     },
+     {
+      "enemy": "tidefin",
+      "level": 3,
+      "hp_scale": 1.4
+     }
+    ],
+    [
+     {
+      "enemy": "cinder_slime",
+      "level": 3,
+      "hp_scale": 1.4
+     },
+     {
+      "enemy": "cinder_slime",
+      "level": 3,
+      "hp_scale": 1.4
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 300,
+    "gold": 70,
+    "first_clear_gold": 80
+   },
+   "unlocks": [
+    "ashroot_05"
+   ],
+   "route_pos": [
+    128,
+    318
+   ],
+   "energy": 3,
+   "recommended_power": 430,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "burst",
+     "min": 1,
+     "text": "Use Burst"
+    }
+   ],
+   "drops": [
+    {
+     "item": "ember_fragment",
+     "chance": 0.15,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 5
+   },
+   "music": "battle"
+  },
+  {
+   "id": "ashroot_05",
+   "number": 5,
+   "name": "Old Crossing",
+   "background": "bg_ruins",
+   "map_pos": [
+    205,
+    95
+   ],
+   "recommended_level": 5,
+   "summary": "The river crossing is guarded. Save your Burst for the right moment.",
+   "hint": "burst",
+   "waves": [
+    [
+     {
+      "enemy": "tidefin",
+      "level": 4
+     },
+     {
+      "enemy": "tidefin",
+      "level": 4
+     }
+    ],
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 4
+     },
+     {
+      "enemy": "cinder_slime",
+      "level": 5
+     },
+     {
+      "enemy": "tidefin",
+      "level": 4
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 380,
+    "gold": 80,
+    "first_clear_gold": 100
+   },
+   "unlocks": [
+    "ashroot_06"
+   ],
+   "route_pos": [
+    56,
+    288
+   ],
+   "energy": 3,
+   "recommended_power": 520,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 12,
+     "text": "Clear within 12 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "tide_fragment",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 5
+   },
+   "music": "battle"
+  },
+  {
+   "id": "ashroot_06",
+   "number": 6,
+   "name": "Wild Growth",
+   "background": "bg_forest",
+   "map_pos": [
+    250,
+    135
+   ],
+   "recommended_level": 6,
+   "summary": "The forest itself seems hostile. Bramble Pups gather in packs.",
+   "hint": "guard",
+   "waves": [
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 5
+     },
+     {
+      "enemy": "glowcap",
+      "level": 5
+     }
+    ],
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 6,
+      "hp_scale": 1.2
+     },
+     {
+      "enemy": "moss_slime",
+      "level": 5
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 480,
+    "gold": 90,
+    "first_clear_gold": 100
+   },
+   "unlocks": [
+    "ashroot_07"
+   ],
+   "route_pos": [
+    138,
+    248
+   ],
+   "energy": 3,
+   "recommended_power": 770,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 12,
+     "text": "Clear within 12 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "sprout_fragment",
+     "chance": 0.25,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_wisp",
+     "chance": 0.15,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 5
+   },
+   "music": "battle"
+  },
+  {
+   "id": "ashroot_07",
+   "number": 7,
+   "name": "Scorched Path",
+   "background": "bg_scorched",
+   "map_pos": [
+    305,
+    185
+   ],
+   "recommended_level": 7,
+   "summary": "Ground still hot from a fire that came from below.",
+   "hint": "burn",
+   "waves": [
+    [
+     {
+      "enemy": "cinder_slime",
+      "level": 6
+     },
+     {
+      "enemy": "cinder_slime",
+      "level": 6
+     }
+    ],
+    [
+     {
+      "enemy": "cinder_slime",
+      "level": 7,
+      "hp_scale": 1.2
+     },
+     {
+      "enemy": "emberwisp",
+      "level": 6
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 580,
+    "gold": 100,
+    "first_clear_gold": 120
+   },
+   "unlocks": [
+    "ashroot_08"
+   ],
+   "route_pos": [
+    204,
+    200
+   ],
+   "energy": 3,
+   "recommended_power": 790,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "burst",
+     "min": 1,
+     "text": "Use Burst"
+    }
+   ],
+   "drops": [
+    {
+     "item": "ember_fragment",
+     "chance": 0.3,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "ember_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "flame_core",
+     "chance": 0.1,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 5
+   },
+   "music": "battle"
+  },
+  {
+   "id": "ashroot_08",
+   "number": 8,
+   "name": "Flooded Ruins",
+   "background": "bg_flooded",
+   "map_pos": [
+    365,
+    100
+   ],
+   "recommended_level": 8,
+   "summary": "Boiling streams have flooded the old temple grounds.",
+   "hint": "debuffs",
+   "waves": [
+    [
+     {
+      "enemy": "tidefin",
+      "level": 7
+     },
+     {
+      "enemy": "tide_slime",
+      "level": 7
+     }
+    ],
+    [
+     {
+      "enemy": "tidefin",
+      "level": 8,
+      "hp_scale": 1.2
+     },
+     {
+      "enemy": "hexmoth",
+      "level": 7
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 700,
+    "gold": 110,
+    "first_clear_gold": 120
+   },
+   "unlocks": [
+    "ashroot_09"
+   ],
+   "route_pos": [
+    112,
+    176
+   ],
+   "energy": 4,
+   "recommended_power": 900,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 14,
+     "text": "Clear within 14 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "tide_fragment",
+     "chance": 0.3,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "current_core",
+     "chance": 0.1,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 5
+   },
+   "music": "battle"
+  },
+  {
+   "id": "ashroot_09",
+   "number": 9,
+   "name": "Threefold Trial",
+   "background": "bg_heart",
+   "map_pos": [
+    400,
+    150
+   ],
+   "recommended_level": 9,
+   "summary": "All three elements stand between you and the Heart.",
+   "hint": "elites",
+   "waves": [
+    [
+     {
+      "enemy": "cinder_slime",
+      "level": 7
+     },
+     {
+      "enemy": "tidefin",
+      "level": 7
+     }
+    ],
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 7
+     },
+     {
+      "enemy": "glowcap",
+      "level": 7
+     }
+    ],
+    [
+     {
+      "enemy": "cinder_slime",
+      "level": 8
+     },
+     {
+      "enemy": "elite_tidefin",
+      "level": 8
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 8
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 800,
+    "gold": 130,
+    "first_clear_gold": 150
+   },
+   "unlocks": [
+    "ashroot_10"
+   ],
+   "route_pos": [
+    56,
+    104
+   ],
+   "energy": 4,
+   "recommended_power": 1000,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 18,
+     "text": "Clear within 18 turns"
+    }
+   ],
+   "drops": [
+    {
+     "item": "radiant_wisp",
+     "chance": 0.15,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "verdant_core",
+     "chance": 0.1,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 5
+   },
+   "music": "battle"
+  },
+  {
+   "id": "ashroot_10",
+   "number": 10,
+   "name": "Heart of Ashroot",
+   "background": "bg_heart",
+   "map_pos": [
+    440,
+    205
+   ],
+   "recommended_level": 10,
+   "boss": true,
+   "summary": "Something ancient guards the Heart. Mini-boss encounter.",
+   "hint": "boss",
+   "waves": [
+    [
+     {
+      "enemy": "bramble_pup",
+      "level": 9
+     },
+     {
+      "enemy": "bramble_pup",
+      "level": 9
+     }
+    ],
+    [
+     {
+      "enemy": "ancient_bramble_pup",
+      "level": 10
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 900,
+    "gold": 250,
+    "first_clear_gold": 300
+   },
+   "unlocks": [],
+   "route_pos": [
+    128,
+    56
+   ],
+   "energy": 5,
+   "recommended_power": 1120,
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "burst",
+     "min": 2,
+     "text": "Use Burst 2 times"
+    }
+   ],
+   "drops": [
+    {
+     "item": "verdant_core",
+     "chance": 0.3,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.3,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 25,
+    "items": {
+     "verdant_core": 1,
+     "radiant_wisp": 1
+    }
+   },
+   "music": "boss"
+  }
+ ],
+ "route_map": "res://assets/environments/bg_routemap.png",
+ "type": "story",
+ "number": 1,
+ "order": 1,
+ "subtitle": "Forest, stone and old ruins scarred by fires that burn from below."
+}

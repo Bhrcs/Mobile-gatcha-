@@ -1,0 +1,55 @@
+; Engine configuration file.
+; Cinderbound - original 2D pixel-art unit-collection RPG prototype (Godot 4.3)
+
+config_version=5
+
+[application]
+
+config/name="Cinderbound"
+config/description="Original pixel-art turn-based unit RPG prototype."
+config/version="0.4.0"
+run/main_scene="res://scenes/ui/main_menu.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://assets/ui/app_icon.png"
+boot_splash/bg_color=Color(0.07, 0.05, 0.08, 1)
+boot_splash/show_image=false
+
+[autoload]
+
+Database="*res://scripts/data/database.gd"
+SaveManager="*res://scripts/save/save_manager.gd"
+AudioManager="*res://scripts/core/audio_manager.gd"
+SceneRouter="*res://scripts/core/scene_router.gd"
+GameManager="*res://scripts/core/game_manager.gd"
+UIManager="*res://scripts/core/ui_manager.gd"
+
+[display]
+
+window/size/viewport_width=1080
+window/size/viewport_height=1920
+window/size/window_width_override=576
+window/size/window_height_override=1024
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep_width"
+window/handheld/orientation=1
+
+[gui]
+
+common/snap_controls_to_pixels=true
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=false
+pointing/emulate_mouse_from_touch=true
+
+[physics]
+
+common/physics_ticks_per_second=60
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_transforms_to_pixel=false
+environment/defaults/default_clear_color=Color(0.07, 0.05, 0.08, 1)

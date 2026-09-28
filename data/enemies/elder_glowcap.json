@@ -1,0 +1,54 @@
+{
+ "id": "elder_glowcap",
+ "name": "Elder Glowcap",
+ "element": "nature",
+ "role": "boss",
+ "type": "Tower Guardian",
+ "base_stats": {
+  "hp": 950,
+  "atk": 50,
+  "def": 60,
+  "spd": 40
+ },
+ "skills": {
+  "normal": "cap_bonk",
+  "special": "spore_storm"
+ },
+ "ai": {
+  "profile": "boss",
+  "skill_chance": 0.0,
+  "targeting": "random",
+  "pattern": [
+   "normal",
+   "heal",
+   "curse",
+   "charge"
+  ],
+  "heal": "glow_mend",
+  "curse": "spore_puff",
+  "summon": {
+   "enemy": "moss_slime",
+   "level_offset": -3,
+   "every": 3,
+   "count": 1,
+   "max": 2
+  }
+ },
+ "rewards": {
+  "xp": 120,
+  "gold": [
+   120,
+   180
+  ]
+ },
+ "drop_table": "nature_boss",
+ "sprite": {
+  "sheet": "res://assets/enemies/glowcap/glowcap_sheet.png",
+  "meta": "res://assets/enemies/glowcap/glowcap_sheet.json",
+  "scale": 11
+ },
+ "description": "A guardian of the Verdant Tower, grown huge on the tower's power.",
+ "boss": true,
+ "tint": "#d0ff8a",
+ "variant_of": "glowcap"
+}

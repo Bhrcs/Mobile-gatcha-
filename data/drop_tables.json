@@ -1,0 +1,260 @@
+{
+ "fire_common": {
+  "rolls": [
+   {
+    "item": "ember_fragment",
+    "chance": 0.22,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "minor_healing_herb",
+    "chance": 0.1,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "fire_uncommon": {
+  "rolls": [
+   {
+    "item": "ember_fragment",
+    "chance": 0.35,
+    "min": 1,
+    "max": 2
+   },
+   {
+    "item": "ember_wisp",
+    "chance": 0.1,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "fire_elite": {
+  "guaranteed": [
+   {
+    "item": "ember_fragment",
+    "chance": 1,
+    "min": 1,
+    "max": 2
+   }
+  ],
+  "rolls": [
+   {
+    "item": "flame_core",
+    "chance": 0.25,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "ember_wisp",
+    "chance": 0.35,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "fire_boss": {
+  "guaranteed": [
+   {
+    "item": "flame_core",
+    "chance": 1,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "ember_wisp",
+    "chance": 1,
+    "min": 1,
+    "max": 2
+   }
+  ],
+  "rolls": [
+   {
+    "item": "infernal_crystal",
+    "chance": 0.15,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "radiant_wisp",
+    "chance": 0.2,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "water_common": {
+  "rolls": [
+   {
+    "item": "tide_fragment",
+    "chance": 0.22,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "minor_healing_herb",
+    "chance": 0.1,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "water_uncommon": {
+  "rolls": [
+   {
+    "item": "tide_fragment",
+    "chance": 0.35,
+    "min": 1,
+    "max": 2
+   },
+   {
+    "item": "tide_wisp",
+    "chance": 0.1,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "water_elite": {
+  "guaranteed": [
+   {
+    "item": "tide_fragment",
+    "chance": 1,
+    "min": 1,
+    "max": 2
+   }
+  ],
+  "rolls": [
+   {
+    "item": "current_core",
+    "chance": 0.25,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "tide_wisp",
+    "chance": 0.35,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "water_boss": {
+  "guaranteed": [
+   {
+    "item": "current_core",
+    "chance": 1,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "tide_wisp",
+    "chance": 1,
+    "min": 1,
+    "max": 2
+   }
+  ],
+  "rolls": [
+   {
+    "item": "abyss_crystal",
+    "chance": 0.15,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "radiant_wisp",
+    "chance": 0.2,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "nature_common": {
+  "rolls": [
+   {
+    "item": "sprout_fragment",
+    "chance": 0.22,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "minor_healing_herb",
+    "chance": 0.1,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "nature_uncommon": {
+  "rolls": [
+   {
+    "item": "sprout_fragment",
+    "chance": 0.35,
+    "min": 1,
+    "max": 2
+   },
+   {
+    "item": "verdant_wisp",
+    "chance": 0.1,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "nature_elite": {
+  "guaranteed": [
+   {
+    "item": "sprout_fragment",
+    "chance": 1,
+    "min": 1,
+    "max": 2
+   }
+  ],
+  "rolls": [
+   {
+    "item": "verdant_core",
+    "chance": 0.25,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "verdant_wisp",
+    "chance": 0.35,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ },
+ "nature_boss": {
+  "guaranteed": [
+   {
+    "item": "verdant_core",
+    "chance": 1,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "verdant_wisp",
+    "chance": 1,
+    "min": 1,
+    "max": 2
+   }
+  ],
+  "rolls": [
+   {
+    "item": "ancient_seed",
+    "chance": 0.15,
+    "min": 1,
+    "max": 1
+   },
+   {
+    "item": "radiant_wisp",
+    "chance": 0.2,
+    "min": 1,
+    "max": 1
+   }
+  ]
+ }
+}

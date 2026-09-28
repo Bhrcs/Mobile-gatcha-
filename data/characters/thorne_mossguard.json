@@ -1,0 +1,73 @@
+{
+ "id": "thorne_mossguard",
+ "family": "thorne",
+ "name": "Thorne Mossguard",
+ "element": "nature",
+ "role": "Defender",
+ "class": "DEFENDER",
+ "rarity": 3,
+ "form_index": 0,
+ "forms": [
+  "thorne_mossguard",
+  "thorne_oakwarden",
+  "thorne_ancientroot"
+ ],
+ "starter": true,
+ "level": 1,
+ "max_level": 15,
+ "experience": 0,
+ "base_stats": {
+  "hp": 900,
+  "atk": 115,
+  "def": 150,
+  "rec": 75,
+  "spd": 65
+ },
+ "growth": {
+  "hp": 34,
+  "atk": 3,
+  "def": 5,
+  "rec": 2,
+  "spd": 0
+ },
+ "normal_attack": "root_hammer",
+ "burst": "ancient_bastion",
+ "passive": {
+  "name": "Rooted Guard",
+  "description": "Guarding reduces damage by an extra 15%.",
+  "effects": [
+   {
+    "kind": "guard_bonus",
+    "value": 0.15
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Deep Roots",
+  "description": "Nature allies gain +8% DEF.",
+  "effects": [
+   {
+    "stat": "def",
+    "value": 0.08,
+    "element": "nature"
+   }
+  ]
+ },
+ "evolution": {
+  "into": "thorne_oakwarden",
+  "gold": 2500,
+  "materials": {
+   "sprout_fragment": 5,
+   "verdant_core": 2
+  }
+ },
+ "sprite": {
+  "sheet": "res://assets/characters/thorne_mossguard/thorne_mossguard_sheet.png",
+  "meta": "res://assets/characters/thorne_mossguard/thorne_mossguard_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/thorne_mossguard/thorne_mossguard_portrait.png",
+ "weapon": "Hammer & bark shield",
+ "description": "A forest guardian with a living-bark shield. Soaks up punishment.",
+ "lore": "Raised by the old grove-wardens, Thorne speaks little and plants a seed wherever a fight ends. His shield is a slab of living bark that still grows."
+}

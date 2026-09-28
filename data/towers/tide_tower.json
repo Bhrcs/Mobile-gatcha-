@@ -1,0 +1,1034 @@
+{
+ "id": "tide_tower",
+ "name": "Tide Tower",
+ "type": "tower",
+ "element": "water",
+ "counter_element": "nature",
+ "description": "Climb for Tide Fragments, Current Cores and Abyss Crystals.",
+ "materials": [
+  "tide_fragment",
+  "current_core",
+  "abyss_crystal"
+ ],
+ "music": "tower",
+ "stages": [
+  {
+   "id": "tide_tower_01",
+   "number": 1,
+   "floor": 1,
+   "name": "Floor 1",
+   "background": "bg_tower_tide",
+   "recommended_level": 6,
+   "energy": 5,
+   "recommended_power": 770,
+   "summary": "Floor 1 of the Tide Tower. Bring Nature heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "tidefin",
+      "level": 6
+     },
+     {
+      "enemy": "tide_slime",
+      "level": 5
+     }
+    ],
+    [
+     {
+      "enemy": "tide_slime",
+      "level": 6
+     },
+     {
+      "enemy": "tidefin",
+      "level": 5
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 480,
+    "gold": 200,
+    "first_clear_gold": 260
+   },
+   "drops": [
+    {
+     "item": "tide_fragment",
+     "chance": 0.6,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.35,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "current_core",
+     "chance": 0.12,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "tide_fragment": 3,
+     "tide_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 14,
+     "text": "Clear within 14 turns"
+    }
+   ],
+   "unlocks": [
+    "tide_tower_02"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "tide_tower_02",
+   "number": 2,
+   "floor": 2,
+   "name": "Floor 2",
+   "background": "bg_tower_tide",
+   "recommended_level": 8,
+   "energy": 5,
+   "recommended_power": 810,
+   "summary": "Floor 2 of the Tide Tower. Bring Nature heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "tide_slime",
+      "level": 8
+     },
+     {
+      "enemy": "tidefin",
+      "level": 7
+     }
+    ],
+    [
+     {
+      "enemy": "tidefin",
+      "level": 8
+     },
+     {
+      "enemy": "tide_slime",
+      "level": 7
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 660,
+    "gold": 250,
+    "first_clear_gold": 320
+   },
+   "drops": [
+    {
+     "item": "tide_fragment",
+     "chance": 0.6,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.35,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "current_core",
+     "chance": 0.16999999999999998,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "tide_fragment": 3,
+     "tide_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 14,
+     "text": "Clear within 14 turns"
+    }
+   ],
+   "unlocks": [
+    "tide_tower_03"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "tide_tower_03",
+   "number": 3,
+   "floor": 3,
+   "name": "Floor 3",
+   "background": "bg_tower_tide",
+   "recommended_level": 10,
+   "energy": 6,
+   "recommended_power": 950,
+   "summary": "Floor 3 of the Tide Tower. Bring Nature heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "tidefin",
+      "level": 10
+     },
+     {
+      "enemy": "tide_slime",
+      "level": 9
+     },
+     {
+      "enemy": "tidefin",
+      "level": 9
+     }
+    ],
+    [
+     {
+      "enemy": "tide_slime",
+      "level": 10
+     },
+     {
+      "enemy": "tidefin",
+      "level": 9
+     },
+     {
+      "enemy": "tide_slime",
+      "level": 9
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 840,
+    "gold": 300,
+    "first_clear_gold": 380
+   },
+   "drops": [
+    {
+     "item": "tide_fragment",
+     "chance": 0.6,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.35,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "current_core",
+     "chance": 0.22,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "tide_fragment": 3,
+     "tide_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 14,
+     "text": "Clear within 14 turns"
+    }
+   ],
+   "unlocks": [
+    "tide_tower_04"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "tide_tower_04",
+   "number": 4,
+   "floor": 4,
+   "name": "Floor 4",
+   "background": "bg_tower_tide",
+   "recommended_level": 12,
+   "energy": 6,
+   "recommended_power": 1130,
+   "summary": "Floor 4 of the Tide Tower. Bring Nature heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "drift_jelly",
+      "level": 12
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 11
+     },
+     {
+      "enemy": "tidefin",
+      "level": 11
+     }
+    ],
+    [
+     {
+      "enemy": "shellcrab",
+      "level": 12
+     },
+     {
+      "enemy": "tidefin",
+      "level": 11
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 11
+     }
+    ],
+    [
+     {
+      "enemy": "elite_shellcrab",
+      "level": 13
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 11
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 11
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1020,
+    "gold": 350,
+    "first_clear_gold": 440
+   },
+   "drops": [
+    {
+     "item": "tide_fragment",
+     "chance": 0.6,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.35,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "current_core",
+     "chance": 0.27,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "tide_fragment": 3,
+     "tide_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "tide_tower_05"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "tide_tower_05",
+   "number": 5,
+   "floor": 5,
+   "name": "Guardian's Hall",
+   "background": "bg_tower_tide",
+   "recommended_level": 14,
+   "energy": 7,
+   "recommended_power": 1330,
+   "summary": "The tower's guardian waits here.",
+   "waves": [
+    [
+     {
+      "enemy": "shellcrab",
+      "level": 14
+     },
+     {
+      "enemy": "tidefin",
+      "level": 13
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 13
+     }
+    ],
+    [
+     {
+      "enemy": "tidefin",
+      "level": 14
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 13
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 13
+     }
+    ],
+    [
+     {
+      "enemy": "deepwater_matron",
+      "level": 16
+     }
+    ]
+   ],
+   "boss": true,
+   "music": "boss",
+   "rewards": {
+    "xp": 1200,
+    "gold": 400,
+    "first_clear_gold": 500
+   },
+   "drops": [
+    {
+     "item": "current_core",
+     "chance": 0.32,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 50,
+    "items": {
+     "current_core": 2,
+     "tide_wisp": 3,
+     "spark_sigil": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "tide_tower_06"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "tide_tower_06",
+   "number": 6,
+   "floor": 6,
+   "name": "Floor 6",
+   "background": "bg_tower_tide",
+   "recommended_level": 18,
+   "energy": 7,
+   "recommended_power": 1830,
+   "summary": "Floor 6 of the Tide Tower. Bring Nature heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "tidefin",
+      "level": 18
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 17
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 17
+     }
+    ],
+    [
+     {
+      "enemy": "drift_jelly",
+      "level": 18
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 17
+     },
+     {
+      "enemy": "tidefin",
+      "level": 17
+     }
+    ],
+    [
+     {
+      "enemy": "shellcrab",
+      "level": 18
+     },
+     {
+      "enemy": "tidefin",
+      "level": 17
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 17
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1380,
+    "gold": 450,
+    "first_clear_gold": 560
+   },
+   "drops": [
+    {
+     "item": "current_core",
+     "chance": 0.37,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "abyss_crystal",
+     "chance": 0.12,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "abyss_crystal": 1,
+     "radiant_wisp": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "tide_tower_07"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "tide_tower_07",
+   "number": 7,
+   "floor": 7,
+   "name": "Floor 7",
+   "background": "bg_tower_tide",
+   "recommended_level": 20,
+   "energy": 8,
+   "recommended_power": 1910,
+   "summary": "Floor 7 of the Tide Tower. Bring Nature heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "shellcrab",
+      "level": 20
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 19
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 19
+     }
+    ],
+    [
+     {
+      "enemy": "brine_eel",
+      "level": 20
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 19
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 19
+     }
+    ],
+    [
+     {
+      "enemy": "elite_brine_eel",
+      "level": 21
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 19
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 19
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1560,
+    "gold": 500,
+    "first_clear_gold": 620
+   },
+   "drops": [
+    {
+     "item": "current_core",
+     "chance": 0.42000000000000004,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "abyss_crystal",
+     "chance": 0.16,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "abyss_crystal": 1,
+     "radiant_wisp": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "tide_tower_08"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "tide_tower_08",
+   "number": 8,
+   "floor": 8,
+   "name": "Floor 8",
+   "background": "bg_tower_tide",
+   "recommended_level": 22,
+   "energy": 8,
+   "recommended_power": 1990,
+   "summary": "Floor 8 of the Tide Tower. Bring Nature heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "brine_eel",
+      "level": 22
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 21
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 21
+     }
+    ],
+    [
+     {
+      "enemy": "salt_wraith",
+      "level": 22
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 21
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 21
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 21
+     }
+    ],
+    [
+     {
+      "enemy": "drift_jelly",
+      "level": 22
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 21
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 21
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 21
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1740,
+    "gold": 550,
+    "first_clear_gold": 680
+   },
+   "drops": [
+    {
+     "item": "abyss_crystal",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "abyss_crystal": 1,
+     "radiant_wisp": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "tide_tower_09"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "tide_tower_09",
+   "number": 9,
+   "floor": 9,
+   "name": "Floor 9",
+   "background": "bg_tower_tide",
+   "recommended_level": 24,
+   "energy": 9,
+   "recommended_power": 2070,
+   "summary": "Floor 9 of the Tide Tower. Bring Nature heroes.",
+   "waves": [
+    [
+     {
+      "enemy": "salt_wraith",
+      "level": 24
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 23
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 23
+     }
+    ],
+    [
+     {
+      "enemy": "drift_jelly",
+      "level": 24
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 23
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 23
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 23
+     }
+    ],
+    [
+     {
+      "enemy": "elite_brine_eel",
+      "level": 25
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 23
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 23
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 23
+     }
+    ]
+   ],
+   "boss": false,
+   "music": "tower",
+   "rewards": {
+    "xp": 1920,
+    "gold": 600,
+    "first_clear_gold": 740
+   },
+   "drops": [
+    {
+     "item": "abyss_crystal",
+     "chance": 0.24,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "items": {
+     "abyss_crystal": 1,
+     "radiant_wisp": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [
+    "tide_tower_10"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "tide_tower_10",
+   "number": 10,
+   "floor": 10,
+   "name": "Guardian's Hall",
+   "background": "bg_tower_tide",
+   "recommended_level": 26,
+   "energy": 9,
+   "recommended_power": 2460,
+   "summary": "The tower's guardian waits here.",
+   "waves": [
+    [
+     {
+      "enemy": "drift_jelly",
+      "level": 26
+     },
+     {
+      "enemy": "shellcrab",
+      "level": 25
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 25
+     }
+    ],
+    [
+     {
+      "enemy": "shellcrab",
+      "level": 26
+     },
+     {
+      "enemy": "brine_eel",
+      "level": 25
+     },
+     {
+      "enemy": "salt_wraith",
+      "level": 25
+     },
+     {
+      "enemy": "drift_jelly",
+      "level": 25
+     }
+    ],
+    [
+     {
+      "enemy": "brine_leviathan",
+      "level": 28
+     }
+    ]
+   ],
+   "boss": true,
+   "music": "boss",
+   "rewards": {
+    "xp": 2100,
+    "gold": 650,
+    "first_clear_gold": 800
+   },
+   "drops": [
+    {
+     "item": "abyss_crystal",
+     "chance": 0.28,
+     "min": 1,
+     "max": 1
+    },
+    {
+     "item": "tide_wisp",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "radiant_wisp",
+     "chance": 0.2,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 100,
+    "items": {
+     "abyss_crystal": 2,
+     "prism_shard": 1,
+     "radiant_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 16,
+     "text": "Clear within 16 turns"
+    }
+   ],
+   "unlocks": [],
+   "tier": 2
+  }
+ ]
+}

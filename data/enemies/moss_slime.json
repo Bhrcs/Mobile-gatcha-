@@ -1,0 +1,36 @@
+{
+ "id": "moss_slime",
+ "name": "Moss Slime",
+ "element": "nature",
+ "role": "attacker",
+ "type": "Slime",
+ "base_stats": {
+  "hp": 210,
+  "atk": 38,
+  "def": 26,
+  "spd": 33
+ },
+ "skills": {
+  "normal": "mossy_bump",
+  "special": "spore_puff"
+ },
+ "ai": {
+  "profile": "attacker",
+  "skill_chance": 0.3,
+  "targeting": "random"
+ },
+ "rewards": {
+  "xp": 12,
+  "gold": [
+   6,
+   12
+  ]
+ },
+ "drop_table": "nature_common",
+ "sprite": {
+  "sheet": "res://assets/enemies/moss_slime/moss_slime_sheet.png",
+  "meta": "res://assets/enemies/moss_slime/moss_slime_sheet.json",
+  "scale": 8
+ },
+ "description": "A mossy mound that grows a sprout when it is happy."
+}

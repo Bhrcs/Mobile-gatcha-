@@ -1,0 +1,64 @@
+{
+ "id": "voss_magmaborn",
+ "family": "voss",
+ "name": "Voss Magmaborn",
+ "element": "fire",
+ "role": "Breaker",
+ "class": "BREAKER",
+ "rarity": 5,
+ "form_index": 1,
+ "forms": [
+  "voss_ashmantle",
+  "voss_magmaborn"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 35,
+ "experience": 0,
+ "base_stats": {
+  "hp": 2260,
+  "atk": 382,
+  "def": 307,
+  "rec": 160,
+  "spd": 80
+ },
+ "growth": {
+  "hp": 41,
+  "atk": 7,
+  "def": 6,
+  "rec": 2,
+  "spd": 0
+ },
+ "normal_attack": "ash_cleave",
+ "burst": "magma_sunder",
+ "passive": {
+  "name": "Crushing Weight",
+  "description": "Deals +25% damage to foes with lowered DEF or ATK.",
+  "effects": [
+   {
+    "kind": "damage_vs_debuffed",
+    "value": 0.25
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Forge Wall",
+  "description": "All allies gain +8% max HP.",
+  "effects": [
+   {
+    "stat": "hp",
+    "value": 0.08
+   }
+  ]
+ },
+ "evolution": null,
+ "sprite": {
+  "sheet": "res://assets/characters/voss_magmaborn/voss_magmaborn_sheet.png",
+  "meta": "res://assets/characters/voss_magmaborn/voss_magmaborn_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/voss_magmaborn/voss_magmaborn_portrait.png",
+ "weapon": "Greataxe",
+ "description": "A towering breaker. Shatters defences so others can finish the job.",
+ "lore": "A smith who swore never to lift a weapon again - until the Wilds burned his forge. He quenched his greataxe in the ashes and walked out to find whoever lit the fire."
+}

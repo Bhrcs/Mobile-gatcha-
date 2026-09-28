@@ -1,0 +1,282 @@
+{
+ "tide_slime": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 8
+  },
+  "fps": {
+   "idle": 6,
+   "attack": 12,
+   "hit": 10,
+   "death": 8,
+   "special": 10
+  },
+  "attack": {
+   "motion": "ranged",
+   "release_frame": 3
+  },
+  "special": {
+   "motion": "ranged",
+   "release_frame": 4
+  },
+  "role": "attacker"
+ },
+ "moss_slime": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 8
+  },
+  "fps": {
+   "idle": 5,
+   "attack": 12,
+   "hit": 10,
+   "death": 8,
+   "special": 10
+  },
+  "attack": {
+   "motion": "melee",
+   "hit_frames": [
+    3
+   ]
+  },
+  "special": {
+   "motion": "ranged",
+   "release_frame": 4
+  },
+  "role": "attacker"
+ },
+ "glowcap": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 8
+  },
+  "fps": {
+   "idle": 6,
+   "attack": 12,
+   "hit": 10,
+   "death": 8,
+   "special": 10
+  },
+  "attack": {
+   "motion": "melee",
+   "hit_frames": [
+    3
+   ]
+  },
+  "special": {
+   "motion": "self",
+   "release_frame": 4
+  },
+  "role": "healer"
+ },
+ "emberwisp": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 8
+  },
+  "fps": {
+   "idle": 7,
+   "attack": 12,
+   "hit": 10,
+   "death": 8,
+   "special": 10
+  },
+  "attack": {
+   "motion": "ranged",
+   "release_frame": 2
+  },
+  "special": {
+   "motion": "self",
+   "release_frame": 4
+  },
+  "role": "buffer"
+ },
+ "hexmoth": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 8
+  },
+  "fps": {
+   "idle": 8,
+   "attack": 12,
+   "hit": 10,
+   "death": 8,
+   "special": 10
+  },
+  "attack": {
+   "motion": "melee",
+   "hit_frames": [
+    3
+   ]
+  },
+  "special": {
+   "motion": "ranged",
+   "release_frame": 4
+  },
+  "role": "debuffer"
+ },
+ "scorch_beetle": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 9
+  },
+  "fps": {
+   "idle": 6,
+   "attack": 12,
+   "hit": 10,
+   "death": 8,
+   "special": 11
+  },
+  "attack": {
+   "motion": "melee",
+   "hit_frames": [
+    2
+   ]
+  },
+  "special": {
+   "motion": "melee",
+   "hit_frames": [
+    5
+   ]
+  },
+  "role": "burst"
+ },
+ "shellcrab": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 7
+  },
+  "fps": {
+   "idle": 5,
+   "attack": 11,
+   "hit": 10,
+   "death": 8,
+   "special": 10
+  },
+  "attack": {
+   "motion": "melee",
+   "hit_frames": [
+    2
+   ]
+  },
+  "special": {
+   "motion": "self",
+   "release_frame": 3
+  },
+  "role": "tank"
+ },
+ "brine_eel": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 8
+  },
+  "fps": {
+   "idle": 8,
+   "attack": 14,
+   "hit": 10,
+   "death": 8,
+   "special": 12
+  },
+  "attack": {
+   "motion": "melee",
+   "hit_frames": [
+    2,
+    4
+   ]
+  },
+  "special": {
+   "motion": "melee",
+   "hit_frames": [
+    5,
+    6
+   ]
+  },
+  "role": "attacker"
+ },
+ "drift_jelly": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 8
+  },
+  "fps": {
+   "idle": 6,
+   "attack": 12,
+   "hit": 10,
+   "death": 8,
+   "special": 10
+  },
+  "attack": {
+   "motion": "melee",
+   "hit_frames": [
+    2
+   ]
+  },
+  "special": {
+   "motion": "self",
+   "release_frame": 4
+  },
+  "role": "healer"
+ },
+ "salt_wraith": {
+  "size": 48,
+  "frames": {
+   "idle": 4,
+   "attack": 6,
+   "hit": 2,
+   "death": 4,
+   "special": 8
+  },
+  "fps": {
+   "idle": 6,
+   "attack": 12,
+   "hit": 10,
+   "death": 8,
+   "special": 10
+  },
+  "attack": {
+   "motion": "ranged",
+   "release_frame": 2
+  },
+  "special": {
+   "motion": "ranged",
+   "release_frame": 4
+  },
+  "role": "debuffer"
+ }
+}

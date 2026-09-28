@@ -1,0 +1,36 @@
+{
+ "id": "hexmoth",
+ "name": "Hexmoth",
+ "element": "nature",
+ "role": "debuffer",
+ "type": "Insect",
+ "base_stats": {
+  "hp": 190,
+  "atk": 38,
+  "def": 24,
+  "spd": 65
+ },
+ "skills": {
+  "normal": "dust_bite",
+  "special": "hex_powder"
+ },
+ "ai": {
+  "profile": "debuffer",
+  "skill_chance": 0.3,
+  "targeting": "highest_atk"
+ },
+ "rewards": {
+  "xp": 15,
+  "gold": [
+   7,
+   13
+  ]
+ },
+ "drop_table": "nature_uncommon",
+ "sprite": {
+  "sheet": "res://assets/enemies/hexmoth/hexmoth_sheet.png",
+  "meta": "res://assets/enemies/hexmoth/hexmoth_sheet.json",
+  "scale": 8
+ },
+ "description": "Its wing-dust saps strength from anything it settles on."
+}

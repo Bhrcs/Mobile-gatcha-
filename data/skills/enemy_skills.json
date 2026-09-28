@@ -1,0 +1,748 @@
+{
+ "_comment": "Enemy skills. kind 'skill' = special; charged skills are telegraphed by the AI.",
+ "slime_tackle": {
+  "name": "Tackle",
+  "kind": "normal",
+  "description": "Launches itself at a foe.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   3
+  ],
+  "impact_effect": "hit_spark",
+  "sfx_hit": "hit"
+ },
+ "scorch_splash": {
+  "name": "Scorch Splash",
+  "kind": "skill",
+  "description": "A burning splash. Small chance to Burn.",
+  "target": "enemy_single",
+  "power": 1.3,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "special",
+  "hit_frames": [
+   5
+  ],
+  "impact_effect": "hit_fire",
+  "sfx_hit": "fire",
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.15,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ },
+ "tail_swipe": {
+  "name": "Tail Swipe",
+  "kind": "normal",
+  "description": "Whips its tail across a foe.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   3
+  ],
+  "impact_effect": "hit_water",
+  "sfx_hit": "water_hit"
+ },
+ "bubble_shot": {
+  "name": "Bubble Shot",
+  "kind": "skill",
+  "description": "Fires a stream of bubbles at one foe.",
+  "target": "enemy_single",
+  "power": 1.25,
+  "hits": 3,
+  "motion": "ranged",
+  "anim": "special",
+  "release_frame": 4,
+  "projectile": "bubble",
+  "impact_effect": "hit_water",
+  "sfx_cast": "water",
+  "sfx_hit": "water_hit"
+ },
+ "bramble_bite": {
+  "name": "Bramble Bite",
+  "kind": "normal",
+  "description": "Snaps with splinter teeth.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   3
+  ],
+  "impact_effect": "hit_nature",
+  "sfx_hit": "nature"
+ },
+ "thorn_rush": {
+  "name": "Thorn Rush",
+  "kind": "skill",
+  "description": "Barrels into a foe for heavy Nature damage.",
+  "target": "enemy_single",
+  "power": 1.45,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "special",
+  "hit_frames": [
+   4,
+   5
+  ],
+  "impact_effect": "hit_nature",
+  "sfx_hit": "nature",
+  "shake": 0.3
+ },
+ "ancient_maul": {
+  "name": "Ancient Maul",
+  "kind": "normal",
+  "description": "Two crushing bites.",
+  "target": "enemy_single",
+  "power": 1.15,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2,
+   3
+  ],
+  "impact_effect": "hit_nature",
+  "sfx_hit": "nature",
+  "shake": 0.4
+ },
+ "verdant_rampage": {
+  "name": "Verdant Rampage",
+  "kind": "skill",
+  "description": "After charging: tears through the whole party with thorned roots.",
+  "target": "enemy_all",
+  "power": 1.6,
+  "hits": 3,
+  "motion": "melee",
+  "anim": "special",
+  "hit_frames": [
+   4,
+   5,
+   6
+  ],
+  "impact_effect": "hit_nature",
+  "sfx_hit": "nature",
+  "shake": 0.8
+ },
+ "droplet_spit": {
+  "name": "Droplet Spit",
+  "kind": "normal",
+  "description": "Spits a ball of brine.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "ranged",
+  "anim": "attack",
+  "release_frame": 3,
+  "projectile": "bubble",
+  "impact_effect": "hit_water",
+  "sfx_cast": "water",
+  "sfx_hit": "water_hit"
+ },
+ "soaking_surge": {
+  "name": "Soaking Surge",
+  "kind": "skill",
+  "description": "A wave that lowers DEF.",
+  "target": "enemy_single",
+  "power": 1.2,
+  "hits": 2,
+  "motion": "ranged",
+  "anim": "special",
+  "release_frame": 4,
+  "projectile": "water_bolt",
+  "impact_effect": "hit_water",
+  "sfx_cast": "water",
+  "sfx_hit": "water_hit",
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_down",
+    "value": 0.1,
+    "duration": 2,
+    "chance": 0.5,
+    "on": "target"
+   }
+  ]
+ },
+ "mossy_bump": {
+  "name": "Mossy Bump",
+  "kind": "normal",
+  "description": "Bumps into a foe.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   3
+  ],
+  "impact_effect": "hit_nature",
+  "sfx_hit": "nature"
+ },
+ "spore_puff": {
+  "name": "Spore Puff",
+  "kind": "skill",
+  "description": "A cloud of spores that Poisons.",
+  "target": "enemy_single",
+  "power": 0.8,
+  "hits": 1,
+  "motion": "ranged",
+  "anim": "special",
+  "release_frame": 4,
+  "projectile": "petal_bolt",
+  "impact_effect": "hit_nature",
+  "sfx_cast": "nature",
+  "sfx_hit": "nature",
+  "effects": [
+   {
+    "type": "status",
+    "status": "poison",
+    "chance": 0.6,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ },
+ "cap_bonk": {
+  "name": "Cap Bonk",
+  "kind": "normal",
+  "description": "Headbutts with its cap.",
+  "target": "enemy_single",
+  "power": 0.9,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   3
+  ],
+  "impact_effect": "hit_nature",
+  "sfx_hit": "nature"
+ },
+ "glow_mend": {
+  "name": "Glow Mend",
+  "kind": "skill",
+  "description": "Heals the most injured ally for 25% max HP.",
+  "target": "ally_lowest",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 4,
+  "field_effect": "heal_ring",
+  "sfx_cast": "heal",
+  "effects": [
+   {
+    "type": "heal",
+    "percent_max_hp": 0.25,
+    "on": "target_ally"
+   }
+  ]
+ },
+ "wisp_flick": {
+  "name": "Wisp Flick",
+  "kind": "normal",
+  "description": "Flicks an ember.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "ranged",
+  "anim": "attack",
+  "release_frame": 2,
+  "projectile": "ember_bolt",
+  "impact_effect": "hit_fire",
+  "sfx_cast": "fire",
+  "sfx_hit": "fire"
+ },
+ "kindle": {
+  "name": "Kindle",
+  "kind": "skill",
+  "description": "Fans the flames: all allies gain +20% ATK for 2 turns.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 4,
+  "field_effect": "buff_rise",
+  "sfx_cast": "fire",
+  "effects": [
+   {
+    "type": "status",
+    "status": "atk_up",
+    "value": 0.2,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "allies"
+   }
+  ]
+ },
+ "dust_bite": {
+  "name": "Dust Bite",
+  "kind": "normal",
+  "description": "A dusty nip.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   3
+  ],
+  "impact_effect": "hit_nature",
+  "sfx_hit": "nature"
+ },
+ "hex_powder": {
+  "name": "Hex Powder",
+  "kind": "skill",
+  "description": "Hexing dust: lowers ATK by 20% for 3 turns.",
+  "target": "enemy_single",
+  "power": 0.6,
+  "hits": 1,
+  "motion": "ranged",
+  "anim": "special",
+  "release_frame": 4,
+  "projectile": "petal_bolt",
+  "impact_effect": "hit_nature",
+  "sfx_cast": "nature",
+  "sfx_hit": "nature",
+  "effects": [
+   {
+    "type": "status",
+    "status": "atk_down",
+    "value": 0.2,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "target"
+   }
+  ]
+ },
+ "horn_jab": {
+  "name": "Horn Jab",
+  "kind": "normal",
+  "description": "Jabs with its horn.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2
+  ],
+  "impact_effect": "hit_fire",
+  "sfx_hit": "fire"
+ },
+ "scorch_charge": {
+  "name": "Scorch Charge",
+  "kind": "skill",
+  "description": "After charging: a blazing charge for heavy damage and Burn.",
+  "target": "enemy_single",
+  "power": 2.4,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "special",
+  "hit_frames": [
+   5
+  ],
+  "impact_effect": "hit_fire",
+  "sfx_hit": "fire",
+  "shake": 0.9,
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.5,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ },
+ "pincer": {
+  "name": "Pincer",
+  "kind": "normal",
+  "description": "Snaps a claw.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2
+  ],
+  "impact_effect": "hit_water",
+  "sfx_hit": "water_hit"
+ },
+ "shell_up": {
+  "name": "Shell Up",
+  "kind": "skill",
+  "description": "Hides behind salt: gains a Shield (25% max HP) and draws attacks.",
+  "target": "self",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 3,
+  "field_effect": "shield_flash",
+  "sfx_cast": "guard",
+  "effects": [
+   {
+    "type": "shield",
+    "percent_caster_hp": 0.25,
+    "duration": 2,
+    "on": "self"
+   },
+   {
+    "type": "status",
+    "status": "taunt",
+    "value": 1.0,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "eel_snap": {
+  "name": "Eel Snap",
+  "kind": "normal",
+  "description": "Two lightning-fast bites.",
+  "target": "enemy_single",
+  "power": 1.1,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2,
+   4
+  ],
+  "impact_effect": "hit_water",
+  "sfx_hit": "water_hit"
+ },
+ "riptide_coil": {
+  "name": "Riptide Coil",
+  "kind": "skill",
+  "description": "Coils and crushes the weakest foe.",
+  "target": "enemy_single",
+  "power": 1.7,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "special",
+  "hit_frames": [
+   5,
+   6
+  ],
+  "impact_effect": "hit_water",
+  "sfx_hit": "water_hit",
+  "shake": 0.5
+ },
+ "jelly_sting": {
+  "name": "Jelly Sting",
+  "kind": "normal",
+  "description": "A stinging touch that may Poison.",
+  "target": "enemy_single",
+  "power": 0.9,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2
+  ],
+  "impact_effect": "hit_water",
+  "sfx_hit": "water_hit",
+  "effects": [
+   {
+    "type": "status",
+    "status": "poison",
+    "chance": 0.25,
+    "duration": 2,
+    "on": "target"
+   }
+  ]
+ },
+ "tidal_glow": {
+  "name": "Tidal Glow",
+  "kind": "skill",
+  "description": "Its light heals all allies for 12% max HP.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 4,
+  "field_effect": "heal_ring",
+  "sfx_cast": "heal",
+  "effects": [
+   {
+    "type": "heal",
+    "percent_max_hp": 0.12,
+    "on": "allies"
+   }
+  ]
+ },
+ "salt_shard": {
+  "name": "Salt Shard",
+  "kind": "normal",
+  "description": "Flings a jagged shard.",
+  "target": "enemy_single",
+  "power": 1.0,
+  "hits": 1,
+  "motion": "ranged",
+  "anim": "attack",
+  "release_frame": 2,
+  "projectile": "water_bolt",
+  "impact_effect": "hit_water",
+  "sfx_cast": "water",
+  "sfx_hit": "water_hit"
+ },
+ "brine_curse": {
+  "name": "Brine Curse",
+  "kind": "skill",
+  "description": "A curse on every foe: DEF -20% for 3 turns.",
+  "target": "enemy_all",
+  "power": 0.5,
+  "hits": 1,
+  "motion": "ranged",
+  "anim": "special",
+  "release_frame": 4,
+  "projectile": "tide_orb",
+  "impact_effect": "hit_water",
+  "sfx_cast": "water",
+  "sfx_hit": "water_hit",
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_down",
+    "value": 0.2,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "target"
+   }
+  ]
+ },
+ "howl": {
+  "name": "Howl",
+  "kind": "skill",
+  "description": "A rallying howl: all allies gain +15% ATK for 2 turns.",
+  "target": "ally_all",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 3,
+  "field_effect": "buff_rise",
+  "sfx_cast": "nature",
+  "effects": [
+   {
+    "type": "status",
+    "status": "atk_up",
+    "value": 0.15,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "allies"
+   }
+  ]
+ },
+ "flare_up": {
+  "name": "Flare Up",
+  "kind": "skill",
+  "description": "Bursts into flame: 140% ATK to all foes, may Burn.",
+  "target": "enemy_all",
+  "power": 1.4,
+  "hits": 1,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 3,
+  "impact_effect": "hit_fire",
+  "sfx_cast": "fire",
+  "sfx_hit": "fire",
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.3,
+    "duration": 2,
+    "on": "target"
+   }
+  ]
+ },
+ "tidal_mend": {
+  "name": "Tidal Mend",
+  "kind": "skill",
+  "description": "Heals itself for 20% max HP and gains +20% DEF.",
+  "target": "self",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 3,
+  "field_effect": "heal_ring",
+  "sfx_cast": "heal",
+  "effects": [
+   {
+    "type": "heal",
+    "percent_max_hp": 0.2,
+    "on": "self"
+   },
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.2,
+    "duration": 2,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "bark_armor": {
+  "name": "Bark Armor",
+  "kind": "skill",
+  "description": "Bark hardens over its hide: DEF +40% for 3 turns.",
+  "target": "self",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 3,
+  "field_effect": "roots",
+  "sfx_cast": "nature",
+  "effects": [
+   {
+    "type": "status",
+    "status": "def_up",
+    "value": 0.4,
+    "duration": 3,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "glass_club": {
+  "name": "Glass Club",
+  "kind": "normal",
+  "description": "A crushing blow with its saltglass arm.",
+  "target": "enemy_single",
+  "power": 1.1,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2,
+   3
+  ],
+  "impact_effect": "hit_water",
+  "sfx_hit": "water_hit",
+  "shake": 0.5
+ },
+ "shatterstorm": {
+  "name": "Shatterstorm",
+  "kind": "skill",
+  "description": "After charging: saltglass explodes across the whole party.",
+  "target": "enemy_all",
+  "power": 1.9,
+  "hits": 3,
+  "motion": "melee",
+  "anim": "special",
+  "hit_frames": [
+   4,
+   5,
+   5
+  ],
+  "impact_effect": "hit_water",
+  "sfx_hit": "water_hit",
+  "shake": 1.0
+ },
+ "glass_carapace": {
+  "name": "Glass Carapace",
+  "kind": "skill",
+  "description": "Regrows its shell: Shield worth 20% max HP.",
+  "target": "self",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 3,
+  "field_effect": "shield_flash",
+  "sfx_cast": "guard",
+  "effects": [
+   {
+    "type": "shield",
+    "percent_caster_hp": 0.2,
+    "duration": 3,
+    "on": "self"
+   }
+  ]
+ },
+ "inferno_nova": {
+  "name": "Inferno Nova",
+  "kind": "skill",
+  "description": "After charging: a nova of fire burns the whole party.",
+  "target": "enemy_all",
+  "power": 1.7,
+  "hits": 2,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 4,
+  "impact_effect": "hit_fire",
+  "sfx_cast": "fire",
+  "sfx_hit": "fire",
+  "shake": 1.0,
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.4,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ },
+ "maelstrom": {
+  "name": "Maelstrom",
+  "kind": "skill",
+  "description": "After charging: a whirlpool drags at every foe.",
+  "target": "enemy_all",
+  "power": 1.6,
+  "hits": 3,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 4,
+  "impact_effect": "hit_water",
+  "sfx_cast": "water",
+  "sfx_hit": "water_hit",
+  "shake": 0.9
+ },
+ "spore_storm": {
+  "name": "Spore Storm",
+  "kind": "skill",
+  "description": "After charging: choking spores poison the party.",
+  "target": "enemy_all",
+  "power": 1.4,
+  "hits": 2,
+  "motion": "ranged",
+  "anim": "special",
+  "release_frame": 4,
+  "projectile": "petal_bolt",
+  "impact_effect": "hit_nature",
+  "sfx_cast": "nature",
+  "sfx_hit": "nature",
+  "effects": [
+   {
+    "type": "status",
+    "status": "poison",
+    "chance": 0.7,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ }
+}

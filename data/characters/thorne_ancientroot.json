@@ -1,0 +1,66 @@
+{
+ "id": "thorne_ancientroot",
+ "family": "thorne",
+ "name": "Thorne Ancientroot",
+ "element": "nature",
+ "role": "Defender",
+ "class": "DEFENDER",
+ "rarity": 5,
+ "form_index": 2,
+ "forms": [
+  "thorne_mossguard",
+  "thorne_oakwarden",
+  "thorne_ancientroot"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 35,
+ "experience": 0,
+ "base_stats": {
+  "hp": 2563,
+  "atk": 277,
+  "def": 399,
+  "rec": 166,
+  "spd": 65
+ },
+ "growth": {
+  "hp": 47,
+  "atk": 5,
+  "def": 7,
+  "rec": 2,
+  "spd": 0
+ },
+ "normal_attack": "root_hammer",
+ "burst": "worldroot_citadel",
+ "passive": {
+  "name": "Rooted Guard",
+  "description": "Guarding reduces damage by an extra 25%.",
+  "effects": [
+   {
+    "kind": "guard_bonus",
+    "value": 0.25
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Deep Roots",
+  "description": "Nature allies gain +12% DEF.",
+  "effects": [
+   {
+    "stat": "def",
+    "value": 0.12,
+    "element": "nature"
+   }
+  ]
+ },
+ "evolution": null,
+ "sprite": {
+  "sheet": "res://assets/characters/thorne_ancientroot/thorne_ancientroot_sheet.png",
+  "meta": "res://assets/characters/thorne_ancientroot/thorne_ancientroot_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/thorne_ancientroot/thorne_ancientroot_portrait.png",
+ "weapon": "Hammer & bark shield",
+ "description": "A forest guardian with a living-bark shield. Soaks up punishment.",
+ "lore": "Raised by the old grove-wardens, Thorne speaks little and plants a seed wherever a fight ends. His shield is a slab of living bark that still grows."
+}

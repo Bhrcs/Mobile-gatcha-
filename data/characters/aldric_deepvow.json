@@ -1,0 +1,64 @@
+{
+ "id": "aldric_deepvow",
+ "family": "aldric",
+ "name": "Aldric Deepvow",
+ "element": "water",
+ "role": "Support",
+ "class": "SUPPORT",
+ "rarity": 5,
+ "form_index": 0,
+ "forms": [
+  "aldric_deepvow"
+ ],
+ "starter": false,
+ "level": 1,
+ "max_level": 35,
+ "experience": 0,
+ "base_stats": {
+  "hp": 1983,
+  "atk": 272,
+  "def": 255,
+  "rec": 324,
+  "spd": 85
+ },
+ "growth": {
+  "hp": 37,
+  "atk": 5,
+  "def": 5,
+  "rec": 6,
+  "spd": 0
+ },
+ "normal_attack": "glyph_bolt",
+ "burst": "deepvow_litany",
+ "passive": {
+  "name": "Tidal Ward",
+  "description": "All allies take 6% less damage.",
+  "effects": [
+   {
+    "kind": "damage_taken_down",
+    "value": 0.06,
+    "scope": "allies"
+   }
+  ]
+ },
+ "leader_skill": {
+  "name": "Keeper's Vigil",
+  "description": "All allies gain +10% max HP.",
+  "effects": [
+   {
+    "stat": "hp",
+    "value": 0.1
+   }
+  ]
+ },
+ "evolution": null,
+ "sprite": {
+  "sheet": "res://assets/characters/aldric_deepvow/aldric_deepvow_sheet.png",
+  "meta": "res://assets/characters/aldric_deepvow/aldric_deepvow_sheet.json",
+  "scale": 8
+ },
+ "portrait": "res://assets/characters/aldric_deepvow/aldric_deepvow_portrait.png",
+ "weapon": "Tide tome",
+ "description": "An elder scholar. Weakens every foe while bolstering allies.",
+ "lore": "The last keeper of a drowned library, Aldric copied every book into his memory before the sea took the shelves. He reads the tides the way others read letters."
+}
