@@ -1,12 +1,12 @@
 class_name ItemSources
 extends RefCounted
-## "OBTAINED FROM" popup: every stage / tower floor / mission / login day that
+## "WHERE TO FIND" popup: every stage / tower floor / mission / login day that
 ## gives an item. Reachable stages have a GO button that jumps straight to them.
 
 
 static func open(parent: Control, item_id: String) -> FantasyPopup:
 	var item := Database.get_item(item_id)
-	var p := FantasyPopup.open(parent, "OBTAINED FROM", 960)
+	var p := FantasyPopup.open(parent, "WHERE TO FIND", 960)
 	p.name = "ItemSourcesPopup"
 	var head := UIKit.hbox(14)
 	head.alignment = BoxContainer.ALIGNMENT_CENTER

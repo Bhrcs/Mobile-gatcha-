@@ -1,6 +1,6 @@
 extends ScreenBase
 ## Inventory: tabs MATERIALS / TRAINING / ITEMS / OTHER. Items stack (one row
-## per item with its quantity). Tap a row for OBTAINED FROM (with GO buttons).
+## per item with its quantity). Tap an item for its details and WHERE TO FIND.
 ## OTHER lists the currencies: Gems, Gold and Soul Shards.
 
 const TABS := [["MATERIALS", "material"], ["TRAINING", "training"], ["ITEMS", "item"], ["OTHER", "other"]]

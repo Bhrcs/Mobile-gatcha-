@@ -1,6 +1,6 @@
 extends ScreenBase
 ## EVOLVE: current form -> next form, stat changes, required materials (owned /
-## needed, each with OBTAINED FROM navigation), gold cost and the level
+## needed, each with WHERE TO FIND navigation), gold cost and the level
 ## requirement. Confirming plays the evolution ceremony and shows the new form.
 ## No duplicate heroes are needed - only materials and Gold.
 
@@ -101,7 +101,7 @@ func _build() -> void:
 		lr.add_child(UIKit.spacer())
 		var tb := FantasyButton.make("TRAIN", "gold", Vector2(200, 80))
 		tb.add_theme_font_size_override("font_size", 28)
-		tb.pressed.connect(func(): SceneRouter.go("unit_detail", {"uid": uid, "open_train": true}))
+		tb.pressed.connect(func(): SceneRouter.go("train", {"uid": uid}))
 		lr.add_child(tb)
 	rv.add_child(lr)
 	var mats: Dictionary = st.get("materials", {})
@@ -122,7 +122,7 @@ func _build() -> void:
 	b.disabled = not st.get("ok", false)
 	if st.get("ok", false):
 		b.add_shine()
-	b.pressed.connect(func(): UIKit.confirm(self, "Evolve %s into %s?" % [def.get("name", ""), nxt.get("name", "")], _do_evolve, "EVOLVE"))
+	b.pressed.connect(func(): _confirm(def, nxt, st))
 	body.add_child(b)
 	for reason in st.get("reasons", []):
 		body.add_child(UIKit.label(reason, UIKit.T_SMALL, UIKit.MUTED, HORIZONTAL_ALIGNMENT_CENTER, 5))
@@ -156,12 +156,23 @@ func _material_row(item_id: String, need: int) -> Control:
 	v.add_child(UIKit.label(Database.item_name(item_id), UIKit.T_BODY, UIKit.TEXT, HORIZONTAL_ALIGNMENT_LEFT, 6))
 	v.add_child(UIKit.label("%d / %d" % [have, need], UIKit.T_BODY, UIKit.GOOD if have >= need else UIKit.DANGER, HORIZONTAL_ALIGNMENT_LEFT, 6))
 	h.add_child(v)
-	var src := FantasyButton.make("OBTAINED FROM", "steel", Vector2(300, 80))
+	var src := UIKit.btn("WHERE TO FIND", "secondary" if have < need else "quiet", Vector2(300, 80))
 	src.name = "Source_" + item_id
-	src.add_theme_font_size_override("font_size", 24)
+	src.add_theme_font_size_override("font_size", UIKit.T_SMALL)
 	src.pressed.connect(func(): ItemSources.open(self, item_id))
 	h.add_child(src)
 	return row
+
+
+## The one confirmation: what will be spent, then the ceremony.
+func _confirm(def: Dictionary, nxt: Dictionary, st: Dictionary) -> void:
+	var lines: Array = []
+	var mats: Dictionary = st.get("materials", {})
+	for m in mats.keys():
+		lines.append([Database.get_item(m).get("icon", ""), "%s  x%d" % [Database.item_name(m), int(mats[m])], UIKit.TEXT])
+	lines.append(["res://assets/icons/gold.png", "%s Gold" % UIKit.format_number(int(st.get("gold", 0))), UIKit.GOLD])
+	UIManager.confirm("EVOLVE?", "%s becomes %s. These will be used:" % [def.get("name", ""), nxt.get("name", "")], "EVOLVE",
+			_do_evolve, {"lines": lines, "name": "EvolveConfirm"})
 
 
 ## Evolution ceremony: light gathers, the old form dissolves into a silhouette,
@@ -171,7 +182,7 @@ func _do_evolve() -> void:
 	var before := Database.get_character(unit.get("char_id", ""))
 	var r := GameManager.evolve(uid)
 	if not r.get("ok", false):
-		UIKit.toast(self, "Cannot evolve: %s" % ", ".join(r.get("reasons", [])), UIKit.DANGER)
+		UIManager.toast("Cannot evolve: %s" % ", ".join(r.get("reasons", [])), "error")
 		return
 	var after := Database.get_character(r["into"])
 	var o := Control.new()
@@ -226,7 +237,7 @@ func _do_evolve() -> void:
 	AudioManager.play_sfx("summon_rare")
 	var t4 := create_tween()
 	t4.tween_property(flash, "color:a", 0.0, 0.5)
-	var title := UIKit.heading("EVOLVED!", 110, UIKit.GOLD)
+	var title := UIKit.heading("EVOLUTION COMPLETE", UIKit.T_TITLE, UIKit.GOLD)
 	title.position = Vector2(0, vp.y * 0.12)
 	title.size = Vector2(vp.x, 140)
 	o.add_child(title)
@@ -237,8 +248,21 @@ func _do_evolve() -> void:
 	var stars := UIKit.stars(int(after.get("rarity", 4)), 64)
 	stars.position = Vector2(vp.x / 2 - int(after.get("rarity", 4)) * 32, vp.y * 0.6 + 80)
 	o.add_child(stars)
-	var ok := FantasyButton.make("CONTINUE", "ember", Vector2(420, 130))
+	# what changed, in one line
+	var bits: Array = ["Max Lv.%d" % int(after.get("max_level", 25))]
+	if after.get("burst", "") != before.get("burst", ""):
+		bits.append("New Burst: %s" % Database.get_skill(after["burst"]).get("name", ""))
+	if after.get("passive", {}).get("name", "") != before.get("passive", {}).get("name", ""):
+		bits.append("New Passive: %s" % after.get("passive", {}).get("name", ""))
+	var summary := UIKit.wrap_label("   -   ".join(bits), UIKit.T_BODY, UIKit.TEXT)
+	summary.name = "EvolveSummary"
+	summary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	summary.position = Vector2(60, vp.y * 0.6 + 160)
+	summary.size = Vector2(vp.x - 120, 90)
+	o.add_child(summary)
+	UIManager.haptic("evolve")
+	var ok := UIKit.btn("CONTINUE", "primary", Vector2(420, 130))
 	ok.name = "EvolveContinue"
-	ok.position = Vector2(vp.x / 2 - 210, vp.y * 0.6 + 200)
+	ok.position = Vector2(vp.x / 2 - 210, vp.y * 0.6 + 280)
 	o.add_child(ok)
 	ok.pressed.connect(func(): SceneRouter.go("unit_detail", {"uid": uid}))

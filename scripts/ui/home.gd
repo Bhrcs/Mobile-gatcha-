@@ -12,7 +12,7 @@ const FEATURE_INFO := {
 	"units": ["UNITS & SQUAD", "res://assets/icons/nav_units.png", "Your squad can now hold up to 5 heroes. Open UNITS to inspect heroes and SQUAD to choose who fights and who leads - the leader's Leader Skill boosts the team.", "squad"],
 	"training": ["TRAINING", "res://assets/icons/radiant_wisp.png", "Feed Wisps and Gold to a hero to level them up. Wisps of the hero's own element give +50% EXP.", "units"],
 	"tower": ["ELEMENTAL TOWERS", "res://assets/icons/tower.png", "Three towers - Ember, Tide and Verdant - wait to be climbed. Each floor is harder than the last and each tower is the best source of its element's evolution materials.", "tower"],
-	"evolution": ["EVOLUTION", "res://assets/icons/star.png", "Heroes at max level can evolve into a stronger form with Fragments, Cores and Gold. Tap EVOLVE on a hero; OBTAINED FROM shows where materials drop.", "units"],
+	"evolution": ["EVOLUTION", "res://assets/icons/star.png", "Heroes at max level can evolve into a stronger form with Fragments, Cores and Gold. Tap EVOLVE on a hero; WHERE TO FIND shows where materials drop.", "units"],
 	"summon": ["THE EMBERGATE", "res://assets/icons/nav_summon.png", "The Embergate is open! Spend Gems to summon new heroes. Heroes you already own become Soul Shards for Burst training.", "summon"],
 	"missions": ["MISSIONS", "res://assets/icons/missions.png", "Daily and weekly missions now give Gems, Gold and Wisps. Claim 4 daily missions to open the daily chest.", "missions"],
 	"world2": ["SALTGLASS REACH", "res://assets/icons/world.png", "A new region beyond the Wilds: a glittering coast of salt-glass, drowned ruins and something enormous sleeping in the spire.", "world_select"],
