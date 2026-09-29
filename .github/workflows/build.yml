@@ -29,10 +29,11 @@ jobs:
       - uses: actions/checkout@v4
         with: { repository: axmolengine/axmol, ref: "${{ env.AXMOL_REF }}", path: axmol }
       - name: Build
+        shell: bash
+        run: pwsh -c "./axmol/setup.ps1; axmol build -p win32 -O 3" 2>&1 | tee build-windows.log
+      - name: Package
         shell: pwsh
         run: |
-          ./axmol/setup.ps1
-          axmol build -p win32 -O 3 *>&1 | Tee-Object -FilePath build-windows.log
           $exe = Get-ChildItem -Recurse -Filter Cinderbound.exe -Path build* | Select-Object -First 1
           if (-not $exe) { Write-Error "Cinderbound.exe was not built"; exit 1 }
           New-Item -ItemType Directory pkg/Cinderbound | Out-Null
@@ -59,10 +60,8 @@ jobs:
       - uses: actions/checkout@v4
         with: { repository: axmolengine/axmol, ref: "${{ env.AXMOL_REF }}", path: axmol }
       - name: Build
-        shell: pwsh
-        run: |
-          echo "y" | ./axmol/setup.ps1
-          axmol build -p linux -O 3 *>&1 | Tee-Object -FilePath build-linux.log
+        shell: bash
+        run: echo y | pwsh -c "./axmol/setup.ps1; axmol build -p linux -O 3" 2>&1 | tee build-linux.log
       - name: Screenshots
         if: always()
         run: |
