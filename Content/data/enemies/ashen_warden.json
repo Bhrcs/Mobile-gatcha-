@@ -1,0 +1,91 @@
+{
+ "id": "ashen_warden",
+ "name": "Ashen Warden",
+ "element": "fire",
+ "role": "boss",
+ "type": "Fracture Guardian",
+ "base_stats": {
+  "hp": 2400,
+  "atk": 130,
+  "def": 80,
+  "spd": 55
+ },
+ "skills": {
+  "normal": "warden_maul",
+  "special": "furnace_collapse"
+ },
+ "ai": {
+  "profile": "boss",
+  "skill_chance": 0.0,
+  "targeting": "random",
+  "actions": 2,
+  "pattern": [
+   "normal",
+   "cinder_wave",
+   "normal",
+   "reforge_armor"
+  ],
+  "phases": [
+   {
+    "below": 0.7,
+    "announce": "The Warden calls up two Ember Totems! They feed it ATK - destroy them.",
+    "summon": {
+     "enemy": "ember_totem",
+     "count": 2,
+     "max": 2,
+     "level_offset": -4
+    }
+   },
+   {
+    "below": 0.4,
+    "atk_up": 0.15,
+    "charge": "furnace_collapse",
+    "announce": "Its furnace roars open! BREAK it, Guard or burst it down!",
+    "pattern": [
+     "normal",
+     "cinder_wave",
+     "charge",
+     "normal",
+     "reforge_armor"
+    ]
+   }
+  ]
+ },
+ "rewards": {
+  "xp": 400,
+  "gold": [
+   400,
+   520
+  ]
+ },
+ "drop_table": "fire_boss",
+ "sprite": {
+  "sheet": "res://assets/enemies/saltglass_colossus/saltglass_colossus_sheet.png",
+  "meta": "res://assets/enemies/saltglass_colossus/saltglass_colossus_sheet.json",
+  "scale": 10
+ },
+ "description": "A knight of ash who guards the first Fracture. Its Flame Armor turns blades aside until something breaks its stance - water hits it hardest.",
+ "boss": true,
+ "tint": "#ff8a5a",
+ "variant_of": "saltglass_colossus",
+ "break": {
+  "max": 220,
+  "weak": "water"
+ },
+ "resist": {
+  "burn": 0.8
+ },
+ "start_statuses": [
+  {
+   "id": "flame_armor",
+   "value": 0.4,
+   "turns": 99
+  }
+ ],
+ "mechanics": [
+  "Flame Armor: -40% damage taken until Broken.",
+  "Break Gauge: Water heroes and Breakers drain it fastest.",
+  "70% HP: two Ember Totems raise its ATK until destroyed.",
+  "40% HP: charges Furnace Collapse - Break it, deal 15% HP, or Guard."
+ ]
+}

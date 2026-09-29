@@ -63,7 +63,20 @@ STATUSES = {
               "desc": "Draws enemy attacks."},
     "charging": {"name": "Charging", "negative": False, "kind": "charge", "icon": ICON % "status_charge",
                  "color": "#ffe04a", "desc": "Gathering power for a devastating attack next turn!"},
+    # ---- Phase 7: boss mechanics. "dispellable": False = Dispel cannot remove it (shown in its description).
+    "flame_armor": {"name": "Flame Armor", "negative": False, "kind": "damage_reduction", "dispellable": False,
+                    "removed_by_break": True, "icon": ICON % "status_guard_wall", "color": "#ff9a3a",
+                    "desc": "Takes 40% less damage. Cannot be dispelled - BREAK the foe to shatter it."},
+    "broken": {"name": "Broken", "negative": True, "kind": "damage_taken_up", "icon": ICON % "status_def_down",
+               "color": "#ffe070", "desc": "BROKEN: loses its turn, its charged attack is cancelled and it takes "
+                                            "50% more damage."},
+    "ember_fervor": {"name": "Ember Fervor", "negative": False, "kind": "stat_mod", "stat": "atk", "sign": 1,
+                     "dispellable": False, "icon": ICON % "status_atk_up", "color": "#ff6a2a",
+                     "desc": "ATK raised by the Ember Totems. Destroy the Totems to remove it."},
 }
+
+# Phase 7 stacking rules (see docs/dev/BALANCE-GUIDE.md): the same status never stacks - the stronger value and the
+# longer duration are kept. Different stat buffs add up, capped at +-status_stat_cap.
 
 # ====================================================================== items
 def item(name, icon, cat, rarity, desc, use, sort, **kw):
@@ -354,6 +367,14 @@ def build_characters():
 
 
 # ====================================================================== hero skills
+def phase7_skills(hs):
+    """Breakers' Bursts also Dispel one buff (Phase 7)."""
+    for sid in ("rending_quake", "magma_sunder", "grove_quake"):
+        hs[sid].setdefault("effects", []).append({"type": "dispel", "count": 1, "on": "target"})
+        hs[sid]["description"] += " Dispels 1 buff."
+    return hs
+
+
 def atk(name, desc, power, hits, motion, anim_frames=None, **kw):
     d = {"name": name, "kind": "normal", "description": desc, "target": "enemy_single", "power": power, "hits": hits,
          "motion": motion, "anim": "attack"}
@@ -747,8 +768,57 @@ TOWER_BOSS_SKILLS = {"scorch_beetle": ("horn_jab", "scorch_charge"), "emberwisp"
                      "glowcap": ("cap_bonk", "spore_storm"), "ancient_bramble_pup": ("ancient_maul", "verdant_rampage")}
 
 
+# ---- Phase 7: the Ashen Warden (first mechanical boss) and its Ember Totems
+def phase7_enemy_skills():
+  return {
+    "warden_maul": eatk("Warden's Maul", "Two heavy blows with a burning fist.", 1.15, 2, "melee", [2, 3],
+                        impact_effect="hit_fire", sfx_hit="fire", shake=0.5),
+    "cinder_wave": espc("Cinder Wave", "A wave of cinders washes over the party. May Burn.", 0.7, 1, "melee", [4],
+                        target="enemy_all", impact_effect="hit_fire", sfx_hit="fire",
+                        effects=[{"type": "status", "status": "burn", "chance": 0.4, "duration": 2, "on": "target"}]),
+    "reforge_armor": espc("Reforge Armor", "Wraps itself in Flame Armor again (40% less damage).", 0, 0, "self", 3,
+                          target="self", field_effect="shield_flash", sfx_cast="guard",
+                          effects=[{"type": "status", "status": "flame_armor", "value": 0.4, "duration": 99,
+                                    "chance": 1.0, "on": "self"}]),
+    "furnace_collapse": espc("Furnace Collapse", "After charging: the furnace in its chest bursts over the whole "
+                             "party. BREAK the Warden or deal 15% of its HP while it charges to stop it.", 2.4, 3,
+                             "melee", [4, 5, 5], target="enemy_all", impact_effect="hit_fire", sfx_hit="fire",
+                             shake=1.3, interrupt={"break": True, "damage_percent": 0.15},
+                             effects=[{"type": "status", "status": "burn", "chance": 0.6, "duration": 3,
+                                       "on": "target"}]),
+    "totem_hum": eatk("Totem Hum", "The totem hums with heat.", 0.5, 1, "melee", [2], impact_effect="hit_fire"),
+  }
+PHASE7_ENEMIES = {
+    "ashen_warden": enemy("ashen_warden", "Ashen Warden", "fire", "boss", (2400, 130, 80, 55), "warden_maul",
+                          "furnace_collapse", 400, [400, 520], "fire_boss",
+                          AI("boss", 0.0, actions=2, pattern=["normal", "cinder_wave", "normal", "reforge_armor"],
+                             phases=[{"below": 0.7, "announce": "The Warden calls up two Ember Totems! "
+                                                               "They feed it ATK - destroy them.",
+                                      "summon": {"enemy": "ember_totem", "count": 2, "max": 2, "level_offset": -4}},
+                                     {"below": 0.4, "atk_up": 0.15, "charge": "furnace_collapse",
+                                      "announce": "Its furnace roars open! BREAK it, Guard or burst it down!",
+                                      "pattern": ["normal", "cinder_wave", "charge", "normal", "reforge_armor"]}]),
+                          "A knight of ash who guards the first Fracture. Its Flame Armor turns blades aside "
+                          "until something breaks its stance - water hits it hardest.",
+                          size_scale=10, boss=True, type="Fracture Guardian", sprite_id="saltglass_colossus",
+                          tint="#ff8a5a", variant_of="saltglass_colossus",
+                          **{"break": {"max": 220, "weak": "water"}, "resist": {"burn": 0.8},
+                             "start_statuses": [{"id": "flame_armor", "value": 0.4, "turns": 99}],
+                             "mechanics": ["Flame Armor: -40% damage taken until Broken.",
+                                           "Break Gauge: Water heroes and Breakers drain it fastest.",
+                                           "70% HP: two Ember Totems raise its ATK until destroyed.",
+                                           "40% HP: charges Furnace Collapse - Break it, deal 15% HP, or Guard."]}),
+    "ember_totem": enemy("ember_totem", "Ember Totem", "fire", "totem", (380, 0, 40, 1), "totem_hum", "totem_hum",
+                         0, [0, 0], "fire_common", AI("totem", 0.0),
+                         "A pillar of banked coals. While it stands, the Warden burns hotter (+20% ATK each).",
+                         size_scale=7, type="Totem", sprite_id="emberwisp", tint="#b0402a", variant_of="emberwisp",
+                         aura={"status": "ember_fervor", "value": 0.2}),
+}
+
+
 def build_enemies():
     out = copy.deepcopy(ENEMIES)
+    out.update(copy.deepcopy(PHASE7_ENEMIES))
     for eid, (base_id, name, extra, tint, drop) in ELITES.items():
         b = copy.deepcopy(ENEMIES[base_id])
         b.update({"id": eid, "name": name, "elite": True, "tint": tint, "drop_table": drop,
@@ -899,6 +969,7 @@ def build_enemy_skills():
                                       "on": "target"}]),
     }
     s.update(new)
+    s.update(phase7_enemy_skills())
     return s
 
 
@@ -990,7 +1061,7 @@ def build_world1():
 
 
 def build_world2():
-    with open(os.path.join(ROOT, "tools", "route_w2.json")) as f:
+    with open(os.path.join(os.path.dirname(__file__), "route_w2.json")) as f:
         route = json.load(f)["route_pos"]
     stages = []
     names = ["Saltglass Shore", "Tidepool Trail", "Crab Crossing", "Glimmer Grotto", "Echoing Caves", "Drowned Shrine",
@@ -1164,6 +1235,35 @@ def build_towers():
     return out
 
 
+# Phase 7 endgame: The Fracture (rotating hard bosses). Fracture I = Ashen Warden, Normal / Hard / Expert.
+def build_fracture():
+    tiers = [("Normal", 26, [], {"gems": 100, "items": {"flame_core": 2, "radiant_wisp": 2}}),
+             ("Hard", 30, [spawn("elite_emberwisp", 29)], {"gems": 150, "items": {"infernal_crystal": 2}}),
+             ("Expert", 34, [spawn("elite_emberwisp", 33), spawn("elite_scorch_beetle", 33)],
+              {"gems": 200, "items": {"infernal_crystal": 3, "prism_shard": 1}})]
+    floors = []
+    for i, (name, lvl, adds, first) in enumerate(tiers, 1):
+        floors.append({
+            "id": f"fracture_01_{name.lower()}", "number": i, "floor": i, "name": f"Ashen Warden - {name}",
+            "difficulty": name.upper(), "background": "bg_tower_ember", "recommended_level": lvl, "energy": 10 + i * 2,
+            "recommended_power": ref_power(lvl, 4 + i), "boss": True, "music": "boss",
+            "summary": "The Ashen Warden guards the first Fracture. Break its armour; Water hits hardest.",
+            "waves": [adds + [spawn("ashen_warden", lvl)]] if adds else [[spawn("ashen_warden", lvl)]],
+            "rewards": {"xp": 2000 + i * 800, "gold": 800 + i * 300, "first_clear_gold": 1500 * i},
+            "drops": [{"item": "flame_core", "chance": 0.5, "min": 1, "max": 2},
+                      {"item": "infernal_crystal", "chance": 0.15 * i, "min": 1, "max": 1}],
+            "first_clear": first,
+            "stars": [STAR_OBJ["clear"], STAR_OBJ["no_ko"], turns_obj(12)],
+            "unlocks": [f"fracture_01_{tiers[i][0].lower()}"] if i < len(tiers) else [],
+            "tier": i,
+            "recommended_roles": ["Breaker", "Defender", "Healer"],
+        })
+    return {"id": "the_fracture", "name": "Fracture I", "type": "fracture", "element": "fire", "counter_element": "water",
+            "requires": "saltglass_10",
+            "description": "Endgame boss encounters for developed squads. Fracture I: the Ashen Warden.",
+            "materials": ["flame_core", "infernal_crystal", "prism_shard"], "music": "boss", "stages": floors}
+
+
 # ====================================================================== economy tables
 SUMMON = {
     "banners": {
@@ -1238,6 +1338,10 @@ def build_progression():
     p["legacy_items"] = LEGACY_ITEMS
     p["inventory_stack_limit"] = 9999
     p["starting_items"] = {"ember_wisp": 1, "tide_wisp": 1, "verdant_wisp": 1}
+    # Phase 7 combat rules (docs/dev/BALANCE-GUIDE.md)
+    p["combat"].update({"max_mitigation": 0.75, "status_stat_cap": 0.6, "boss_status_resist": 0.3,
+                        "boss_status_dr_step": 0.15})
+    p["break"] = {"base": 12, "breaker_mult": 2.0, "weak_mult": 1.5, "turns": 2, "damage_taken_up": 0.5}
     return p
 
 
@@ -1255,7 +1359,7 @@ def main():
     for cid, c in chars.items():
         write(f"characters/{cid}.json", c)
     hs = {"_comment": "power = total ATK multiplier split across hits. level_bonus = per Burst level above 1."}
-    hs.update(HERO_SKILLS)
+    hs.update(phase7_skills(copy.deepcopy(HERO_SKILLS)))
     write("skills/hero_skills.json", hs)
     es = {"_comment": "Enemy skills. kind 'skill' = special; charged skills are telegraphed by the AI."}
     es.update(build_enemy_skills())
@@ -1270,6 +1374,7 @@ def main():
     write("stages/saltglass_reach.json", build_world2())
     for tid, t in build_towers().items():
         write(f"towers/{tid}.json", t)
+    write("towers/the_fracture.json", build_fracture())
     write("summon.json", SUMMON)
     write("missions.json", MISSIONS)
     write("login_rewards.json", LOGIN)

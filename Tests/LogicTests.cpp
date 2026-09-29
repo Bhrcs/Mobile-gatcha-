@@ -25,7 +25,7 @@ static void test_data()
     check(DB.load_errors.empty(), "no data load errors");
     check(DB.starter_ids() == std::vector<std::string>{"kael_emberclaw", "mira_tidesong", "thorne_mossguard"}, "three starters");
     check(DB.stage_order.size() == 20, "two worlds of ten stages");
-    check(DB.tower_order.size() == 3, "three towers");
+    check(DB.tower_order.size() == 4 && DB.tower_order.back() == "the_fracture", "three towers + the Fracture (last)");
     check(DB.family_ids().size() == 12, "twelve hero families");
     check(DB.element_multiplier("fire", "nature") == 1.25 && DB.element_multiplier("fire", "water") == 0.75 &&
               DB.element_multiplier("fire", "fire") == 1.0, "element chart");
@@ -82,44 +82,185 @@ static void test_burst_and_statuses()
     check(kael->hp == hp && kael->shield_amount() == 20, "shield absorbs first");
 }
 
+struct SimResult { bool win = false; int rounds = 0, ko = 0; };
+// Plays a whole stage with a simple policy (Burst when ready, Guard a charge when low). Used by tests + `audit`.
+static SimResult simulate(const std::string& stage, const Json& party, int seed)
+{
+    BattleModel m;
+    m.setup(stage, party, seed);
+    for (int guard = 0; guard < 200 && !m.all_players_dead(); ++guard)
+    {
+        if (m.all_enemies_dead())
+        {
+            if (!m.has_next_wave()) break;
+            m.advance_wave();
+            continue;
+        }
+        bool charging = false;
+        for (auto& e : m.alive(m.enemies)) charging = charging || !e->charging_skill.empty();
+        while (auto p = m.first_ready_player())
+        {
+            if (charging && !p->burst_ready() && p->hp_ratio() < 0.5) { m.guard(*p); continue; }
+            CombatantPtr focus;   // focus fire the weakest foe, like a player would
+            for (auto& e : m.alive(m.enemies))
+                if (!focus || e->hp < focus->hp) focus = e;
+            Plan plan = p->burst_ready() ? m.plan_action(p, p->burst_skill, focus, true) : m.plan_action(p, p->normal_skill, focus);
+            m.resolve_instant(plan);
+            if (m.all_enemies_dead()) break;
+        }
+        for (auto& e : m.enemy_turn_order())
+        {
+            if (!e->is_alive() || m.all_players_dead()) continue;
+            Json ph = m.check_phase(*e);
+            if (ph.contains("summon")) m.summon_minions(*e, ph["summon"]);
+            EnemyDecision d = m.decide(e);
+            if (d.type == "charge") m.begin_charge(*e, d.skill_id);
+            else if (d.type == "summon") m.summon_minions(*e);
+            else if (d.type == "skill") { Plan pl = m.plan_action(e, d.skill_id, d.target); m.resolve_instant(pl); }
+        }
+        for (auto& ev : m.end_round())
+            if (ev.type == "dot") m.apply_dot(ev.unit, ev.amount);
+            else if (ev.type == "hot") m.apply_hot(ev.unit, ev.amount);
+        m.start_player_phase();
+    }
+    return {m.all_enemies_dead() && !m.has_next_wave(), m.total_rounds, m.players_ko};
+}
+
+static Json party_of(const std::vector<std::string>& ids, int level)
+{
+    Json p = Json::array();
+    for (auto id : ids)
+    {
+        while (level > I(DB.character(id), "max_level", 99) && !S(O(DB.character(id), "evolution"), "into").empty())
+            id = S(DB.character(id)["evolution"], "into");   // the form a player would have at this level
+        p.push_back({{"uid", id}, {"char_id", id}, {"level", level}});
+    }
+    return p;
+}
+
 static void test_battle_every_starter()
 {
     for (auto& sid : DB.starter_ids())
     {
         int wins = 0;
-        for (int seed = 0; seed < 20; ++seed)
-        {
-            BattleModel m;
-            m.setup("ashroot_01", Json::array({{{"uid", "u1"}, {"char_id", sid}, {"level", 1}}}), seed);
-            for (int guard = 0; guard < 200 && !m.all_players_dead(); ++guard)
-            {
-                if (m.all_enemies_dead())
-                {
-                    if (!m.has_next_wave()) break;
-                    m.advance_wave();
-                    continue;
-                }
-                while (auto p = m.first_ready_player())
-                {
-                    Plan plan = p->burst_ready() ? m.plan_action(p, p->burst_skill, nullptr, true) : m.plan_action(p, p->normal_skill, nullptr);
-                    m.resolve_instant(plan);
-                    if (m.all_enemies_dead()) break;
-                }
-                for (auto& e : m.enemy_turn_order())
-                {
-                    if (!e->is_alive() || m.all_players_dead()) continue;
-                    EnemyDecision d = m.decide(e);
-                    if (d.type == "charge") m.begin_charge(*e, d.skill_id);
-                    else if (d.type == "summon") m.summon_minions(*e);
-                    else { Plan pl = m.plan_action(e, d.skill_id, d.target); m.resolve_instant(pl); }
-                }
-                for (auto& ev : m.end_round())
-                    ev.type == "dot" ? (void)m.apply_dot(ev.unit, ev.amount) : (void)m.apply_hot(ev.unit, ev.amount);
-                m.start_player_phase();
-            }
-            wins += m.all_enemies_dead() && !m.has_next_wave() ? 1 : 0;
-        }
+        for (int seed = 0; seed < 20; ++seed) wins += simulate("ashroot_01", party_of({sid}, 1), seed).win ? 1 : 0;
         check(wins >= 18, sid + " clears stage 1 (" + std::to_string(wins) + "/20)");
+    }
+}
+
+// Phase 7: resistances, Dispel, mitigation cap, Break Gauge, boss phases, totem auras, interrupts.
+static void test_phase7_combat()
+{
+    Rng rng;
+    rng.seed(3);
+    // status resistance + diminishing returns on bosses
+    auto warden = Combatant::from_enemy("ashen_warden", 26, 0);
+    check(warden->has_status("flame_armor") && warden->break_max > 0, "Warden starts armoured with a Break Gauge");
+    check(std::abs(warden->status_resist("burn") - 0.8) < 1e-9, "data resist (burn 80%)");
+    check(std::abs(warden->status_resist("def_down") - 0.3) < 1e-9, "bosses default to 30% resist");
+    warden->status_hits["def_down"] = 2;
+    check(warden->status_resist("def_down") > 0.59, "repeated statuses land less often on bosses");
+    // Dispel removes buffs but not protected boss mechanics
+    warden->add_status("atk_up", 0.2, 2);
+    auto gone = warden->dispel(5);
+    check(gone.size() == 1 && gone[0] == "atk_up" && warden->has_status("flame_armor"), "Dispel skips undispellable Flame Armor");
+    // mitigation cap
+    {
+        auto kael = player("kael_emberclaw", 20);
+        auto pup = Combatant::from_enemy("bramble_pup", 20, 0);
+        CombatOverride c("crit_chance", 0.0), v1("variance_min", 1.0), v2("variance_max", 1.0);
+        int open = DamageCalculator::calculate(*pup, *kael, DB.skill("bramble_bite"), rng).total;
+        kael->add_status("damage_reduction", 0.9, 3);
+        kael->guarding = true;
+        int walled = DamageCalculator::calculate(*pup, *kael, DB.skill("bramble_bite"), rng).total;
+        check(walled >= (int)std::floor(open * 0.25) - 1, "stacked mitigation is capped at 75%");
+    }
+    // Break: a Breaker drains the gauge; Broken strips armour, cancels the charge and skips the turn
+    BattleModel m;
+    m.setup("fracture_01_normal", party_of({"voss_ashmantle", "mira_tidesong"}, 26), 1);
+    auto w = m.enemies[0];
+    auto voss = m.players[0], mira = m.players[1];
+    m.begin_charge(*w, "furnace_collapse");
+    Plan pv = m.plan_action(voss, voss->normal_skill, w), pm = m.plan_action(mira, mira->normal_skill, w);
+    check(pv.targets[0].break_per_hit * pv.targets[0].hits.size() > pm.targets[0].break_per_hit * pm.targets[0].hits.size() * 0.9,
+          "Breakers deal more Break than a Water healer's hit");
+    bool broke = false;
+    for (int i = 0; i < 40 && !broke; ++i)
+    {
+        Plan p = m.plan_action(voss, voss->normal_skill, w);
+        for (size_t h = 0; h < p.targets[0].hits.size(); ++h) broke = broke || m.apply_hit(p, 0, (int)h).broke;
+        w->hp = w->max_hp;   // keep it alive (and above the phase thresholds)
+    }
+    check(broke && w->is_broken() && !w->has_status("flame_armor") && w->charging_skill.empty(), "Break: armour off, charge cancelled");
+    check(m.decide(w).type == "skip", "Broken foes lose their turn");
+    for (int i = 0; i < 3; ++i) m.end_round();
+    check(!w->is_broken() && w->break_value == w->break_max, "gauge refills after Broken ends");
+    // phases: totems at 70% feed ATK; killing them removes it
+    w->hp = (int)(w->max_hp * 0.65);
+    Json ph = m.check_phase(*w);
+    check(I(ph, "index", 0) == 1 && ph.contains("summon"), "phase 1 at 70%: summon");
+    Units totems = m.summon_minions(*w, ph["summon"]);
+    double atk2 = w->get_stat("atk");
+    check(totems.size() == 2 && std::abs(F(w->statuses.back(), "value", 0) - 0.4) < 1e-9, "two totems: +40% ATK");
+    totems[0]->take_damage(99999);
+    Plan dummy = m.plan_action(voss, voss->normal_skill, totems[1]);
+    m.resolve_instant(dummy);   // may or may not kill; force the first death through the model
+    totems[1]->take_damage(99999);
+    m.apply_dot(totems[0], 1);
+    m.apply_dot(totems[1], 1);
+    check(!w->has_status("ember_fervor") && w->get_stat("atk") < atk2, "destroying the totems removes the buff");
+    // phase 2 at 40%: telegraphed Furnace Collapse, interruptible by damage
+    w->hp = (int)(w->max_hp * 0.35);
+    Json ph2 = m.check_phase(*w);
+    EnemyDecision d = m.decide(w);
+    check(I(ph2, "index", 0) == 2 && d.type == "charge" && d.skill_id == "furnace_collapse", "phase 2 starts charging at once");
+    m.begin_charge(*w, d.skill_id);
+    Plan big = m.plan_action(voss, voss->normal_skill, w);
+    big.targets[0].hits = {(int)(w->max_hp * 0.16)};
+    big.targets[0].break_per_hit = 0;
+    check(m.apply_hit(big, 0, 0).interrupted && w->charging_skill.empty(), "15% HP while charging interrupts");
+}
+
+// `logic_tests audit`: win rate / rounds / KOs for every story stage at its recommended level.
+static void audit()
+{
+    std::vector<std::pair<std::string, std::vector<std::string>>> squads = {
+        {"starters", {"kael_emberclaw", "mira_tidesong", "thorne_mossguard"}},
+        {"fire-only", {"kael_emberclaw", "rhea_flintwhistle"}},
+        {"no-healer", {"kael_emberclaw", "thorne_mossguard", "wren_briarshot"}}};
+    for (auto& [name, ids] : squads)
+    {
+        std::cout << "== " << name << "\n";
+        for (auto& st : DB.stage_order)
+        {
+            int lvl = I(DB.stage(st), "recommended_level", 1), wins = 0, rounds = 0, ko = 0;
+            for (int seed = 0; seed < 30; ++seed)
+            {
+                auto r = simulate(st, party_of(ids, lvl), seed);
+                wins += r.win; rounds += r.rounds; ko += r.ko;
+            }
+            std::printf("%-14s lv%-3d win %3d%%  rounds %4.1f  ko %3.1f\n", st.c_str(), lvl, wins * 100 / 30, rounds / 30.0, ko / 30.0);
+        }
+    }
+    std::vector<std::pair<std::string, std::vector<std::string>>> late = {
+        {"starters", {"kael_emberclaw", "mira_tidesong", "thorne_mossguard"}},
+        {"starters+breaker+water", {"kael_emberclaw", "mira_tidesong", "thorne_mossguard", "voss_ashmantle", "corin_saltmarsh"}},
+        {"fire x3", {"kael_emberclaw", "rhea_flintwhistle", "voss_ashmantle"}},
+        {"5 no healer", {"kael_emberclaw", "thorne_mossguard", "voss_ashmantle", "corin_saltmarsh", "wren_briarshot"}}};
+    for (auto& [name, ids] : late)
+    {
+        std::cout << "== Fracture I, " << name << "\n";
+        for (auto& fl : A(DB.towers["the_fracture"], "stages"))
+        {
+            std::string st = S(fl, "id");
+            int lvl = I(fl, "recommended_level", 1), wins = 0, rounds = 0, ko = 0;
+            for (int seed = 0; seed < 30; ++seed)
+            {
+                auto r = simulate(st, party_of(ids, lvl), seed);
+                wins += r.win; rounds += r.rounds; ko += r.ko;
+            }
+            std::printf("%-22s lv%-3d win %3d%%  rounds %4.1f  ko %3.1f\n", st.c_str(), lvl, wins * 100 / 30, rounds / 30.0, ko / 30.0);
+        }
     }
 }
 
@@ -189,14 +330,16 @@ static void test_helpers()
         check(!GameManager::validate_player_name(bad).empty(), std::string("bad name rejected: ") + bad);
 }
 
-int main()
+int main(int argc, char** argv)
 {
     DB.reload();
     GM.init();
+    if (argc > 1 && std::string(argv[1]) == "audit") { audit(); return 0; }
     test_data();
     test_damage();
     test_burst_and_statuses();
     test_battle_every_starter();
+    test_phase7_combat();
     test_profile_flow();
     test_helpers();
     SaveManager::get().delete_profile();

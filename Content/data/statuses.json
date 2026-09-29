@@ -106,5 +106,34 @@
   "icon": "res://assets/icons/status_charge.png",
   "color": "#ffe04a",
   "desc": "Gathering power for a devastating attack next turn!"
+ },
+ "flame_armor": {
+  "name": "Flame Armor",
+  "negative": false,
+  "kind": "damage_reduction",
+  "dispellable": false,
+  "removed_by_break": true,
+  "icon": "res://assets/icons/status_guard_wall.png",
+  "color": "#ff9a3a",
+  "desc": "Takes 40% less damage. Cannot be dispelled - BREAK the foe to shatter it."
+ },
+ "broken": {
+  "name": "Broken",
+  "negative": true,
+  "kind": "damage_taken_up",
+  "icon": "res://assets/icons/status_def_down.png",
+  "color": "#ffe070",
+  "desc": "BROKEN: loses its turn, its charged attack is cancelled and it takes 50% more damage."
+ },
+ "ember_fervor": {
+  "name": "Ember Fervor",
+  "negative": false,
+  "kind": "stat_mod",
+  "stat": "atk",
+  "sign": 1,
+  "dispellable": false,
+  "icon": "res://assets/icons/status_atk_up.png",
+  "color": "#ff6a2a",
+  "desc": "ATK raised by the Ember Totems. Destroy the Totems to remove it."
  }
 }

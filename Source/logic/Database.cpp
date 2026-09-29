@@ -98,7 +98,10 @@ void Database::load_worlds()
         towers[k] = tw;
         tower_order.push_back(k);
     }
-    std::sort(tower_order.begin(), tower_order.end());
+    std::sort(tower_order.begin(), tower_order.end(), [this](const std::string& a, const std::string& b) {
+        bool fa = S(towers[a], "type") == "fracture", fb = S(towers[b], "type") == "fracture";   // endgame tabs last
+        return fa != fb ? fb : a < b;
+    });
 }
 
 void Database::validate()

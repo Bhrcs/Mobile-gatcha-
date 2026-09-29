@@ -722,6 +722,37 @@ def song_summon():
     return s.render()
 
 
+# ---- Phase 7 combat cues (each one distinct)
+@seeded(701)
+def sfx_break():   # glass-and-stone shatter over a low thud
+    thud = sine(70, 0.5, 30) * np.exp(-t_axis(0.5) * 7)
+    shards = mix(*[bell(f, 0.6, 9) * 0.3 for f in (1320, 1760, 2217, 2960)])
+    crack = highpass(noise(0.35), 2500) * np.exp(-t_axis(0.35) * 14)
+    return norm(mix(thud * 1.3, shards, crack * 0.8), 0.9)
+
+
+@seeded(702)
+def sfx_interrupt():   # a rising charge that is cut off by a hard stop
+    rise = sine(300, 0.25, 900) * np.linspace(0.2, 1, int(SR * 0.25))
+    stop = mix(square(98, 0.18, 0.5), lowpass(noise(0.18), 1500)) * np.exp(-t_axis(0.18) * 18)
+    return norm(np.concatenate([rise * 0.6, stop]), 0.85)
+
+
+@seeded(703)
+def sfx_dispel():   # a buff popping: quick falling sparkle
+    return norm(mix(arp([2349, 1760, 1319, 988], 0.03, 0.2, sine, decay=16),
+                    highpass(noise(0.12), 4000) * np.exp(-t_axis(0.12) * 25) * 0.3), 0.55)
+
+
+@seeded(704)
+def sfx_cleanse():   # soft rising chime + airy wash
+    return norm(mix(arp([659, 880, 1319, 1760], 0.05, 0.35, sine, decay=6),
+                    lowpass(noise(0.4), 3000) * env(int(SR * 0.4), 0.1, 0.1, 0.4, 0.2) * 0.15), 0.5)
+
+
+SFX.update({'break': sfx_break, 'interrupt': sfx_interrupt, 'dispel': sfx_dispel, 'cleanse': sfx_cleanse})
+
+
 MUSIC = {'menu': song_menu, 'world': song_world, 'battle': song_battle, 'boss': song_boss,
          'victory': song_victory, 'defeat': song_defeat,
          'world2': song_world2, 'battle2': song_battle2, 'tower': song_tower, 'summon': song_summon}

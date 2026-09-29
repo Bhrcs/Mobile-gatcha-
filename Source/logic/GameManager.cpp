@@ -560,6 +560,12 @@ int GameManager::total_stars(const std::string& wid) const
 
 std::string GameManager::next_stage_id(const std::string& sid) const { return S(at(A(DB.stage(sid), "unlocks"), 0)); }
 
+bool GameManager::tower_open(const std::string& tid) const
+{
+    std::string req = S(O(DB.towers, tid), "requires");
+    return feature_unlocked("tower") && (req.empty() || is_stage_cleared(req));
+}
+
 bool GameManager::world_unlocked(const std::string& wid) const
 {
     std::string req = S(O(DB.worlds, wid), "requires");
@@ -643,7 +649,7 @@ void GameManager::grant_retroactive_unlocks()
     for (auto& tid : DB.tower_order)
     {
         std::string first = S(DB.towers[tid]["stages"][0], "id");
-        if (feature_unlocked("tower") && !is_stage_unlocked(first))
+        if (tower_open(tid) && !is_stage_unlocked(first))
         {
             profile["stages"]["unlocked"].push_back(first);
             any = true;
@@ -715,12 +721,11 @@ Json GameManager::apply_battle_result(const std::string& sid, const Json& data)
         st["cleared"].push_back(sid);
         features = features_unlocked_by(sid);
         gift = grant_unlock_gift(sid);
-        if (contains(features, "tower"))
-            for (auto& tid : DB.tower_order)
-            {
-                std::string f0 = S(DB.towers[tid]["stages"][0], "id");
-                if (!contains(st["unlocked"], f0)) st["unlocked"].push_back(f0);
-            }
+        for (auto& tid : DB.tower_order)   // towers open with the feature; the Fracture after its "requires" stage
+        {
+            std::string f0 = S(DB.towers[tid]["stages"][0], "id");
+            if (tower_open(tid) && !contains(st["unlocked"], f0)) st["unlocked"].push_back(f0);
+        }
         if (contains(features, "world2"))
             for (auto& w : DB.world_order)
                 if (S(DB.worlds[w], "requires") == sid)

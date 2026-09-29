@@ -217,7 +217,7 @@ void BattleHUD::set_enemies(const Units& enemies)
 {
     for (auto ch : enemy_row->children()) ch->queue_free();
     plates.clear();
-    bool any_boss = false;
+    bool any_boss = false, any_break = false;
     for (auto& e : enemies)
     {
         auto p = EnemyPlate::create(e);
@@ -225,8 +225,9 @@ void BattleHUD::set_enemies(const Units& enemies)
         p->tapped.connect([this](CombatantPtr c) { target_requested.emit(c); });
         plates[e.get()] = p;
         any_boss = any_boss || B(e->def, "boss", false);   // boss plates take more room
+        any_break = any_break || e->break_max > 0;
     }
-    enemy_row->set_offset(gd::SIDE_BOTTOM, enemy_row->offset(gd::SIDE_TOP) + (any_boss ? 170 : 130));
+    enemy_row->set_offset(gd::SIDE_BOTTOM, enemy_row->offset(gd::SIDE_TOP) + (any_break ? 200 : any_boss ? 170 : 130));
 }
 
 // ------------------------------------------------------------------ party
@@ -338,7 +339,13 @@ void BattleHUD::show_banner(const std::string& text, const Col& color, float hol
     auto big = UIKit::label(text, style != "victory" ? UIKit::T_TITLE : 120, color, gd::ALIGN_CENTER, 14);
     big->set_outline_color(Col("#1a0806"));
     box->add(big);
-    if (!sub.empty()) box->add(UIKit::label(sub, UIKit::T_BODY, Col("#fff0c0"), gd::ALIGN_CENTER, 6));
+    if (!sub.empty())
+    {
+        auto sl = UIKit::wrap_label(sub, UIKit::T_BODY, Col("#fff0c0"));   // long boss hints wrap
+        sl->set_align(gd::ALIGN_CENTER);
+        sl->set_min_w(940);
+        box->add(sl);
+    }
     ax::RefPtr<PanelFrame> keep(p);
     gd::defer([this, keep, big, color, hold, v, done] {
         auto p = keep.get();
@@ -813,6 +820,21 @@ void EnemyPlate::build()
     bar = ResourceBar::make(is_boss ? "boss" : "enemy", is_boss ? 36 : 26);
     bar->set_h_flags(gd::SIZE_EXPAND_FILL);
     col->add(bar);
+    if (combatant->break_max > 0)   // BREAK gauge under the HP bar
+    {
+        auto br = UIKit::hbox(6);
+        br->set_mouse_filter(gd::MOUSE_IGNORE);
+        break_label = UIKit::label("BREAK", UIKit::T_SMALL, Col("#ffe070"), gd::ALIGN_LEFT, 5);
+        br->add(break_label);
+        break_bar = ResourceBar::make("break", 22);
+        break_bar->set_name("BreakBar");
+        break_bar->set_h_flags(gd::SIZE_EXPAND_FILL);
+        break_bar->set_v_flags(gd::SIZE_SHRINK_CENTER);
+        br->add(break_bar);
+        col->add(br);
+        break_bar->set_values((float)combatant->break_value, (float)combatant->break_max, false);
+        gd::listen(this, combatant->break_changed, [this] { on_break(); });
+    }
     auto bottom = UIKit::hbox(6);
     bottom->set_mouse_filter(gd::MOUSE_IGNORE);
     if (is_boss)
@@ -831,7 +853,10 @@ void EnemyPlate::build()
     bottom->add(pct);
     col->add(bottom);
     gd::listen(this, combatant->hp_changed, [this](int cur, int mx) { on_hp(cur, mx); });
-    gd::listen(this, combatant->statuses_changed, [this] { on_statuses(); });
+    gd::listen(this, combatant->statuses_changed, [this] {
+        on_statuses();
+        if (break_bar) on_break();
+    });
     bar->set_values((float)combatant->hp, (float)combatant->max_hp, false);
     _last_hp = combatant->hp;
     on_hp(combatant->hp, combatant->max_hp);
@@ -868,6 +893,14 @@ void EnemyPlate::on_hp(int current, int maximum)
     _last_hp = current;
 }
 
+void EnemyPlate::on_break()
+{
+    bool broken = combatant->is_broken();
+    break_bar->set_values(broken ? 0.0f : (float)combatant->break_value, (float)combatant->break_max);
+    break_label->set_text(broken ? "BROKEN" : "BREAK");
+    break_label->set_modulate(broken ? Col("#ff8a5a") : Col::WHITE);
+}
+
 void EnemyPlate::on_statuses()
 {
     status_row->clear_children();
@@ -880,29 +913,38 @@ void EnemyPlate::on_statuses()
     set_danger(charging);
 }
 
-// "PHASE 1 / 2" for bosses with a second phase, otherwise ANCIENT FOE.
-std::string EnemyPlate::phase_text() const
+static Json phase_list(const Json& def)
 {
-    if (O(O(combatant->def, "ai"), "phase2").empty()) return "ANCIENT FOE";
-    return UIKit::fmt("PHASE %d / 2", combatant->phase2 ? 2 : 1);
+    const Json& ai = O(def, "ai");
+    if (ai.contains("phases")) return ai["phases"];
+    return ai.contains("phase2") ? Json::array({ai["phase2"]}) : Json::array();
 }
 
-// Small mark on the HP bar where phase 2 begins.
+// "PHASE 1 / n" for bosses with phases, otherwise ANCIENT FOE.
+std::string EnemyPlate::phase_text() const
+{
+    int n = (int)phase_list(combatant->def).size();
+    if (n == 0) return "ANCIENT FOE";
+    return UIKit::fmt("PHASE %d / %d", combatant->phase_index + 1, n + 1);
+}
+
+// Small marks on the HP bar where each phase begins.
 void EnemyPlate::add_phase_tick()
 {
-    const Json& p2 = O(O(combatant->def, "ai"), "phase2");
-    if (p2.empty()) return;
-    _tick = gd::ColorRect::create(Col("#ffd35a"));
-    _tick->set_name("PhaseTick");
-    _tick->set_mouse_filter(gd::MOUSE_IGNORE);
-    bar->add(_tick);
-    float ratio = (float)F(p2, "below", 0.5);
-    auto tick = _tick;
-    auto b = bar;
-    bar->resized.connect([tick, b, ratio] {
-        tick->set_size(Vec2(6, b->size().y));
-        tick->set_position(Vec2(6 + (b->size().x - 12) * ratio - 3, 0));
-    });
+    for (auto& ph : phase_list(combatant->def))
+    {
+        auto tick = gd::ColorRect::create(Col("#ffd35a"));
+        tick->set_name("PhaseTick");
+        tick->set_mouse_filter(gd::MOUSE_IGNORE);
+        bar->add(tick);
+        _ticks.push_back(tick);
+        float ratio = (float)F(ph, "below", 0.5);
+        auto b = bar;
+        bar->resized.connect([tick, b, ratio] {
+            tick->set_size(Vec2(6, b->size().y));
+            tick->set_position(Vec2(6 + (b->size().x - 12) * ratio - 3, 0));
+        });
+    }
 }
 
 void EnemyPlate::refresh_phase()
@@ -910,7 +952,7 @@ void EnemyPlate::refresh_phase()
     if (!phase_tag) return;
     if (auto l = dynamic_cast<gd::Label*>(phase_tag->children().front())) l->set_text(phase_text());
     phase_tag->set_style(UIKit::flat(Col("#b8281e"), Col("#ffd35a"), 3).content(10, 2, 10, 2));
-    if (_tick) _tick->setVisible(false);
+    for (int i = 0; i < (int)_ticks.size(); ++i) _ticks[i]->setVisible(i >= combatant->phase_index);
 }
 
 // DANGER: the foe is charging a big attack (guard!). Pulses until it fires.

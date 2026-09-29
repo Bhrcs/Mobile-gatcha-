@@ -403,6 +403,7 @@ def build():
         'boss': ['#ffb0c0', '#ff4a6a', '#d0243a', '#a01830', '#700e22', '#4a0816'],
         'xp': ['#e8d8ff', '#c0a8ff', '#a890f0', '#8a70d8', '#6a50b8', '#4a3490'],
         'stat': ['#fff0c0', '#ffc86a', '#f0a040', '#d07828', '#a0561a', '#703a10'],
+        'break': ['#fffce0', '#fff0a0', '#e8d060', '#c8a838', '#9a7c24', '#6a5418'],
     }
     for k, v in fills.items():
         save3(to_img(fill(v)), 'v2_fill_' + k)

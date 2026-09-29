@@ -1,0 +1,242 @@
+{
+ "id": "the_fracture",
+ "name": "Fracture I",
+ "type": "fracture",
+ "element": "fire",
+ "counter_element": "water",
+ "requires": "saltglass_10",
+ "description": "Endgame boss encounters for developed squads. Fracture I: the Ashen Warden.",
+ "materials": [
+  "flame_core",
+  "infernal_crystal",
+  "prism_shard"
+ ],
+ "music": "boss",
+ "stages": [
+  {
+   "id": "fracture_01_normal",
+   "number": 1,
+   "floor": 1,
+   "name": "Ashen Warden - Normal",
+   "difficulty": "NORMAL",
+   "background": "bg_tower_ember",
+   "recommended_level": 26,
+   "energy": 12,
+   "recommended_power": 3070,
+   "boss": true,
+   "music": "boss",
+   "summary": "The Ashen Warden guards the first Fracture. Break its armour; Water hits hardest.",
+   "waves": [
+    [
+     {
+      "enemy": "ashen_warden",
+      "level": 26
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 2800,
+    "gold": 1100,
+    "first_clear_gold": 1500
+   },
+   "drops": [
+    {
+     "item": "flame_core",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "infernal_crystal",
+     "chance": 0.15,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 100,
+    "items": {
+     "flame_core": 2,
+     "radiant_wisp": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 12,
+     "text": "Clear within 12 turns"
+    }
+   ],
+   "unlocks": [
+    "fracture_01_hard"
+   ],
+   "tier": 1,
+   "recommended_roles": [
+    "Breaker",
+    "Defender",
+    "Healer"
+   ]
+  },
+  {
+   "id": "fracture_01_hard",
+   "number": 2,
+   "floor": 2,
+   "name": "Ashen Warden - Hard",
+   "difficulty": "HARD",
+   "background": "bg_tower_ember",
+   "recommended_level": 30,
+   "energy": 14,
+   "recommended_power": 3960,
+   "boss": true,
+   "music": "boss",
+   "summary": "The Ashen Warden guards the first Fracture. Break its armour; Water hits hardest.",
+   "waves": [
+    [
+     {
+      "enemy": "elite_emberwisp",
+      "level": 29
+     },
+     {
+      "enemy": "ashen_warden",
+      "level": 30
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 3600,
+    "gold": 1400,
+    "first_clear_gold": 3000
+   },
+   "drops": [
+    {
+     "item": "flame_core",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "infernal_crystal",
+     "chance": 0.3,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 150,
+    "items": {
+     "infernal_crystal": 2
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 12,
+     "text": "Clear within 12 turns"
+    }
+   ],
+   "unlocks": [
+    "fracture_01_expert"
+   ],
+   "tier": 2,
+   "recommended_roles": [
+    "Breaker",
+    "Defender",
+    "Healer"
+   ]
+  },
+  {
+   "id": "fracture_01_expert",
+   "number": 3,
+   "floor": 3,
+   "name": "Ashen Warden - Expert",
+   "difficulty": "EXPERT",
+   "background": "bg_tower_ember",
+   "recommended_level": 34,
+   "energy": 16,
+   "recommended_power": 4940,
+   "boss": true,
+   "music": "boss",
+   "summary": "The Ashen Warden guards the first Fracture. Break its armour; Water hits hardest.",
+   "waves": [
+    [
+     {
+      "enemy": "elite_emberwisp",
+      "level": 33
+     },
+     {
+      "enemy": "elite_scorch_beetle",
+      "level": 33
+     },
+     {
+      "enemy": "ashen_warden",
+      "level": 34
+     }
+    ]
+   ],
+   "rewards": {
+    "xp": 4400,
+    "gold": 1700,
+    "first_clear_gold": 4500
+   },
+   "drops": [
+    {
+     "item": "flame_core",
+     "chance": 0.5,
+     "min": 1,
+     "max": 2
+    },
+    {
+     "item": "infernal_crystal",
+     "chance": 0.44999999999999996,
+     "min": 1,
+     "max": 1
+    }
+   ],
+   "first_clear": {
+    "gems": 200,
+    "items": {
+     "infernal_crystal": 3,
+     "prism_shard": 1
+    }
+   },
+   "stars": [
+    {
+     "type": "clear",
+     "text": "Clear the stage"
+    },
+    {
+     "type": "no_ko",
+     "text": "No heroes defeated"
+    },
+    {
+     "type": "turns",
+     "max": 12,
+     "text": "Clear within 12 turns"
+    }
+   ],
+   "unlocks": [],
+   "tier": 3,
+   "recommended_roles": [
+    "Breaker",
+    "Defender",
+    "Healer"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "id": "ember_totem",
+ "name": "Ember Totem",
+ "element": "fire",
+ "role": "totem",
+ "type": "Totem",
+ "base_stats": {
+  "hp": 380,
+  "atk": 0,
+  "def": 40,
+  "spd": 1
+ },
+ "skills": {
+  "normal": "totem_hum",
+  "special": "totem_hum"
+ },
+ "ai": {
+  "profile": "totem",
+  "skill_chance": 0.0,
+  "targeting": "random"
+ },
+ "rewards": {
+  "xp": 0,
+  "gold": [
+   0,
+   0
+  ]
+ },
+ "drop_table": "fire_common",
+ "sprite": {
+  "sheet": "res://assets/enemies/emberwisp/emberwisp_sheet.png",
+  "meta": "res://assets/enemies/emberwisp/emberwisp_sheet.json",
+  "scale": 7
+ },
+ "description": "A pillar of banked coals. While it stands, the Warden burns hotter (+20% ATK each).",
+ "tint": "#b0402a",
+ "variant_of": "emberwisp",
+ "aura": {
+  "status": "ember_fervor",
+  "value": 0.2
+ }
+}

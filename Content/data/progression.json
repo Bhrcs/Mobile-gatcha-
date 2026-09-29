@@ -24,7 +24,11 @@
   "variance_max": 1.05,
   "guard_reduction": 0.5,
   "taunt_weight": 4.0,
-  "wave_recovery_percent": 0.2
+  "wave_recovery_percent": 0.2,
+  "max_mitigation": 0.75,
+  "status_stat_cap": 0.6,
+  "boss_status_resist": 0.3,
+  "boss_status_dr_step": 0.15
  },
  "enemy_scaling": {
   "hp": 0.2,
@@ -126,5 +130,12 @@
   "ember_wisp": 1,
   "tide_wisp": 1,
   "verdant_wisp": 1
+ },
+ "break": {
+  "base": 12,
+  "breaker_mult": 2.0,
+  "weak_mult": 1.5,
+  "turns": 2,
+  "damage_taken_up": 0.5
  }
 }

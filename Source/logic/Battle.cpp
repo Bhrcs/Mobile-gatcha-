@@ -43,6 +43,10 @@ CombatantPtr Combatant::from_enemy(const std::string& enemy_id, int level, int s
     c->special_skill = S(O(d, "skills"), "special");
     c->skill_chance = F(O(d, "ai"), "skill_chance", 0.3);
     c->is_elite = B(d, "elite", false);
+    const Json& br = O(d, "break");
+    c->break_max = c->break_value = F(br, "max", 0);
+    c->break_weak = S(br, "weak");
+    for (auto& st : A(d, "start_statuses")) c->add_status(S(st, "id"), F(st, "value", 0), I(st, "turns", 99));
     return c;
 }
 
@@ -80,12 +84,13 @@ Json Combatant::skill_data(const std::string& skill_id)
 
 double Combatant::get_stat(const std::string& stat) const
 {
-    double bonus = 0;
+    double bonus = 0, cap = DB.balancef("combat", "status_stat_cap", 0.6);
     for (auto& s : statuses)
     {
         const Json& sd = DB.status(S(s, "id"));
         if (S(sd, "kind") == "stat_mod" && S(sd, "stat") == stat) bonus += F(s, "value", 0) * F(sd, "sign", 1);
     }
+    bonus = std::clamp(bonus, -cap, cap);   // different buffs stack, but only up to the cap
     for (auto& p : passive_stats)
     {
         if (S(p, "stat") != stat) continue;
@@ -109,6 +114,41 @@ bool Combatant::has_negative_status() const
     for (auto& s : statuses)
         if (B(DB.status(S(s, "id")), "negative", false)) return true;
     return false;
+}
+
+// Chance a negative status fails to land: data "resist" per status (bosses default to boss_status_resist),
+// + a diminishing-returns step for every time that status already landed on this boss.
+double Combatant::status_resist(const std::string& id) const
+{
+    double base = is_boss ? DB.balancef("combat", "boss_status_resist", 0.3) : 0.0;
+    double r = F(O(def, "resist"), id, base);
+    if (is_boss) r += DB.balancef("combat", "boss_status_dr_step", 0.15) * I(status_hits, id, 0);
+    return std::clamp(r, 0.0, 1.0);
+}
+
+// Removes up to `count` dispellable buffs (data: "dispellable": false protects boss mechanics).
+std::vector<std::string> Combatant::dispel(int count)
+{
+    std::vector<std::string> removed;
+    for (auto it = statuses.begin(); it != statuses.end() && (int)removed.size() < count;)
+    {
+        const Json& sd = DB.status(S(*it, "id"));
+        if (!B(sd, "negative", false) && B(sd, "dispellable", true) && S(sd, "kind") != "charge")
+        {
+            removed.push_back(S(*it, "id"));
+            it = statuses.erase(it);
+        }
+        else ++it;
+    }
+    if (!removed.empty()) statuses_changed.emit();
+    return removed;
+}
+
+std::string Combatant::role() const
+{
+    std::string r = S(def, "role");
+    for (auto& c : r) c = (char)std::tolower((unsigned char)c);
+    return r;
 }
 
 int Combatant::shield_amount() const
@@ -275,10 +315,15 @@ Result calculate(const Combatant& a, const Combatant& t, const Json& skill, Rng&
     bool crit = rng.randf() < F(cfg, "crit_chance", 0.05) + a.crit_bonus;
     double crit_mult = crit ? F(cfg, "crit_multiplier", 1.5) : 1.0;
     double variance = rng.randf_range(F(cfg, "variance_min", 0.95), F(cfg, "variance_max", 1.05));
-    double reduction = (1.0 - t.damage_reduction()) * (1.0 - std::clamp(t.damage_taken_down, 0.0, 0.5));
     double guard = t.guarding ? 1.0 - std::min(F(cfg, "guard_reduction", 0.5) + t.guard_bonus, 0.8) : 1.0;
-    double bonus = 1.0 + a.damage_bonus_vs(t);
-    int total = std::max(hits, (int)std::round(mitigated * elem * crit_mult * variance * reduction * guard * bonus));
+    // all mitigation (Bastion/armour statuses, passives, Guard) multiplies, then is capped: no immortal teams
+    double taken = (1.0 - t.damage_reduction()) * (1.0 - std::clamp(t.damage_taken_down, 0.0, 0.5)) * guard;
+    taken = std::max(taken, 1.0 - F(cfg, "max_mitigation", 0.8));
+    double vuln = 0;   // Broken and other "damage_taken_up" statuses
+    for (auto& s : t.statuses)
+        if (S(DB.status(S(s, "id")), "kind") == "damage_taken_up") vuln = std::max(vuln, F(s, "value", 0));
+    double bonus = (1.0 + a.damage_bonus_vs(t)) * (1.0 + vuln);
+    int total = std::max(hits, (int)std::round(mitigated * elem * crit_mult * variance * taken * bonus));
     std::string tag = elem > 1.0 ? "WEAK" : (elem < 1.0 ? "RESIST" : "");
     return {total, split_hits(total, hits, A(skill, "hit_weights")), crit, elem, tag};
 }
@@ -302,6 +347,17 @@ std::vector<int> split_hits(int total, int hits, const Json& weights)
     }
     out[hits - 1] = std::max(1, out[hits - 1] + (total - assigned));   // rounding remainder on the final hit
     return out;
+}
+
+// Break damage per action: base x skill power x (Breaker role) x (break weakness element or element chart).
+double break_amount(const Combatant& a, const Combatant& t, const Json& skill)
+{
+    if (t.break_max <= 0 || !a.is_player) return 0;
+    const Json& cfg = O(DB.progression, "break");
+    double v = F(cfg, "base", 12) * F(skill, "power", 1.0) * F(skill, "break_mult", 1.0);
+    if (a.role() == "breaker") v *= F(cfg, "breaker_mult", 2.0);
+    v *= (!t.break_weak.empty() && a.element == t.break_weak) ? F(cfg, "weak_mult", 1.5) : DB.element_multiplier(a.element, t.element);
+    return v;
 }
 
 int heal_amount(const Combatant& c, const Combatant& t, const Json& e)
@@ -361,6 +417,7 @@ Units& BattleModel::advance_wave()
         enemies.push_back(Combatant::from_enemy(eid, I(sp, "level", 1), (int)i, F(sp, "hp_scale", 1.0)));
     }
     round_number = 0;
+    refresh_auras();
     start_player_phase();
     wave_spawned.emit(wave_index);
     return enemies;
@@ -419,7 +476,12 @@ Units BattleModel::enemy_turn_order() const
         double sa = a->get_stat("spd"), sb = b->get_stat("spd");
         return sa > sb || (sa == sb && a->slot < b->slot);
     });
-    return order;
+    Units out;   // bosses with ai.actions > 1 act several times a round (their extra turns come last)
+    for (auto& e : order) out.push_back(e);
+    for (int k = 1; k < 4; ++k)
+        for (auto& e : order)
+            if (I(O(e->def, "ai"), "actions", 1) > k) out.push_back(e);
+    return out;
 }
 
 std::vector<BattleEvent> BattleModel::end_round()
@@ -428,7 +490,15 @@ std::vector<BattleEvent> BattleModel::end_round()
     Units all = alive(players);
     for (auto& e : alive(enemies)) all.push_back(e);
     for (auto& c : all)
+    {
         for (auto& e : c->tick_statuses()) events.push_back({S(e, "type"), c, I(e, "amount", 0), S(e, "status")});
+        if (c->break_max > 0 && c->break_value <= 0 && !c->is_broken())   // recovered: the gauge refills
+        {
+            c->break_value = c->break_max;
+            c->break_changed.emit();
+            events.push_back({"break_restore", c});
+        }
+    }
     return events;
 }
 
@@ -492,6 +562,7 @@ PlanTarget BattleModel::plan_target(const Combatant& user, const CombatantPtr& t
     pt.crit = d.crit;
     pt.tag = d.tag;
     pt.total = d.total;
+    pt.break_per_hit = DamageCalculator::break_amount(user, *target, skill) / std::max<size_t>(1, d.hits.size());
     return pt;
 }
 
@@ -511,8 +582,42 @@ HitResult BattleModel::apply_hit(Plan& plan, int ti, int hi)
         gain_burst(*e.unit, DB.balancef("burst", "gain_damaged", 6));
         e.burst_given = true;
     }
+    Combatant& t = *e.unit;
+    if (t.is_alive() && !t.charging_skill.empty())   // enough damage while it charges interrupts the attack
+    {
+        t.charge_damage += r.dealt + r.absorbed;
+        double need = F(O(DB.skill(t.charging_skill), "interrupt"), "damage_percent", 0);
+        if (need > 0 && t.charge_damage >= need * t.max_hp)
+        {
+            t.charging_skill.clear();
+            t.remove_status("charging");
+            r.interrupted = true;
+        }
+    }
+    if (t.is_alive() && e.break_per_hit > 0 && t.break_value > 0 && !t.is_broken())
+    {
+        t.break_value = std::max(0.0, t.break_value - e.break_per_hit);
+        t.break_changed.emit();
+        if (t.break_value <= 0)
+        {
+            on_break(t);
+            r.broke = true;
+        }
+    }
     r.killed = check_death(e.unit);
     return r;
+}
+
+// BROKEN: cancels a charged attack, strips break-removable armour, takes more damage and loses its next turn.
+void BattleModel::on_break(Combatant& u)
+{
+    const Json& cfg = O(DB.progression, "break");
+    u.charging_skill.clear();
+    u.pending_charge.clear();
+    u.remove_status("charging");
+    for (auto it = u.statuses.begin(); it != u.statuses.end();)
+        it = B(DB.status(S(*it, "id")), "removed_by_break", false) ? u.statuses.erase(it) : it + 1;
+    u.add_status("broken", F(cfg, "damage_taken_up", 0.5), I(cfg, "turns", 2));
 }
 
 bool BattleModel::check_death(const CombatantPtr& u)
@@ -551,12 +656,23 @@ std::vector<BattleEvent> BattleModel::finish_action(Plan& plan)
                 for (auto& sid : r->cleanse(I(effect, "count", 1))) events.push_back({"cleanse", r, 0, sid});
             else if (type == "status")
             {
-                if (rng.randf() < F(effect, "chance", 1.0))
+                std::string sid = S(effect, "status");
+                bool hostile = r->is_player != user->is_player && B(DB.status(sid), "negative", false);
+                double chance = F(effect, "chance", 1.0), roll = rng.randf();
+                if (roll < chance)
                 {
-                    r->add_status(S(effect, "status"), F(effect, "value", 0), I(effect, "duration", 1));
-                    events.push_back({"status", r, 0, S(effect, "status")});
+                    if (hostile && roll >= chance * (1.0 - r->status_resist(sid)))
+                        events.push_back({"resist", r, 0, sid});
+                    else
+                    {
+                        r->add_status(sid, F(effect, "value", 0), I(effect, "duration", 1));
+                        if (hostile && r->is_boss) r->status_hits[sid] = I(r->status_hits, sid, 0) + 1;
+                        events.push_back({"status", r, 0, sid});
+                    }
                 }
             }
+            else if (type == "dispel")
+                for (auto& sid : r->dispel(I(effect, "count", 1))) events.push_back({"dispel", r, 0, sid});
             else if (type == "shield")
             {
                 int amount = (int)std::round(user->max_hp * F(effect, "percent_caster_hp", 0.1));
@@ -585,24 +701,38 @@ std::vector<BattleEvent> BattleModel::resolve_instant(Plan& plan)
 void BattleModel::begin_charge(Combatant& enemy, const std::string& skill_id)
 {
     enemy.charging_skill = skill_id;
+    enemy.charge_damage = 0;
     enemy.add_status("charging", 1.0, 9);
     enemy.acted = true;
 }
 
-Json BattleModel::check_phase2(Combatant& e)
+// Boss phases (data: ai.phases = [{below, atk_up, pattern, announce, skill, charge, summon}], or the older
+// single ai.phase2). Returns the phase entered (+ "index", "count"), one per call, or {}.
+static Json phases_of(const Json& ai)
 {
-    const Json& p2 = O(O(e.def, "ai"), "phase2");
-    if (p2.empty() || e.phase2 || !e.is_alive() || e.hp_ratio() > F(p2, "below", 0.5)) return Json::object();
-    e.phase2 = true;
-    e.enrage = F(p2, "atk_up", 0);
-    e.pattern_index = 0;
-    if (p2.contains("skill")) e.pending_skill = S(p2, "skill");
-    return p2;
+    if (ai.contains("phases")) return ai["phases"];
+    return ai.contains("phase2") ? Json::array({ai["phase2"]}) : Json::array();
 }
 
-Units BattleModel::summon_minions(Combatant& boss)
+Json BattleModel::check_phase(Combatant& e)
 {
-    const Json& sm = O(O(boss.def, "ai"), "summon");
+    Json ph = phases_of(O(e.def, "ai"));
+    if (!e.is_alive() || e.phase_index >= (int)ph.size() || e.hp_ratio() > F(ph[e.phase_index], "below", 0.5))
+        return Json::object();
+    Json p = ph[e.phase_index++];
+    e.phase2 = true;
+    e.enrage = std::max(e.enrage, F(p, "atk_up", 0));
+    e.pattern_index = 0;
+    if (p.contains("skill")) e.pending_skill = S(p, "skill");
+    if (p.contains("charge")) e.pending_charge = S(p, "charge");
+    p["index"] = e.phase_index;
+    p["count"] = (int)ph.size();
+    return p;
+}
+
+Units BattleModel::summon_minions(Combatant& boss, const Json& sm_in)
+{
+    const Json& sm = sm_in.is_object() ? sm_in : O(O(boss.def, "ai"), "summon");
     Units out;
     if (sm.empty() || DB.enemy(S(sm, "enemy")).empty()) return out;
     std::vector<int> used;
@@ -610,7 +740,7 @@ Units BattleModel::summon_minions(Combatant& boss)
         if (e->summoned) used.push_back(e->summon_index);
     for (int i = 0; i < I(sm, "count", 1); ++i)
     {
-        if (!can_summon(boss)) break;
+        if (!can_summon(boss, sm)) break;
         int idx = 0;
         while (std::find(used.begin(), used.end(), idx) != used.end()) ++idx;
         used.push_back(idx);
@@ -622,12 +752,29 @@ Units BattleModel::summon_minions(Combatant& boss)
         out.push_back(c);
     }
     boss.acted = true;
+    refresh_auras();
     return out;
 }
 
-bool BattleModel::can_summon(const Combatant& boss) const
+void BattleModel::refresh_auras()
 {
-    const Json& sm = O(O(boss.def, "ai"), "summon");
+    Json total = Json::object();
+    for (auto& e : alive(enemies))
+        if (e->def.contains("aura")) total[S(e->def["aura"], "status")] = F(total, S(e->def["aura"], "status"), 0) + F(e->def["aura"], "value", 0);
+    for (auto& b : alive(enemies))
+    {
+        if (!b->is_boss) continue;
+        for (auto& [sid, v] : total.items())
+        {
+            b->remove_status(sid);
+            if (F(v) > 0) b->add_status(sid, F(v), 99);
+        }
+    }
+}
+
+bool BattleModel::can_summon(const Combatant& boss, const Json& sm_in) const
+{
+    const Json& sm = sm_in.is_object() ? sm_in : O(O(boss.def, "ai"), "summon");
     if (sm.empty()) return false;
     int minions = 0;
     Units al = alive(enemies);
@@ -651,6 +798,12 @@ void BattleModel::on_enemy_killed(const CombatantPtr& e)
 {
     ++enemies_defeated;
     if (e->is_boss) ++bosses_defeated;
+    if (e->def.contains("aura"))   // its aura fades with it
+    {
+        std::string sid = S(e->def["aura"], "status");
+        for (auto& b : enemies) b->remove_status(sid);
+        refresh_auras();
+    }
     int xp = Progression::enemy_xp(e->def, e->level);
     Json loot = Progression::roll_enemy_loot(e->def, e->level, rng);
     if (e->summoned)   // minions: a little XP / Gold, no items (no farming a boss forever)
@@ -727,6 +880,7 @@ EnemyDecision BattleModel::decide(const CombatantPtr& e)
     Units foes = foes_of(*e);
     ++e->ai_turn;
     ++e->turns_since_summon;
+    if (e->is_broken() || S(ai, "profile") == "totem") return {"skip", "", nullptr};   // Broken foes lose their turn
     if (!e->charging_skill.empty())   // 1) a charged attack is always released first
     {
         std::string s = e->charging_skill;
@@ -734,7 +888,13 @@ EnemyDecision BattleModel::decide(const CombatantPtr& e)
         e->remove_status("charging");
         return ai_skill(e, s, foes);
     }
-    if (!e->pending_skill.empty())    // 2) queued reaction (phase 2 skill)
+    if (!e->pending_charge.empty())   // 2) a phase can start a telegraphed attack at once
+    {
+        std::string c = e->pending_charge;
+        e->pending_charge.clear();
+        return {"charge", c, nullptr};
+    }
+    if (!e->pending_skill.empty())    // 2b) queued reaction (phase skill)
     {
         std::string p = e->pending_skill;
         e->pending_skill.clear();
@@ -762,10 +922,13 @@ EnemyDecision BattleModel::decide(const CombatantPtr& e)
     if (profile == "boss")
     {
         Json pattern = ai.contains("pattern") ? ai["pattern"] : Json::array({"normal"});
-        if (e->phase2 && O(ai, "phase2").contains("pattern")) pattern = ai["phase2"]["pattern"];
+        Json ph = phases_of(ai);
+        for (int i = std::min(e->phase_index, (int)ph.size()) - 1; i >= 0; --i)   // latest phase with its own pattern
+            if (ph[i].contains("pattern")) { pattern = ph[i]["pattern"]; break; }
         std::string step = pattern.empty() ? "normal" : S(pattern[e->pattern_index % pattern.size()]);
         ++e->pattern_index;
         if (step == "charge" && !special.empty()) return {"charge", special, nullptr};
+        if (!DB.skill(step).empty()) return ai_skill(e, step, foes);   // any skill id can be a pattern step
         if (step == "curse" && ai.contains("curse")) return ai_skill(e, S(ai, "curse"), foes);
         if (step == "heal" && ai.contains("heal") && most_injured(allies_of(*e))) return ai_skill(e, S(ai, "heal"), foes);
     }

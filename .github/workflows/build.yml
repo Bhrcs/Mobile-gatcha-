@@ -83,7 +83,7 @@ jobs:
           mkdir -p shots
           if [ -n "$BIN" ]; then
             cd "$(dirname "$BIN")"
-            CB_SHOTS="main_menu,starter_select,home,world_select,stage_select,tower,units,unit_detail,squad,summon,missions,inventory,profile,menu,settings,help,codex,battle" \
+            CB_SHOTS="main_menu,starter_select,home,world_select,stage_select,tower,units,unit_detail,squad,summon,missions,inventory,profile,menu,settings,help,codex,battle,battle@fracture_01_normal" \
             CB_SHOT_DIR="$GITHUB_WORKSPACE/shots/" timeout 300 xvfb-run -a -s "-screen 0 1080x1920x24" ./Cinderbound > "$GITHUB_WORKSPACE/shots/run.log" 2>&1 || echo "exit $?" >> "$GITHUB_WORKSPACE/shots/run.log"
           fi
       - name: Publish log

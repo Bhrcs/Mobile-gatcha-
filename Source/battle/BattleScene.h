@@ -242,12 +242,12 @@ public:
     void set_targeted(bool on);
     void refresh_phase();
 private:
-    ResourceBar* bar = nullptr;
-    gd::Label *pct = nullptr, *name_label = nullptr;
+    ResourceBar *bar = nullptr, *break_bar = nullptr;
+    gd::Label *pct = nullptr, *name_label = nullptr, *break_label = nullptr;
     gd::BoxContainer* status_row = nullptr;
     gd::TextureRect* marker = nullptr;
     gd::PanelContainer *phase_tag = nullptr, *_danger = nullptr;
-    gd::ColorRect* _tick = nullptr;
+    std::vector<gd::ColorRect*> _ticks;
     bool _targeted = false;
     int _last_hp = 0;
     gd::TweenRef _pulse;
@@ -257,6 +257,7 @@ private:
     std::string phase_text() const;
     void add_phase_tick();
     void set_danger(bool on);
+    void on_break();
 };
 
 namespace CutinDecor   // cutin_decor.gd

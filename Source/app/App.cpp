@@ -657,13 +657,19 @@ static void run_shots(std::shared_ptr<std::vector<std::string>> list, size_t i, 
         quit_game(0);
         return;
     }
-    std::string name = (*list)[i];
+    std::string name = (*list)[i], file = name;
     if (name != "main_menu" && !GM.has_profile() && !GM.continue_game()) GM.new_game("kael_emberclaw");
+    if (name.rfind("battle@", 0) == 0)   // battle@<stage_id>: a specific stage (e.g. a boss HUD)
+    {
+        GM.current_stage_id = name.substr(7);
+        file = "battle_" + GM.current_stage_id;
+        name = "battle";
+    }
     if (name == "battle" && GM.current_stage_id.empty()) GM.current_stage_id = "ashroot_01";
     SceneRouter::transitioning = false;
     SceneRouter::go(name, name == "battle" ? Json{{"skip_hints", true}} : Json::object(), "reset");
-    gd::after(gd::Root::get(), name == "battle" ? 5.0f : 2.5f, [list, i, dir, name] {
-        ax::utils::captureScreen([list, i, dir](bool, std::string_view) { run_shots(list, i + 1, dir); }, dir + name + ".png");
+    gd::after(gd::Root::get(), name == "battle" ? 5.0f : 2.5f, [list, i, dir, file] {
+        ax::utils::captureScreen([list, i, dir](bool, std::string_view) { run_shots(list, i + 1, dir); }, dir + file + ".png");
     });
 }
 

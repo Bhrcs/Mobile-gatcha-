@@ -29,6 +29,14 @@ Python scripts in `tools/` (they write into `Content/`).
 - Content JSON in `Content/data/` (+ `manifest.json` from `tools/make_manifest.py`); JSON paths may keep
   `res://` — loaders strip it.
 
+## Phase 7 (gameplay depth) - in progress, shipped in slices
+- Content numbers: edit `tools/make_content.py`, run it, then `tools/make_manifest.py` (new data files are only
+  loaded if they are in `Content/data/manifest.json`).
+- Combat rules + formulas: `docs/dev/BALANCE-GUIDE.md`. Simulator: `bash Tests/run_logic_tests.sh audit`.
+- Done: status resist + boss diminishing returns, Dispel, mitigation/stat caps, Break Gauge, data-driven boss
+  phases/auras/interrupts/multi-action, Fracture I (Ashen Warden, `towers/the_fracture.json`, tab after the towers).
+- Art: owner reverted Phase 6 (art bible); new visuals reuse/tint existing sheets until told otherwise.
+
 ## Gotchas
 - Windows macros: never name things `small`, `near`, `far`, `TRANSPARENT`, `ERROR`, `IN`, `OUT`, ... and never
   write `TEXT(`. `/home/claude/axcheck-win.sh file.cpp` checks with the common ones defined.

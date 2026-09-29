@@ -328,7 +328,7 @@
  "rending_quake": {
   "name": "Rending Quake",
   "kind": "burst",
-  "description": "Shatters one foe's guard. 260% ATK over 4 hits and lowers DEF by 30% for 3 turns.",
+  "description": "Shatters one foe's guard. 260% ATK over 4 hits and lowers DEF by 30% for 3 turns. Dispels 1 buff.",
   "target": "enemy_single",
   "power": 2.6,
   "hits": 4,
@@ -364,13 +364,18 @@
     "duration": 3,
     "chance": 1.0,
     "on": "target"
+   },
+   {
+    "type": "dispel",
+    "count": 1,
+    "on": "target"
    }
   ]
  },
  "magma_sunder": {
   "name": "Magma Sunder",
   "kind": "burst",
-  "description": "Splits the ground under every foe. 200% ATK to all over 4 hits and lowers their DEF by 30% for 3 turns.",
+  "description": "Splits the ground under every foe. 200% ATK to all over 4 hits and lowers their DEF by 30% for 3 turns. Dispels 1 buff.",
   "target": "enemy_all",
   "power": 2.0,
   "hits": 4,
@@ -407,6 +412,11 @@
     "value": 0.3,
     "duration": 3,
     "chance": 1.0,
+    "on": "target"
+   },
+   {
+    "type": "dispel",
+    "count": 1,
     "on": "target"
    }
   ]
@@ -1336,7 +1346,7 @@
  "grove_quake": {
   "name": "Grove Quake",
   "kind": "burst",
-  "description": "The whole field heaves: 220% ATK to all foes over 4 hits and lowers their DEF by 30% for 3 turns.",
+  "description": "The whole field heaves: 220% ATK to all foes over 4 hits and lowers their DEF by 30% for 3 turns. Dispels 1 buff.",
   "target": "enemy_all",
   "power": 2.2,
   "hits": 4,
@@ -1370,6 +1380,11 @@
     "value": 0.3,
     "duration": 3,
     "chance": 1.0,
+    "on": "target"
+   },
+   {
+    "type": "dispel",
+    "count": 1,
     "on": "target"
    }
   ]

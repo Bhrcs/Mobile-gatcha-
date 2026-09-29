@@ -35,13 +35,19 @@ struct Combatant
 
     // enemy AI state
     int ai_turn = 0, pattern_index = 0, turns_since_summon = 0;
-    std::string charging_skill, pending_skill, last_action;
-    bool phase2 = false;
+    std::string charging_skill, pending_skill, pending_charge, last_action;
+    bool phase2 = false;             // reached at least one phase (kept for older callers)
+    int phase_index = 0, charge_damage = 0;
     std::vector<int> hp_events_done;
+
+    // Break Gauge (bosses/elites with a "break" block): hits drain it; at 0 the foe is Broken.
+    double break_max = 0, break_value = 0;
+    std::string break_weak;
+    Json status_hits = Json::object();   // times each status landed (boss diminishing returns)
 
     Signal<int, int> hp_changed;
     Signal<double, double> burst_changed;
-    Signal<> statuses_changed, died;
+    Signal<> statuses_changed, died, break_changed;
 
     static CombatantPtr from_player_unit(const Json& unit, int slot);
     static CombatantPtr from_enemy(const std::string& enemy_id, int level, int slot, double hp_scale = 1.0);
@@ -56,6 +62,10 @@ struct Combatant
     double get_stat(const std::string& stat) const;
     double damage_bonus_vs(const Combatant& t) const;
     bool has_negative_status() const;
+    double status_resist(const std::string& id) const;
+    std::vector<std::string> dispel(int count);
+    bool is_broken() const { return has_status("broken"); }
+    std::string role() const;
     int shield_amount() const;
     void add_shield(int amount, int turns) { add_status("shield", amount, turns); }
     void remove_status(const std::string& id);
@@ -74,7 +84,7 @@ private:
     Json _skill_cache = Json::object();
 };
 
-struct HitResult { int dealt = 0, absorbed = 0; bool killed = false, skipped = true; };
+struct HitResult { int dealt = 0, absorbed = 0; bool killed = false, skipped = true, broke = false, interrupted = false; };
 struct PlanTarget
 {
     CombatantPtr unit;
@@ -82,6 +92,7 @@ struct PlanTarget
     bool crit = false, landed = false, burst_given = false;
     std::string tag;   // "", WEAK, RESIST
     int total = 0, dealt = 0, absorbed = 0;
+    double break_per_hit = 0;
 };
 struct Plan
 {
@@ -92,7 +103,7 @@ struct Plan
     bool is_burst = false;
 };
 struct BattleEvent { std::string type; CombatantPtr unit; int amount = 0; std::string status; };
-struct EnemyDecision { std::string type, skill_id; CombatantPtr target; };   // skill | charge | summon
+struct EnemyDecision { std::string type, skill_id; CombatantPtr target; };   // skill | charge | summon | skip
 
 namespace DamageCalculator
 {
@@ -100,6 +111,7 @@ struct Result { int total; std::vector<int> hits; bool crit; double element_mult
 Result calculate(const Combatant& attacker, const Combatant& target, const Json& skill, Rng& rng);
 std::vector<int> split_hits(int total, int hits, const Json& weights = Json::array());
 int heal_amount(const Combatant& caster, const Combatant& target, const Json& effect);
+double break_amount(const Combatant& attacker, const Combatant& target, const Json& skill);
 }  // namespace DamageCalculator
 
 class BattleModel
@@ -139,9 +151,10 @@ public:
     std::vector<BattleEvent> finish_action(Plan& plan);
     std::vector<BattleEvent> resolve_instant(Plan& plan);
     void begin_charge(Combatant& enemy, const std::string& skill_id);
-    Json check_phase2(Combatant& enemy);
-    Units summon_minions(Combatant& boss);
-    bool can_summon(const Combatant& boss) const;
+    Json check_phase(Combatant& enemy);   // next boss phase reached this turn (announce, summon, charge, ...)
+    Units summon_minions(Combatant& boss, const Json& sm = Json());
+    bool can_summon(const Combatant& boss, const Json& sm = Json()) const;
+    void refresh_auras();                 // totem-style auras ("aura" on an enemy buffs every boss)
     int total_bursts() const;
     Json evaluate_stars() const;
     Json roll_stage_drops();
@@ -155,6 +168,7 @@ private:
     void wave_recovery();
     PlanTarget plan_target(const Combatant& user, const CombatantPtr& target, const Json& skill);
     bool check_death(const CombatantPtr& u);
+    void on_break(Combatant& u);
     void on_enemy_killed(const CombatantPtr& e);
     int free_slot() const;
     EnemyDecision ai_skill(const CombatantPtr& e, const std::string& skill_id, const Units& foes);

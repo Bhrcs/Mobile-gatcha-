@@ -744,5 +744,114 @@
     "on": "target"
    }
   ]
+ },
+ "warden_maul": {
+  "name": "Warden's Maul",
+  "kind": "normal",
+  "description": "Two heavy blows with a burning fist.",
+  "target": "enemy_single",
+  "power": 1.15,
+  "hits": 2,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2,
+   3
+  ],
+  "impact_effect": "hit_fire",
+  "sfx_hit": "fire",
+  "shake": 0.5
+ },
+ "cinder_wave": {
+  "name": "Cinder Wave",
+  "kind": "skill",
+  "description": "A wave of cinders washes over the party. May Burn.",
+  "target": "enemy_all",
+  "power": 0.7,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "special",
+  "hit_frames": [
+   4
+  ],
+  "impact_effect": "hit_fire",
+  "sfx_hit": "fire",
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.4,
+    "duration": 2,
+    "on": "target"
+   }
+  ]
+ },
+ "reforge_armor": {
+  "name": "Reforge Armor",
+  "kind": "skill",
+  "description": "Wraps itself in Flame Armor again (40% less damage).",
+  "target": "self",
+  "power": 0,
+  "hits": 0,
+  "motion": "self",
+  "anim": "special",
+  "release_frame": 3,
+  "field_effect": "shield_flash",
+  "sfx_cast": "guard",
+  "effects": [
+   {
+    "type": "status",
+    "status": "flame_armor",
+    "value": 0.4,
+    "duration": 99,
+    "chance": 1.0,
+    "on": "self"
+   }
+  ]
+ },
+ "furnace_collapse": {
+  "name": "Furnace Collapse",
+  "kind": "skill",
+  "description": "After charging: the furnace in its chest bursts over the whole party. BREAK the Warden or deal 15% of its HP while it charges to stop it.",
+  "target": "enemy_all",
+  "power": 2.4,
+  "hits": 3,
+  "motion": "melee",
+  "anim": "special",
+  "hit_frames": [
+   4,
+   5,
+   5
+  ],
+  "impact_effect": "hit_fire",
+  "sfx_hit": "fire",
+  "shake": 1.3,
+  "interrupt": {
+   "break": true,
+   "damage_percent": 0.15
+  },
+  "effects": [
+   {
+    "type": "status",
+    "status": "burn",
+    "chance": 0.6,
+    "duration": 3,
+    "on": "target"
+   }
+  ]
+ },
+ "totem_hum": {
+  "name": "Totem Hum",
+  "kind": "normal",
+  "description": "The totem hums with heat.",
+  "target": "enemy_single",
+  "power": 0.5,
+  "hits": 1,
+  "motion": "melee",
+  "anim": "attack",
+  "hit_frames": [
+   2
+  ],
+  "impact_effect": "hit_fire"
  }
 }

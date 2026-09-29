@@ -100,6 +100,7 @@ public:
     int total_stars(const std::string& world_id) const;
     std::string next_stage_id(const std::string& sid) const;
     bool world_unlocked(const std::string& wid) const;
+    bool tower_open(const std::string& tid) const;
     int tower_highest_floor(const std::string& tid) const;
     int stages_cleared_count() const;
     bool feature_unlocked(const std::string& f) const;

@@ -109,9 +109,10 @@ public:
         pv->add(r1);
         auto r2 = hbox(16);
         static const std::map<std::string, Col> CLASS_COLORS = {{"ATTACKER", Col("#b8401e")}, {"HEALER", Col("#2a6ab0")},
-                                                                {"GUARDIAN", Col("#3a7a2a")}, {"SUPPORT", Col("#9a6a1a")},
+                                                                {"DEFENDER", Col("#3a7a2a")}, {"SUPPORT", Col("#9a6a1a")},
                                                                 {"BREAKER", Col("#6a2a8a")}};
         std::string cls = S(def, "class", "ATTACKER");
+        r2->add(UnitCard::role_icon(def, 40));   // ROLE: icon + name
         r2->add(tag(cls, CLASS_COLORS.count(cls) ? CLASS_COLORS.at(cls) : Col("#5a4a6a")));
         r2->add(label(DB.element_name(el), T_BODY, Col(DB.element_color(el)).lightened(0.3f), gd::ALIGN_LEFT, 6));
         r2->add(label("POWER " + format_number(GM.unit_power(unit)), T_BODY, SKY, gd::ALIGN_LEFT, 6));

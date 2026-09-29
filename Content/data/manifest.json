@@ -30,6 +30,7 @@
  ],
  "enemies": [
   "ancient_bramble_pup.json",
+  "ashen_warden.json",
   "bramble_pup.json",
   "brine_eel.json",
   "brine_leviathan.json",
@@ -45,6 +46,7 @@
   "elite_scorch_beetle.json",
   "elite_shellcrab.json",
   "elite_tidefin.json",
+  "ember_totem.json",
   "emberwisp.json",
   "emberwisp_tyrant.json",
   "glowcap.json",
@@ -72,6 +74,7 @@
  ],
  "towers": [
   "ember_tower.json",
+  "the_fracture.json",
   "tide_tower.json",
   "verdant_tower.json"
  ]

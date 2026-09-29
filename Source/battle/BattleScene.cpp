@@ -505,7 +505,7 @@ public:
                     return next();
                 }
                 gd::after(this, 0.15f, [this, e, stop, next] {
-                    check_phase2(e, [this, e, stop, next] {
+                    check_phase(e, [this, e, stop, next] {
                         Next post = [this, stop, next] {
                             if (model.all_players_dead() || model.all_enemies_dead()) *stop = true;
                             next();
@@ -513,6 +513,11 @@ public:
                         EnemyDecision act = model.decide(e);
                         if (act.type == "charge") start_charge(e, act.skill_id, post);
                         else if (act.type == "summon") summon(e, post);
+                        else if (act.type == "skip")   // Broken (or a totem): no action
+                        {
+                            if (e->is_broken()) hud->add_log(e->display_name + " is Broken and loses its turn!", Col("#ffe070"));
+                            gd::after(this, 0.2f, post);
+                        }
                         else
                         {
                             std::string t = S(DB.skill(act.skill_id), "target", "enemy_single");
@@ -544,7 +549,12 @@ public:
             v->anticipate(Col("#ffcf4a"), 0.5f);
             effects.particles(e->element, v->impact_point(), 16, 360.0f);
         }
-        hud->show_warning("WARNING", e->display_name + " is charging " + skill_name + "!", [this, done] {
+        const Json& intr = O(DB.skill(skill_id), "interrupt");   // say how to stop it, when it can be stopped
+        std::string how = intr.empty() ? "Guard to halve the damage!"
+                                       : std::string(B(intr, "break", false) ? "BREAK it" : "Stop it") +
+                                             (F(intr, "damage_percent", 0) > 0 ? UIKit::fmt(" or deal %d%% of its HP", (int)std::round(F(intr, "damage_percent", 0) * 100)) : "") +
+                                             " - or Guard!";
+        hud->show_warning("DEVASTATING ATTACK", "In 1 turn: " + skill_name + ". " + how, [this, done] {
             if (!_warned_charge && !GM.hint_seen("charge") && !skip_hints() && DB.hints.contains("charge"))
             {
                 _warned_charge = true;
@@ -558,11 +568,17 @@ public:
         });
     }
 
-    // Boss phase 2: announcement, enrage flash and (optionally) a queued skill.
-    void check_phase2(const CombatantPtr& e, Next done)
+    // Boss phases: announcement, enrage flash, then an optional summon (queued skills/charges come from decide).
+    void check_phase(const CombatantPtr& e, Next done)
     {
-        Json p2 = model.check_phase2(*e);
+        Json p2 = model.check_phase(*e);
         if (p2.empty()) return done();
+        if (p2.contains("summon"))
+        {
+            Json sm = p2["summon"];
+            Next inner = done;
+            done = [this, e, sm, inner] { summon(e, inner, sm); };
+        }
         auto v = view_of(e);
         AudioManager::play_sfx("boss_sting");
         if (v)
@@ -574,11 +590,11 @@ public:
         camera.shake(18.0f, 0.4f);
         hud->add_log(S(p2, "announce", e->display_name + " grows furious!"), Col("#ff7a5a"));
         if (hud->plates.count(e.get())) hud->plates[e.get()]->refresh_phase();
-        hud->show_warning("PHASE 2", S(p2, "announce"), done);
+        hud->show_warning(UIKit::fmt("PHASE %d", I(p2, "index", 1) + 1), S(p2, "announce"), done);
     }
 
     // A boss calls minions: they rise in front of it.
-    void summon(const CombatantPtr& boss, Next done)
+    void summon(const CombatantPtr& boss, Next done, Json sm = Json())
     {
         auto bv = view_of(boss);
         if (bv)
@@ -587,8 +603,8 @@ public:
             bv->play_anim(bv->resolve_anim("special"));
         }
         AudioManager::play_sfx("summon_charge", 0.05f, -4.0f);
-        gd::after(this, 0.4f, [this, boss, bv, done] {
-            Units spawned = model.summon_minions(*boss);
+        gd::after(this, 0.4f, [this, boss, bv, done, sm] {
+            Units spawned = model.summon_minions(*boss, sm);
             std::string names;
             for (auto& m : spawned)
             {
@@ -640,6 +656,12 @@ public:
                 const CombatantPtr& unit = ev.unit;
                 if (!unit->is_alive()) return next();
                 auto v = view_of(unit);
+                if (ev.type == "break_restore")
+                {
+                    if (v) effects.floating_text(v->impact_point() + Vec2(0, -120), "GUARD RESTORED", Col("#c8c0d8"), 30);
+                    hud->add_log(unit->display_name + " recovers from Break.", UIKit::MUTED);
+                    return gd::after(this, 0.2f, next);
+                }
                 if (ev.type == "hot")
                 {
                     int healed = model.apply_hot(unit, ev.amount);
@@ -1194,6 +1216,20 @@ void SkillExecutor::hit(const PlanPtr& p, int ti, int hi, bool is_final)
     if (result.dealt > 0 || result.absorbed == 0)
         fx.damage_number(point + Vec2(0, -30) + stagger, result.dealt, kind, hi == 0 ? entry.tag : "", icon);
     AudioManager::play_sfx(S(skill, "sfx_hit", "hit"), 0.08f);
+    if (result.broke)
+    {
+        fx.floating_text(point + Vec2(0, -170), "BREAK!", Col("#ffe070"), 56);
+        fx.ring(tv->position(), Col("#ffe070"), 260, 0.45f, 14, 0.4f);
+        AudioManager::play_sfx("break");
+        battle->camera.shake(16.0f, 0.3f);
+        battle->hud->add_log(target->display_name + " is BROKEN! Its armour shatters and it takes more damage.", Col("#ffe070"));
+    }
+    if (result.interrupted)
+    {
+        fx.floating_text(point + Vec2(0, -210), "INTERRUPTED!", Col("#8ad8ff"), 44);
+        AudioManager::play_sfx("interrupt");
+        battle->hud->add_log(target->display_name + "'s attack is interrupted!", Col("#8ad8ff"));
+    }
 
     // ---- impact: flash frame, hit-stop and tiered shake
     bool user_boss = B(user->def, "boss", false);
@@ -1273,7 +1309,19 @@ void SkillExecutor::show_events(const std::vector<BattleEvent>& events, Next don
                 if (!B(sdef, "negative", false)) battle->pulse_card(e.unit, c);
             }
             else if (e.type == "cleanse")
+            {
                 fx.floating_text(v->impact_point() + Vec2(0, -160), "CLEANSED", Col("#bff4ff"), 30);
+                AudioManager::play_sfx("cleanse");
+            }
+            else if (e.type == "dispel")
+            {
+                std::string nm = S(DB.status(e.status), "name", e.status);
+                fx.floating_text(v->impact_point() + Vec2(0, -160), "DISPEL: " + upper(nm), Col("#e0c8ff"), 30);
+                battle->hud->add_log("  " + e.unit->display_name + " loses " + nm + ".", Col("#e0c8ff"));
+                AudioManager::play_sfx("dispel");
+            }
+            else if (e.type == "resist")
+                fx.floating_text(v->impact_point() + Vec2(0, -120), "RESISTED", UIKit::MUTED, 28);
             else if (e.type == "shield")
             {
                 fx.shield_dome(v->position(), Col("#8ad8ff"), v->visual_height() * 0.62f, 0.6f);
