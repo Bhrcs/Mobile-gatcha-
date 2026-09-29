@@ -6,7 +6,7 @@ no character, pose, frame, icon, layout, font or name is copied.
 ## 1. Sizes & scale
 | Asset | Native canvas | In-game scale | Notes |
 |---|---|---|---|
-| Hero battle sprite (3★–4★) | 96×96 frame | ×4 in battle | body ≈ 68 px tall, feet on row 88, pivot `[48, 88]` in the sheet JSON |
+| Hero battle sprite | 224×128 frame | ×3 in battle | body ≈ 100 px tall, feet on row 120, pivot `[112, 120]` (centred, so flipping is safe) |
 | Hero battle sprite (5★ / large) | 128×128 frame | ×3–×4 | same pivot rule (feet row = frame − 8) |
 | Enemy | 64×64 – 96×96 | ×4–×5 | |
 | Boss | 128×128 – 192×192 | ×3–×4 | never a scaled-up normal enemy |
@@ -19,14 +19,13 @@ Nearest filtering everywhere; integer scales; sprites move in whole native pixel
 `UnitSpriteDisplay` converts old 48px-sheet UI scales to the sheet's frame size (rounded to whole numbers).
 
 ## 2. Proportions
-**Heroic chibi on a human frame** (owner reference: classic mobile-RPG unit line): ~3 heads tall including
-spiky hair, but a real torso, shoulders, tapered arms/legs and feet. 96px frame: crown ≈ 6, chin 40,
-shoulders 41, hip 60, knee ≈ 73, ankle 85, ground 88. Limbs: thigh 13 / shin 13, upper arm 11 / forearm 9.5.
-**Faces are hand-pixelled** (never procedural shapes): 3/4 toward the viewer, both eyes use the SAME design
-(3×4 iris + lash; the near eye adds one sclera column), bangs shade the forehead, far jaw/right side in shadow;
-body forms use analytic cylinder/sphere normals lit from the upper left (lit left, shadow right). Expressions are row swaps.
-**Portraits are a separate drawing**: front-facing head-and-shoulders bust, big hand-pixelled anime eyes —
-not the battle pose. Battle sprites face RIGHT in the sheet and are flipped to face the enemies.
+**Human** (owner reference: detailed 4-tier swordsman line): ~5.5 heads, wide stance, weapon held low and forward.
+128px-tall frame: crown ≈ 21, chin 42, shoulders 46, hip 74, ground 120. Limbs: thigh 24 / shin 23, upper arm 17 / forearm 15.
+**Heads are hand-pixelled stamps** (hair + face, 3/4 view toward the enemy): small eyes (3×2 near / 2×2 far), brows,
+nose that breaks the profile, tapered jaw; lit cheek by the ear, shadow under the bangs. Expressions are row swaps.
+Bodies use analytic cylinder/sphere normals lit from the upper left, plus creases (`fold`) and gold trims (`trim`).
+**Portraits are a separate drawing**: front-facing head-and-shoulders bust, not the battle pose.
+Battle sprites face RIGHT in the sheet and are flipped to face the enemies.
 
 ## 3. Light, shading, outlines
 * Light: **upper-left-front** (`px6.LIGHT = (-0.45, -0.7, 0.75)`) for sprites, portraits, enemies, cards.

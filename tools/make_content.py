@@ -164,7 +164,7 @@ def stat_block(role, rarity, start_rarity, tweak=None):
             {k: growth[i] for i, k in enumerate(keys)} | {"spd": 0})
 
 
-PHASE6_SPRITES = {"kael_emberclaw": 4, "kael_blazeheart": 4, "kael_cinderlord": 4}   # 96px sheets (tools/art_*.py) render at half the old scale
+PHASE6_SPRITES = {"kael_emberclaw": 3, "kael_blazeheart": 3, "kael_cinderlord": 3}   # 128px-tall Phase-6 sheets (tools/art_*.py)
 
 
 def sprite(form_id, scale=8):
