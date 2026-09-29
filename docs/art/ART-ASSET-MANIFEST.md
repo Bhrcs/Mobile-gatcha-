@@ -32,10 +32,10 @@ Status: **COMPLETE** = meets ART-BIBLE.md · **NEEDS REDESIGN** = Phase 4/5 art,
 | `characters/faye_lumenbloom/faye_lumenbloom_sheet.png` | NEEDS REDESIGN |
 | `characters/gorran_oakheart/gorran_oakheart_portrait.png` | NEEDS REDESIGN |
 | `characters/gorran_oakheart/gorran_oakheart_sheet.png` | NEEDS REDESIGN |
-| `characters/kael_blazeheart/kael_blazeheart_portrait.png` | NEEDS REDESIGN |
-| `characters/kael_blazeheart/kael_blazeheart_sheet.png` | NEEDS REDESIGN |
-| `characters/kael_cinderlord/kael_cinderlord_portrait.png` | NEEDS REDESIGN |
-| `characters/kael_cinderlord/kael_cinderlord_sheet.png` | NEEDS REDESIGN |
+| `characters/kael_blazeheart/kael_blazeheart_portrait.png` | COMPLETE |
+| `characters/kael_blazeheart/kael_blazeheart_sheet.png` | COMPLETE |
+| `characters/kael_cinderlord/kael_cinderlord_portrait.png` | COMPLETE |
+| `characters/kael_cinderlord/kael_cinderlord_sheet.png` | COMPLETE |
 | `characters/kael_emberclaw/kael_emberclaw_portrait.png` | COMPLETE |
 | `characters/kael_emberclaw/kael_emberclaw_sheet.png` | COMPLETE |
 | `characters/mira_tidecaller/mira_tidecaller_portrait.png` | NEEDS REDESIGN |

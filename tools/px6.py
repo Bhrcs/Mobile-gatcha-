@@ -66,6 +66,7 @@ class Canvas:
         self.pid = np.full((h, w), -1, dtype=np.int32)
         self.band = np.zeros((h, w), dtype=np.int32)
         self.ramps = []
+        self.locked = np.zeros((h, w), dtype=bool)   # hand-placed pixels: never repainted or cleaned
 
     def mask(self):
         return Mask(self.w, self.h)
@@ -110,6 +111,7 @@ class Canvas:
             hit = below & ~m & (self.pid >= 0)
             self.band[hit] = np.maximum(1, self.band[hit] - 1)
             self._repaint(hit)
+        self.locked[m] = False   # a part drawn over a stamp replaces it
         self.pid[m] = pid
         self.band[m] = band[m]
         # separation: our boundary against parts behind -> one band darker (never the outline colour)
@@ -132,7 +134,22 @@ class Canvas:
         self._repaint(m)
         return self
 
+    def stamp(self, img, x0, y0, ramp):
+        """Pastes a hand-pixelled RGBA image (e.g. a face) as-is; `ramp` colours its outline."""
+        pid = len(self.ramps)
+        self.ramps.append(ramp)
+        a = np.array(img.convert('RGBA'))
+        for y in range(a.shape[0]):
+            for x in range(a.shape[1]):
+                X, Y = x0 + x, y0 + y
+                if a[y, x, 3] and 0 <= X < self.w and 0 <= Y < self.h:
+                    self.px[Y, X] = a[y, x]
+                    self.pid[Y, X] = pid
+                    self.locked[Y, X] = True
+        return self
+
     def _repaint(self, sel):
+        sel = sel & ~self.locked
         ys, xs = np.nonzero(sel)
         for y, x in zip(ys, xs):
             self.px[y, x] = self.ramps[self.pid[y, x]][self.band[y, x]]
@@ -154,7 +171,7 @@ class Canvas:
         for y in range(1, self.h - 1):
             for x in range(1, self.w - 1):
                 p = self.pid[y, x]
-                if p < 0:
+                if p < 0 or self.locked[y, x]:
                     continue
                 c = tuple(px[y, x])
                 ns = [tuple(px[y + dy, x + dx]) for dy, dx in ((0, 1), (0, -1), (1, 0), (-1, 0))

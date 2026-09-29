@@ -19,14 +19,13 @@ Nearest filtering everywhere; integer scales; sprites move in whole native pixel
 `UnitSpriteDisplay` converts old 48px-sheet UI scales to the sheet's frame size (rounded to whole numbers).
 
 ## 2. Proportions
-**Human, lightly stylised: ~5–5.5 heads tall** (chibi was rejected — characters must read as people).
-On a 96px frame (ground row 88): crown 20, chin 33, shoulders 35, elbow ≈ waist 49, hip joint 56,
-wrist ≈ crotch 57, knee ≈ 71, ankle 85. Head 11×13 px (face oval, taller than wide), neck 4 px,
-shoulders ≈ 14 px wide in 3/4 view, waist 10, hips 12. Limbs: thigh 16 / shin 15, upper arm 13 /
-forearm 11, tapering (thigh 7→5.5, calf 5.5→4, upper arm 5→4, forearm 4.5→3.5).
-Portraits: adult head-and-shoulders — oval face, nose line, jaw to a firm chin, neck into broad shoulders.
-Weapons are ~1.2–1.5× realistic size (Kael's blade ≈ 30 px) but never hide the body.
-Every hero must be identifiable as a **black silhouette** (see §10 test).
+**Heroic chibi on a human frame** (owner reference: classic mobile-RPG unit line): ~3 heads tall including
+spiky hair, but a real torso, shoulders, tapered arms/legs and feet. 96px frame: crown ≈ 6, chin 40,
+shoulders 41, hip 60, knee ≈ 73, ankle 85, ground 88. Limbs: thigh 13 / shin 13, upper arm 11 / forearm 9.5.
+**Faces are hand-pixelled** (never procedural shapes): 3/4 toward the viewer, both eyes visible
+(near eye 5 px wide, far eye 3 px), 1px catch-light, brows carry the expression; expressions are row swaps.
+**Portraits are a separate drawing**: front-facing head-and-shoulders bust, big hand-pixelled anime eyes —
+not the battle pose. Battle sprites face RIGHT in the sheet and are flipped to face the enemies.
 
 ## 3. Light, shading, outlines
 * Light: **upper-left-front** (`px6.LIGHT = (-0.45, -0.7, 0.75)`) for sprites, portraits, enemies, cards.
