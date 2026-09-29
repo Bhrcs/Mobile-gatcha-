@@ -32,24 +32,30 @@ SMEAR = [(255, 122, 48, 255), (255, 200, 90, 255), (255, 246, 200, 255)]
 
 
 class Pose:
+    """Hands are offsets from their shoulder; feet are absolute (x shifted by ox)."""
     def __init__(self, **kw):
-        self.ox = 0; self.oy = 0; self.crouch = 0; self.lean = 3
-        self.f_foot = (56, GROUND); self.b_foot = (35, GROUND)
-        self.f_hand = None; self.b_hand = None
+        self.ox = 0; self.oy = 0; self.crouch = 0; self.lean = 2
+        self.f_foot = (55, GROUND); self.b_foot = (38, GROUND)
+        self.f_hand = (8, 17); self.b_hand = (-2, 20)
         self.head_dx = 0; self.head_dy = 0
-        self.eyes = 'open'; self.blade = 25; self.blade_front = True
+        self.eyes = 'open'; self.blade = 30; self.blade_front = True
         self.breath = 0; self.wind = 0.0; self.embers = 0
         self.smear = None; self.aura = 0; self.back_hand_on_hilt = False; self.no_blade = False
         self.__dict__.update(kw)
 
 
+# Human landmarks (~5.3 heads): crown 20, chin 33, shoulders 35, elbow ~49 (waist),
+# hip joint 56, wrist ~57 (crotch), knee ~71, ankle 85, ground 88.
+HIP_Y, TORSO, THIGH, SHIN, UPPER, FORE = 56, 21, 16, 15, 13, 11
+
+
 def skel(p):
-    hip = (44 + p.ox, 63 + p.oy + p.crouch)
-    sh = (hip[0] + p.lean, hip[1] - 17 + p.breath)
-    head = (sh[0] + 3 + p.head_dx, sh[1] - 11 + p.head_dy)
-    fsh, bsh = (sh[0] + 3, sh[1] + 2), (sh[0] - 5, sh[1] + 1)
-    fh = p.f_hand or (fsh[0] + 9, fsh[1] + 12)
-    bh = p.b_hand or (bsh[0] - 2, bsh[1] + 15)
+    hip = (46 + p.ox, HIP_Y + p.oy + p.crouch)
+    sh = (hip[0] + p.lean, hip[1] - TORSO + p.breath)
+    head = (sh[0] + 2 + p.head_dx, sh[1] - 9 + p.head_dy)
+    fsh, bsh = (sh[0] + 3, sh[1] + 1), (sh[0] - 4, sh[1] + 1)
+    fh = (fsh[0] + p.f_hand[0], fsh[1] + p.f_hand[1])
+    bh = (bsh[0] + p.b_hand[0], bsh[1] + p.b_hand[1])
     ff = (p.f_foot[0] + p.ox, min(GROUND, p.f_foot[1] + p.oy))
     bf = (p.b_foot[0] + p.ox, min(GROUND, p.b_foot[1] + p.oy))
     return dict(hip=hip, sh=sh, head=head, fsh=fsh, bsh=bsh, fh=fh, bh=bh, ff=ff, bf=bf)
@@ -67,88 +73,84 @@ def limb(cv, a, b, w0, w1):
     return m
 
 
+def lerp(a, b, t):
+    return (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
+
+
 def leg(cv, hip, foot, back):
-    knee = ik(hip, (foot[0], foot[1] - 3), 12.5, 12, bend=-1)
-    bias = -0.25 if back else 0.0
-    cv.part(limb(cv, hip, knee, 8, 7), TROUSER, 'cloth', 'cyl_v', bias=bias)
-    ankle = (foot[0], foot[1] - 3)
-    cv.part(limb(cv, knee, ankle, 7, 6), TROUSER, 'cloth', 'cyl_v', bias=bias)
-    # boot: leather shaft + toe pointing right
-    boot = cv.mask().poly([(ankle[0] - 3, ankle[1] - 6), (ankle[0] + 3, ankle[1] - 6), (foot[0] + 3, foot[1] - 3),
-                           (foot[0] + 7, foot[1] - 2), (foot[0] + 7, foot[1]), (foot[0] - 4, foot[1]), (foot[0] - 4, foot[1] - 3)])
+    ankle = (foot[0] - 1, foot[1] - 3)
+    knee = ik(hip, ankle, THIGH, SHIN, bend=-1)
+    bias = -0.3 if back else 0.0
+    cv.part(limb(cv, hip, knee, 7, 5.5), TROUSER, 'cloth', 'cyl_v', bias=bias)          # thigh tapers to the knee
+    cv.part(limb(cv, knee, ankle, 5.5, 4), TROUSER, 'cloth', 'cyl_v', bias=bias)        # calf
+    top = lerp(knee, ankle, 0.35)                                                         # boots reach mid-calf
+    boot = limb(cv, top, ankle, 5.5, 5)
+    boot.poly([(ankle[0] - 3, ankle[1] - 1), (ankle[0] + 2, ankle[1] - 2), (foot[0] + 6, foot[1] - 2),
+               (foot[0] + 6, foot[1]), (ankle[0] - 3, foot[1])])
     cv.part(boot, LEATHER, 'leather', bias=bias - 0.1)
-    # black steel greave over the shin (front leg only: reads as armour, keeps back leg quiet)
-    if not back:
-        g = limb(cv, (knee[0] + 1, knee[1] + 1), (ankle[0] + 1, ankle[1] - 5), 5, 5)
-        cv.part(g, STEEL, 'metal', 'cyl_v', cast=False)
-        cv.part(cv.mask().rect(ankle[0] - 3, ankle[1] - 7, ankle[0] + 3, ankle[1] - 6), SCARF, 'cloth', 'flat', cast=False)
+    if not back:   # black steel greave on the front shin
+        cv.part(limb(cv, lerp(knee, ankle, 0.12), lerp(knee, ankle, 0.6), 4, 3.5), STEEL, 'metal', 'cyl_v', cast=False)
+        cv.part(cv.mask().ellipse(knee[0] + 0.5, knee[1], 2.2, 2), STEEL, 'metal', cast=False)   # knee cop
     return knee
 
 
 def torso(cv, s, p):
-    hip, sh = s['hip'], s['sh']
-    # crimson tunic
-    t = cv.mask().poly([(sh[0] - 8, sh[1] - 1), (sh[0] + 7, sh[1] - 1), (hip[0] + 6, hip[1] + 1),
-                        (hip[0] + 8, hip[1] + 7), (hip[0] - 7, hip[1] + 7), (hip[0] - 6, hip[1] + 1)])
-    cv.part(t, TUNIC, 'cloth', 'cyl_v')
-    # leather jerkin, open at the front to show the tunic
-    j = cv.mask().poly([(sh[0] - 8, sh[1]), (sh[0] + 2, sh[1]), (hip[0] + 1, hip[1] - 1), (hip[0] - 6, hip[1]), (hip[0] - 7, hip[1] - 6)])
-    cv.part(j, LEATHER, 'leather', 'cyl_v')
-    j2 = cv.mask().poly([(sh[0] + 5, sh[1]), (sh[0] + 7, sh[1]), (hip[0] + 6, hip[1] - 1), (hip[0] + 4, hip[1] - 1)])
-    cv.part(j2, LEATHER, 'leather', 'cyl_v')
-    # belt + gold buckle + tassets (triangles: Kael's shape language)
-    cv.part(cv.mask().poly([(hip[0] - 7, hip[1] - 2), (hip[0] + 7, hip[1] - 3), (hip[0] + 7, hip[1] + 1), (hip[0] - 7, hip[1] + 2)]),
+    (hx, hy), (sx, sy) = s['hip'], s['sh']
+    body = [(sx - 7, sy - 1), (sx + 5, sy - 1), (sx + 7, sy + 5), (hx + 5, hy - 9), (hx + 6, hy),
+            (hx + 5, hy + 3), (hx - 6, hy + 3), (hx - 6, hy), (hx - 5, hy - 9), (sx - 8, sy + 6)]
+    cv.part(cv.mask().poly(body), TUNIC, 'cloth', 'cyl_v')
+    # leather jerkin, open over the chest
+    cv.part(cv.mask().poly([(sx - 8, sy), (sx + 2, sy), (hx + 1, hy - 4), (hx - 6, hy - 4), (hx - 5, hy - 9), (sx - 8, sy + 6)]),
             LEATHER, 'leather', 'cyl_v')
-    cv.part(cv.mask().rect(hip[0] + 2, hip[1] - 3, hip[0] + 5, hip[1] + 1), GOLD, 'metal', 'flat', normal=(-0.3, -0.4, 1))
-    cv.part(cv.mask().poly([(hip[0] - 7, hip[1] + 2), (hip[0] - 1, hip[1] + 2), (hip[0] - 6, hip[1] + 9)]), TUNIC, 'cloth', bias=-0.2)
-    cv.part(cv.mask().poly([(hip[0] - 1, hip[1] + 1), (hip[0] + 8, hip[1]), (hip[0] + 7, hip[1] + 8), (hip[0] + 3, hip[1] + 12), (hip[0], hip[1] + 8)]),
-            TUNIC, 'cloth')
-    # diagonal chest strap with a gold ring (scabbard harness)
-    cv.part(limb(cv, (sh[0] - 7, sh[1] + 1), (hip[0] + 4, hip[1] - 4), 3, 3), LEATHER, 'leather', 'flat', normal=(0, -0.2, 1), bias=0.25)
-    cv.part(cv.mask().ellipse((sh[0] + hip[0]) / 2 - 1, (sh[1] + hip[1]) / 2 - 2, 1.6, 1.6), GOLD, 'metal', cast=False)
+    cv.part(cv.mask().poly([(sx + 5, sy + 1), (sx + 7, sy + 5), (hx + 5, hy - 5), (hx + 3, hy - 4)]), LEATHER, 'leather', 'cyl_v')
+    # harness strap across the chest
+    cv.part(limb(cv, (sx - 6, sy + 1), (hx + 4, hy - 5), 2.5, 2.5), LEATHER, 'leather', 'flat', normal=(0, -0.2, 1), bias=0.25)
+    cv.part(cv.mask().ellipse((sx + hx) / 2 - 1, (sy + hy) / 2 - 2, 1.3, 1.3), GOLD, 'metal', cast=False)
+    # belt, buckle, short tabard (ends above the knee)
+    cv.part(cv.mask().poly([(hx - 6, hy - 5), (hx + 6, hy - 6), (hx + 6, hy - 3), (hx - 6, hy - 2)]), LEATHER, 'leather', 'cyl_v')
+    cv.part(cv.mask().rect(hx + 2, hy - 6, hx + 4, hy - 3), GOLD, 'metal', 'flat', normal=(-0.3, -0.4, 1))
+    cv.part(cv.mask().poly([(hx - 6, hy - 2), (hx - 1, hy - 2), (hx - 5, hy + 6)]), TUNIC, 'cloth', bias=-0.25)
+    cv.part(cv.mask().poly([(hx - 1, hy - 3), (hx + 6, hy - 3), (hx + 6, hy + 5), (hx + 3, hy + 9), (hx, hy + 5)]), TUNIC, 'cloth')
+
+
+def neck(cv, s):
+    (hx, hy), (sx, sy) = s['head'], s['sh']
+    cv.part(limb(cv, (hx - 1, hy + 4), (sx + 1, sy), 4, 4.5), SKIN, 'skin', 'cyl_v', bias=-0.25)
 
 
 def head(cv, s, p):
     hx, hy = s['head']
-    # back hair mass + swept spikes (large shapes first)
-    back = cv.mask().ellipse(hx - 2, hy - 2, 9, 8.5)
-    back.poly([(hx - 7, hy - 6), (hx - 17, hy - 9), (hx - 9, hy - 1)])
-    back.poly([(hx - 8, hy + 1), (hx - 16, hy + 2), (hx - 8, hy + 5)])
-    back.poly([(hx - 4, hy - 9), (hx - 11, hy - 17), (hx, hy - 10)])
+    back = cv.mask().ellipse(hx - 1.5, hy - 2.5, 6.5, 6)          # back hair mass + swept spikes
+    back.poly([(hx - 5, hy - 5), (hx - 13, hy - 8), (hx - 6, hy - 1)])
+    back.poly([(hx - 5, hy - 1), (hx - 12, hy + 1), (hx - 5, hy + 3)])
+    back.poly([(hx - 3, hy - 6), (hx - 8, hy - 12), (hx, hy - 7)])
     cv.part(back, HAIR, 'hair')
-    # face (3/4 right): round skull + short jaw pointing forward
-    face = cv.mask().ellipse(hx + 1, hy + 1, 7.5, 7.5)
-    face.poly([(hx - 3, hy + 5), (hx + 8, hy + 3), (hx + 5, hy + 9), (hx - 1, hy + 9)])
+    face = cv.mask().ellipse(hx + 0.5, hy, 5.5, 6.5)               # oval skull, taller than wide
+    face.poly([(hx - 3, hy + 3), (hx + 5, hy + 1), (hx + 6.5, hy + 1), (hx + 6, hy + 2.5), (hx + 5, hy + 5),
+               (hx + 2, hy + 7), (hx - 2, hy + 6)])                 # nose bump + jaw pointing forward-down
     cv.part(face, SKIN, 'skin')
-    cv.part(cv.mask().ellipse(hx - 3, hy + 2, 1.6, 2.2), SKIN, 'skin', bias=-0.3)   # ear
-    # front hair: three triangular locks over the forehead + crown spikes
-    for pts in ([(hx - 4, hy - 7), (hx + 7, hy - 7), (hx + 9, hy - 1), (hx + 4, hy - 4)],
-                [(hx - 1, hy - 8), (hx + 4, hy - 16), (hx + 5, hy - 7)],
-                [(hx + 3, hy - 8), (hx + 11, hy - 12), (hx + 8, hy - 5)],
-                [(hx - 6, hy - 6), (hx - 1, hy - 14), (hx + 1, hy - 7)],
-                [(hx - 5, hy - 5), (hx - 2, hy - 6), (hx - 3, hy + 1)]):
+    cv.part(cv.mask().ellipse(hx - 2.5, hy + 1, 1.2, 1.8), SKIN, 'skin', bias=-0.35)   # ear
+    for pts in ([(hx - 3, hy - 6), (hx + 5, hy - 6), (hx + 7, hy - 2), (hx + 3, hy - 3)],
+                [(hx - 1, hy - 6), (hx + 3, hy - 11), (hx + 4, hy - 6)],
+                [(hx + 2, hy - 6), (hx + 8, hy - 9), (hx + 6, hy - 4)],
+                [(hx - 5, hy - 5), (hx - 1, hy - 11), (hx + 1, hy - 6)],
+                [(hx - 3, hy - 4), (hx - 1, hy - 5), (hx - 2, hy + 2)]):
         cv.part(cv.mask().poly(pts), HAIR, 'hair', 'flat', normal=(-0.2, -0.6, 1))
-    # headband (tails live in back_cloth)
-    hb = cv.mask().poly([(hx - 7, hy - 5), (hx + 6, hy - 7), (hx + 6, hy - 5), (hx - 7, hy - 3)])
-    cv.part(hb, SCARF, 'cloth', 'cyl_v', cast=False)
-    # face features: 2x3 eye, determined brow, small mouth
-    ex, ey = hx + 4, hy + 1
+    cv.part(cv.mask().poly([(hx - 5, hy - 4), (hx + 5, hy - 5), (hx + 5, hy - 3), (hx - 5, hy - 2)]), SCARF, 'cloth', 'cyl_v', cast=False)
+    ex, ey = hx + 3, hy
     e = p.eyes
     if e in ('open', 'fierce'):
-        cv.pixels([(ex, ey - 1), (ex + 1, ey - 1), (ex, ey), (ex + 1, ey), (ex + 1, ey + 1)], EYE)
-        cv.dot(ex, ey - 1, EYE_HI)
-        cv.pixels([(ex - 1, ey - 3), (ex, ey - 3), (ex + 1, ey - 2), (ex + 2, ey - 2)], HAIR[1])
-        if e == 'fierce':
-            cv.pixels([(ex - 1, ey - 2), (ex + 2, ey - 1)], HAIR[1])
+        cv.pixels([(ex, ey), (ex, ey + 1), (ex + 1, ey + 1)], EYE)
+        cv.dot(ex + 1, ey, EYE_HI)
+        cv.pixels([(ex - 1, ey - 2), (ex, ey - 2), (ex + 1, ey - 2) if e == 'open' else (ex + 1, ey - 1)], HAIR[1])
     elif e == 'closed':
-        cv.pixels([(ex, ey), (ex + 1, ey), (ex + 2, ey - 1)], EYE)
+        cv.pixels([(ex, ey + 1), (ex + 1, ey + 1)], EYE)
     elif e == 'hurt':
-        cv.pixels([(ex, ey - 1), (ex + 1, ey), (ex, ey + 1)], EYE)
-        cv.pixels([(ex - 1, ey - 3), (ex, ey - 2), (ex + 1, ey - 2)], HAIR[1])
+        cv.pixels([(ex, ey), (ex + 1, ey + 1)], EYE)
+        cv.pixels([(ex - 1, ey - 1), (ex, ey - 2)], HAIR[1])
     elif e == 'ko':
-        cv.pixels([(ex, ey - 1), (ex + 1, ey), (ex + 2, ey + 1), (ex + 2, ey - 1), (ex, ey + 1)], EYE)
-    mouth = [(hx + 6, hy + 6), (hx + 7, hy + 6)] if e != 'hurt' else [(hx + 6, hy + 6), (hx + 7, hy + 5), (hx + 7, hy + 7)]
-    cv.pixels(mouth, SKIN[0])
+        cv.pixels([(ex, ey), (ex + 1, ey + 1), (ex + 1, ey)], EYE)
+    cv.pixels([(hx + 3, hy + 4), (hx + 4, hy + 4)] if e != 'hurt' else [(hx + 3, hy + 4), (hx + 4, hy + 5)], SKIN[0])
 
 
 def back_cloth(cv, s, p):
@@ -156,36 +158,33 @@ def back_cloth(cv, s, p):
     hx, hy = s['head']
     sx, sy = s['sh']
     w = p.wind
-    tail = cv.mask().poly([(sx - 3, sy - 3), (sx - 1, sy + 1), (sx - 13 - w, sy + 6 + w * 0.5), (sx - 20 - w * 1.5, sy + 4 + w),
-                           (sx - 15 - w, sy + 1)])
-    cv.part(tail, SCARF, 'cloth', 'flat', normal=(-0.1, -0.3, 1))
-    band = cv.mask().poly([(hx - 7, hy - 5), (hx - 16 - w, hy - 3 + w * 0.4), (hx - 19 - w * 1.2, hy + 1 + w * 0.3), (hx - 8, hy - 2)])
-    cv.part(band, SCARF, 'cloth', 'flat', normal=(0, -0.2, 1), bias=-0.2)
+    cv.part(cv.mask().poly([(sx - 3, sy - 2), (sx - 1, sy + 1), (sx - 10 - w, sy + 5 + w * 0.4), (sx - 16 - w * 1.3, sy + 3 + w),
+                            (sx - 12 - w, sy)]), SCARF, 'cloth', 'flat', normal=(-0.1, -0.3, 1))
+    cv.part(cv.mask().poly([(hx - 5, hy - 4), (hx - 12 - w, hy - 2 + w * 0.4), (hx - 15 - w * 1.2, hy + 1 + w * 0.3), (hx - 6, hy - 2)]),
+            SCARF, 'cloth', 'flat', normal=(0, -0.2, 1), bias=-0.2)
 
 
 def scarf_wrap(cv, s):
     sx, sy = s['sh']
-    m = cv.mask().ellipse(sx + 1, sy - 1, 7, 3.2)
-    m.poly([(sx - 5, sy), (sx + 5, sy - 1), (sx + 1, sy + 7), (sx - 3, sy + 6)])
+    m = cv.mask().ellipse(sx + 1, sy - 1, 5, 2.4)
+    m.poly([(sx - 3, sy), (sx + 4, sy - 1), (sx + 1, sy + 5), (sx - 2, sy + 4)])
     cv.part(m, SCARF, 'cloth', 'cyl_v')
 
 
 def arm(cv, shoulder, hand, front, bend):
-    elbow = ik(shoulder, hand, 9, 9, bend=bend)
-    bias = 0.0 if front else -0.3
-    cv.part(limb(cv, shoulder, elbow, 6, 5), TUNIC, 'cloth', 'cyl_v', bias=bias)
-    fore = limb(cv, elbow, hand, 5, 5)
-    cv.part(fore, LEATHER if front else TUNIC, 'leather', 'cyl_v', bias=bias)
-    fist = cv.mask().ellipse(hand[0], hand[1], 2.6, 2.6)
-    cv.part(fist, STEEL if front else SKIN, 'metal' if front else 'skin', bias=bias)
+    elbow = ik(shoulder, hand, UPPER, FORE, bend=bend)
+    bias = 0.0 if front else -0.35
+    cv.part(cv.mask().ellipse(shoulder[0], shoulder[1] + 1, 2.8, 3), TUNIC, 'cloth', bias=bias)       # deltoid
+    cv.part(limb(cv, shoulder, elbow, 5, 4), TUNIC, 'cloth', 'cyl_v', bias=bias)
+    cv.part(limb(cv, elbow, hand, 4.5, 3.5), LEATHER, 'leather', 'cyl_v', bias=bias)               # bracer
+    cv.part(cv.mask().ellipse(hand[0], hand[1], 2, 2), STEEL if front else SKIN, 'metal' if front else 'skin', bias=bias)
     return elbow
 
 
 def pauldron(cv, fsh):
     x, y = fsh
-    m = cv.mask().poly([(x - 5, y - 2), (x + 1, y - 5), (x + 6, y - 2), (x + 5, y + 3), (x - 3, y + 4)])
-    cv.part(m, STEEL, 'metal')
-    cv.part(cv.mask().poly([(x - 4, y + 3), (x + 5, y + 2), (x + 5, y + 4), (x - 3, y + 5)]), GOLD, 'metal', 'flat', normal=(0, 0.3, 1), cast=False)
+    cv.part(cv.mask().poly([(x - 4, y - 2), (x + 1, y - 4), (x + 5, y - 1), (x + 4, y + 3), (x - 2, y + 4)]), STEEL, 'metal')
+    cv.part(cv.mask().poly([(x - 2, y + 3), (x + 4, y + 2), (x + 4, y + 4), (x - 2, y + 5)]), GOLD, 'metal', 'flat', normal=(0, 0.3, 1), cast=False)
 
 
 def sword(cv, hand, ang, embers=0):
@@ -200,7 +199,7 @@ def sword(cv, hand, ang, embers=0):
     cv.part(limb(cv, at(-6, 0), at(1, 0), 3, 3), LEATHER, 'leather', 'cyl_h', cast=False)        # grip
     cv.part(cv.mask().ellipse(*at(-7, 0), 1.8, 1.8), GOLD, 'metal', cast=False)                  # pommel
     cv.part(limb(cv, at(3, -5), at(3, 5), 3, 3), GOLD, 'metal', cast=False)                      # guard
-    L = 34
+    L = 30
     blade = cv.mask().poly([at(4, -3), at(L - 8, -3.6), at(L, 1.5), at(L - 4, 3.6), at(4, 3.6)])
     cv.part(blade, STEEL, 'metal', 'flat', normal=(-0.2, -0.5, 1), cast=False, bias=-0.55)
     edge = cv.mask()
@@ -210,7 +209,7 @@ def sword(cv, hand, ang, embers=0):
         edge.set(*at(L - 8 + k, -2.8 + k * 0.55))
     cv.part(edge, STEEL, 'metal', 'flat', normal=(-0.6, -0.8, 0.5), sep=False, cast=False, bias=0.2)
     # ember cracks: three 2-3px glowing notches along the spine, brightness steps with `embers`
-    for i, t in enumerate((10, 17, 24)):
+    for i, t in enumerate((9, 15, 21)):
         c = EMBER[(i + embers) % 3]
         for (tt, oo) in ((t, 1.2), (t, 2.2), (t + 1, 1.7), (t + 1, 2.7), (t + 2, 2.2)):
             cv.dot(*at(tt, oo), c)
@@ -250,11 +249,12 @@ def frame(p):
     if p.aura:
         flames(cv, s['hip'][0], GROUND, 5, 10 + p.aura * 6, p.embers)
     back_cloth(cv, s, p)
-    bh = s['bh'] if not p.back_hand_on_hilt else (s['fh'][0] - 4, s['fh'][1] + 1)
+    bh = s['bh'] if not p.back_hand_on_hilt else (s['fh'][0] - 3, s['fh'][1] + 2)
     arm(cv, s['bsh'], bh, False, bend=1)
     leg(cv, s['hip'], s['bf'], True)
     leg(cv, s['hip'], s['ff'], False)
     torso(cv, s, p)
+    neck(cv, s)
     if not p.blade_front and not p.no_blade:
         sword(cv, s['fh'], p.blade, p.embers)
     head(cv, s, p)
@@ -264,91 +264,91 @@ def frame(p):
     if p.blade_front and not p.no_blade:
         sword(cv, s['fh'], p.blade, p.embers)
         # fist over the grip
-        cv.part(cv.mask().ellipse(s['fh'][0], s['fh'][1], 2.6, 2.6), STEEL, 'metal', cast=False)
-    if p.smear:
-        smear(cv, *p.smear)
+        cv.part(cv.mask().ellipse(s['fh'][0], s['fh'][1], 2, 2), STEEL, 'metal', cast=False)
+    if p.smear:   # (dx, dy) from the front shoulder, r0, r1, a0, a1, thick
+        dx, dy, *rest = p.smear
+        smear(cv, (s['fsh'][0] + dx, s['fsh'][1] + dy), *rest)
     cv.cleanup().outline()
     return cv.image()
 
 
 # ------------------------------------------------------------------ animations (counts/hit frames match data/skills)
+G = GROUND
+
+
 def idle():
     out = []
     for i in range(6):
         k = math.sin(i / 6 * math.tau)
-        out.append(frame(Pose(breath=1 if k > 0.3 else 0, wind=1.5 + k * 1.5, embers=i % 3,
-                              f_hand=(62, 61 + (1 if k > 0.3 else 0)), blade=28)))
+        up = 1 if k > 0.3 else 0
+        out.append(frame(Pose(breath=up, wind=1.5 + k * 1.5, embers=i % 3, f_hand=(8, 17 - up))))
     return out
+
+
+LUNGE = dict(ox=10, f_foot=(60, G), b_foot=(34, G), eyes='fierce')
 
 
 def attack():
     P = Pose
-    return [frame(P(crouch=2, lean=1, f_hand=(50, 52), blade=-150, blade_front=False, wind=2, b_hand=(36, 58))),
-            frame(P(crouch=3, lean=-1, f_hand=(44, 50), blade=-165, blade_front=False, wind=3, eyes='fierce', b_hand=(34, 56))),
-            frame(P(ox=10, crouch=2, lean=6, f_hand=(75, 56), blade=8, wind=5, eyes='fierce', b_foot=(40, GROUND), f_foot=(64, GROUND),
-                    smear=((58, 50), 22, 30, -110, 20, 5))),
-            frame(P(ox=10, crouch=4, lean=7, f_hand=(72, 66), blade=55, wind=6, eyes='fierce', b_foot=(40, GROUND), f_foot=(64, GROUND))),
-            frame(P(ox=10, crouch=1, lean=5, f_hand=(72, 44), blade=-60, wind=6, eyes='fierce', b_foot=(40, GROUND), f_foot=(64, GROUND),
-                    smear=((60, 58), 20, 28, 70, -70, 5))),
-            frame(P(ox=5, crouch=1, lean=4, f_hand=(66, 55), blade=-10, wind=4)),
-            frame(P(f_hand=(62, 60), blade=25, wind=2))]
+    return [frame(P(crouch=2, lean=1, f_hand=(-8, 8), blade=-150, blade_front=False, wind=2, b_hand=(-4, 16))),
+            frame(P(crouch=3, lean=-1, f_hand=(-10, 4), blade=-165, blade_front=False, wind=3, eyes='fierce', b_hand=(-5, 14))),
+            frame(P(crouch=2, lean=6, f_hand=(18, 12), blade=8, wind=5, smear=(-4, 6, 16, 26, -110, 20, 5), **LUNGE)),
+            frame(P(crouch=4, lean=7, f_hand=(14, 20), blade=55, wind=6, **LUNGE)),
+            frame(P(crouch=1, lean=5, f_hand=(15, 2), blade=-60, wind=6, smear=(-2, 12, 15, 24, 70, -70, 5), **LUNGE)),
+            frame(P(ox=5, crouch=1, lean=4, f_hand=(12, 14), blade=-10, wind=4)),
+            frame(P(wind=2))]
 
 
 def hit():
-    return [frame(Pose(ox=-3, lean=-2, head_dx=-2, eyes='hurt', f_hand=(57, 60), blade=40, wind=4)),
-            frame(Pose(ox=-5, lean=-4, head_dx=-3, head_dy=1, eyes='hurt', f_hand=(54, 62), blade=55, wind=5)),
-            frame(Pose(ox=-2, lean=0, eyes='open', f_hand=(60, 61), blade=32, wind=3))]
+    return [frame(Pose(ox=-3, lean=-3, head_dx=-2, eyes='hurt', f_hand=(6, 18), blade=45, wind=4)),
+            frame(Pose(ox=-5, lean=-5, head_dx=-2, head_dy=1, eyes='hurt', f_hand=(4, 19), blade=60, wind=5)),
+            frame(Pose(ox=-2, lean=0, f_hand=(7, 17), blade=35, wind=3))]
 
 
 def guard():
-    g = dict(crouch=4, lean=1, f_hand=(60, 52), blade=-95, back_hand_on_hilt=True, eyes='fierce')
-    return [frame(Pose(crouch=2, lean=2, f_hand=(61, 55), blade=-60, wind=2)),
+    g = dict(crouch=4, lean=1, f_hand=(8, 8), blade=-95, back_hand_on_hilt=True, eyes='fierce')
+    return [frame(Pose(crouch=2, lean=2, f_hand=(9, 12), blade=-60, wind=2)),
             frame(Pose(wind=2, **g)),
             frame(Pose(wind=3, breath=1, **g))]
 
 
 def victory():
-    return [frame(Pose(f_hand=(60, 44), blade=-120, wind=2, eyes='closed')),
-            frame(Pose(f_hand=(58, 38), blade=-60, wind=3, smear=((56, 34), 14, 20, -200, -40, 3))),
-            frame(Pose(f_hand=(57, 34), blade=-80, wind=4, embers=1, eyes='fierce')),
-            frame(Pose(f_hand=(57, 34), blade=-82, wind=2, embers=2, eyes='fierce', breath=1))]
+    return [frame(Pose(f_hand=(6, 6), blade=-120, wind=2, eyes='closed')),
+            frame(Pose(f_hand=(4, -4), blade=-60, wind=3, smear=(0, -6, 12, 17, -200, -40, 3))),
+            frame(Pose(f_hand=(3, -10), blade=-80, wind=4, embers=1, eyes='fierce')),
+            frame(Pose(f_hand=(3, -10), blade=-82, wind=2, embers=2, eyes='fierce', breath=1))]
 
 
 def ko():
-    kneel = frame(Pose(crouch=9, lean=6, head_dx=2, head_dy=3, eyes='hurt', f_hand=(64, 80), blade=80,
-                       f_foot=(58, GROUND), b_foot=(36, GROUND), wind=0))
-    down = frame(Pose(eyes='ko', f_hand=(60, 62), no_blade=True, wind=0)).rotate(90, expand=False)
+    kneel = frame(Pose(crouch=10, lean=7, head_dx=2, head_dy=3, eyes='hurt', f_hand=(6, 21), blade=80,
+                       f_foot=(58, G), b_foot=(36, G), wind=0))
+    down = frame(Pose(eyes='ko', f_hand=(6, 18), no_blade=True, wind=0)).rotate(90, expand=False)
     bb = down.getbbox()
     gs = Canvas(FW, FH)
-    sword(gs, (16, GROUND - 2), -4)
+    sword(gs, (16, G - 2), -4)
     gs.cleanup().outline()
     lying = gs.image()
     if bb:
         c = down.crop(bb)
-        lying.paste(c, (FW // 2 - c.width // 2, GROUND + 1 - c.height), c)
+        lying.paste(c, (FW // 2 - c.width // 2, G + 1 - c.height), c)
     return [kneel, lying]
 
 
 def burst():
     P = Pose
-    f = []
-    f.append(frame(P(crouch=4, lean=0, f_hand=(48, 54), blade=-160, blade_front=False, aura=1, embers=0, eyes='fierce', wind=3)))
-    f.append(frame(P(crouch=5, lean=-1, f_hand=(46, 52), blade=-170, blade_front=False, aura=2, embers=1, eyes='fierce', wind=4)))
-    f.append(frame(P(ox=12, crouch=3, lean=8, f_hand=(70, 58), blade=-20, aura=1, embers=2, eyes='fierce', wind=7, b_foot=(40, GROUND))))
-    f.append(frame(P(ox=12, crouch=2, lean=7, f_hand=(76, 56), blade=10, embers=0, eyes='fierce', wind=7, b_foot=(40, GROUND),
-                     smear=((60, 50), 22, 31, -110, 25, 5))))
-    f.append(frame(P(ox=12, crouch=3, lean=6, f_hand=(72, 66), blade=60, embers=1, eyes='fierce', wind=6, b_foot=(40, GROUND))))
-    f.append(frame(P(ox=12, crouch=1, lean=5, f_hand=(73, 44), blade=-55, embers=2, eyes='fierce', wind=7, b_foot=(40, GROUND),
-                     smear=((62, 58), 20, 29, 70, -75, 5))))
-    f.append(frame(P(ox=12, crouch=3, lean=4, f_hand=(62, 50), blade=-150, blade_front=False, embers=0, eyes='fierce', wind=6, b_foot=(40, GROUND))))
-    f.append(frame(P(ox=12, crouch=2, lean=8, f_hand=(76, 58), blade=18, embers=1, eyes='fierce', wind=8, b_foot=(40, GROUND),
-                     smear=((60, 52), 22, 31, -120, 30, 6))))
-    f.append(frame(P(ox=10, oy=-12, lean=3, f_hand=(58, 26), blade=-95, embers=2, eyes='fierce', wind=8, aura=1,
-                     f_foot=(58, GROUND - 4), b_foot=(38, GROUND - 2))))
-    f.append(frame(P(ox=12, crouch=6, lean=9, f_hand=(76, 70), blade=75, embers=0, eyes='fierce', wind=9, aura=3, b_foot=(40, GROUND),
-                     smear=((64, 44), 22, 33, -95, 80, 7))))
-    f.append(frame(P(ox=6, crouch=2, lean=4, f_hand=(66, 58), blade=20, embers=1, wind=4, aura=1)))
-    return f
+    L = dict(ox=12, f_foot=(60, G), b_foot=(34, G), eyes='fierce')
+    return [frame(P(crouch=4, lean=0, f_hand=(-10, 8), blade=-160, blade_front=False, aura=1, eyes='fierce', wind=3)),
+            frame(P(crouch=5, lean=-1, f_hand=(-12, 5), blade=-170, blade_front=False, aura=2, embers=1, eyes='fierce', wind=4)),
+            frame(P(crouch=3, lean=8, f_hand=(12, 14), blade=-20, aura=1, embers=2, wind=7, **L)),
+            frame(P(crouch=2, lean=7, f_hand=(18, 12), blade=10, wind=7, smear=(-4, 6, 16, 26, -110, 25, 5), **L)),
+            frame(P(crouch=3, lean=6, f_hand=(14, 20), blade=60, embers=1, wind=6, **L)),
+            frame(P(crouch=1, lean=5, f_hand=(15, 2), blade=-55, embers=2, wind=7, smear=(-2, 12, 15, 24, 70, -75, 5), **L)),
+            frame(P(crouch=3, lean=4, f_hand=(-6, 6), blade=-150, blade_front=False, wind=6, **L)),
+            frame(P(crouch=2, lean=8, f_hand=(18, 14), blade=18, embers=1, wind=8, smear=(-4, 8, 16, 26, -120, 30, 6), **L)),
+            frame(P(ox=10, oy=-12, lean=3, f_hand=(4, -14), blade=-95, embers=2, eyes='fierce', wind=8, aura=1,
+                    f_foot=(57, G - 4), b_foot=(39, G - 2))),
+            frame(P(crouch=6, lean=9, f_hand=(16, 22), blade=75, wind=9, aura=3, smear=(-2, 0, 18, 28, -95, 80, 7), **L)),
+            frame(P(ox=6, crouch=2, lean=4, f_hand=(12, 16), blade=20, embers=1, wind=4, aura=1))]
 
 
 ANIMS = [('idle', idle, 6, True), ('attack', attack, 14, False), ('hit', hit, 10, False), ('victory', victory, 6, True),
@@ -357,61 +357,63 @@ ANIMS = [('idle', idle, 6, True), ('attack', attack, 14, False), ('hit', hit, 10
 
 # ------------------------------------------------------------------ portrait (96x96 bust, same ramps as the sprite)
 def portrait():
+    """Head-and-shoulders bust with adult proportions: oval face, defined jaw, neck, broad shoulders."""
     cv = Canvas(96, 96)
-    hx, hy = 50, 40
+    hx, hy = 52, 36                                     # face centre
     # sword hilt rising behind the back shoulder (identity: the blade)
-    cv.part(limb(cv, (13, 38), (26, 58), 5, 5), LEATHER, 'leather', 'cyl_h', cast=False)
-    cv.part(cv.mask().ellipse(12, 36, 3, 3), GOLD, 'metal')
-    cv.part(limb(cv, (18, 64), (34, 54), 5, 5), GOLD, 'metal', cast=False)
-    # shoulders / torso
-    cv.part(cv.mask().poly([(14, 96), (20, 72), (38, 64), (64, 64), (82, 72), (88, 96)]), TUNIC, 'cloth', 'cyl_v', bias=-0.25)
-    cv.part(cv.mask().poly([(18, 96), (24, 74), (40, 68), (46, 96)]), LEATHER, 'leather', 'cyl_v')
-    cv.part(cv.mask().poly([(60, 68), (78, 74), (84, 96), (64, 96)]), LEATHER, 'leather', 'cyl_v')
+    cv.part(limb(cv, (16, 34), (26, 54), 5, 5), LEATHER, 'leather', 'cyl_h', cast=False)
+    cv.part(cv.mask().ellipse(15, 32, 3, 3), GOLD, 'metal')
+    cv.part(limb(cv, (18, 60), (34, 50), 5, 5), GOLD, 'metal', cast=False)
+    # shoulders / chest
+    cv.part(cv.mask().poly([(2, 96), (8, 72), (30, 62), (70, 62), (90, 70), (96, 80), (96, 96)]), TUNIC, 'cloth', 'cyl_v', bias=-0.25)
+    cv.part(cv.mask().poly([(4, 96), (10, 74), (32, 66), (46, 96)]), LEATHER, 'leather', 'cyl_v')
+    cv.part(cv.mask().poly([(62, 66), (84, 72), (90, 96), (66, 96)]), LEATHER, 'leather', 'cyl_v')
+    cv.part(limb(cv, (22, 70), (60, 96), 6, 6), LEATHER, 'leather', 'flat', normal=(0, -0.2, 1), bias=0.2)       # chest strap
+    cv.part(cv.mask().ellipse(40, 82, 2.5, 2.5), GOLD, 'metal', cast=False)
     # back hair
-    back = cv.mask().ellipse(hx - 4, hy - 6, 20, 19)
-    back.poly([(hx - 14, hy - 14), (hx - 36, hy - 20), (hx - 18, hy)])
-    back.poly([(hx - 16, hy), (hx - 34, hy + 4), (hx - 16, hy + 12)])
-    back.poly([(hx - 8, hy - 20), (hx - 22, hy - 38), (hx + 2, hy - 22)])
+    back = cv.mask().ellipse(hx - 5, hy - 7, 15, 14)
+    back.poly([(hx - 12, hy - 12), (hx - 30, hy - 16), (hx - 16, hy - 2)])
+    back.poly([(hx - 14, hy - 2), (hx - 28, hy + 2), (hx - 14, hy + 8)])
+    back.poly([(hx - 8, hy - 17), (hx - 18, hy - 32), (hx, hy - 19)])
     cv.part(back, HAIR, 'hair')
-    # neck + face
-    cv.part(limb(cv, (hx - 2, hy + 14), (hx - 1, hy + 26), 12, 12), SKIN, 'skin', 'cyl_v', bias=-0.2)
-    face = cv.mask().ellipse(hx + 2, hy + 2, 16, 16)
-    face.poly([(hx - 8, hy + 10), (hx + 17, hy + 6), (hx + 12, hy + 20), (hx - 2, hy + 21)])
+    # neck (trapezius slopes into the shoulders)
+    cv.part(cv.mask().poly([(hx - 9, hy + 10), (hx + 5, hy + 12), (hx + 7, hy + 26), (hx + 16, hy + 30), (hx - 20, hy + 30), (hx - 9, hy + 24)]),
+            SKIN, 'skin', 'cyl_v', bias=-0.25)
+    # face: oval skull, straight nose line, jaw angling to a firm chin
+    face = cv.mask().ellipse(hx, hy - 2, 11, 13)
+    face.poly([(hx - 10, hy + 2), (hx + 10, hy - 2), (hx + 13, hy + 2), (hx + 12, hy + 6), (hx + 10, hy + 13),
+               (hx + 5, hy + 19), (hx - 1, hy + 18), (hx - 7, hy + 12)])
     cv.part(face, SKIN, 'skin')
-    cv.part(cv.mask().ellipse(hx - 8, hy + 5, 3.5, 5), SKIN, 'skin', bias=-0.3)
-    for pts in ([(hx - 9, hy - 14), (hx + 15, hy - 14), (hx + 20, hy - 2), (hx + 9, hy - 8)],
-                [(hx - 2, hy - 16), (hx + 8, hy - 34), (hx + 11, hy - 14)],
-                [(hx + 6, hy - 16), (hx + 24, hy - 26), (hx + 17, hy - 9)],
-                [(hx - 13, hy - 12), (hx - 3, hy - 30), (hx + 2, hy - 15)],
-                [(hx - 11, hy - 10), (hx - 4, hy - 12), (hx - 6, hy + 3)],
-                [(hx + 12, hy - 10), (hx + 19, hy - 6), (hx + 18, hy + 4)]):
+    cv.part(cv.mask().ellipse(hx - 8, hy + 3, 2.5, 4), SKIN, 'skin', bias=-0.35)   # ear
+    for pts in ([(hx - 8, hy - 12), (hx + 11, hy - 13), (hx + 15, hy - 4), (hx + 7, hy - 8)],
+                [(hx - 2, hy - 14), (hx + 6, hy - 28), (hx + 9, hy - 13)],
+                [(hx + 5, hy - 14), (hx + 20, hy - 22), (hx + 14, hy - 8)],
+                [(hx - 11, hy - 11), (hx - 3, hy - 26), (hx + 1, hy - 13)],
+                [(hx - 10, hy - 9), (hx - 4, hy - 10), (hx - 6, hy + 4)],
+                [(hx + 9, hy - 9), (hx + 14, hy - 6), (hx + 13, hy + 1)]):
         cv.part(cv.mask().poly(pts), HAIR, 'hair', 'flat', normal=(-0.2, -0.6, 1))
-    cv.part(cv.mask().poly([(hx - 15, hy - 10), (hx + 14, hy - 14), (hx + 14, hy - 10), (hx - 15, hy - 6)]), SCARF, 'cloth', 'cyl_v', cast=False)
-    # eyes: 3/4 view, near eye larger. Determined: flat brow, iris with 1px highlight
-    def eye(x, y, w):
-        for yy in range(y, y + 5):
-            for xx in range(x, x + w):
-                cv.dot(xx, yy, EYE)
-        for xx in range(x + 1, x + w - 1):
-            cv.dot(xx, y + 2, '#8e2a1e')
-            cv.dot(xx, y + 3, '#c4471e')
+    cv.part(cv.mask().poly([(hx - 12, hy - 9), (hx + 12, hy - 12), (hx + 12, hy - 9), (hx - 12, hy - 6)]), SCARF, 'cloth', 'cyl_v', cast=False)
+
+    def eye(x, y, w):   # almond eye: lid line, iris, 1px catch-light, brow
+        for xx in range(x, x + w):
+            cv.dot(xx, y, EYE)
+            cv.dot(xx, y + 1, '#8e2a1e' if 0 < xx - x < w - 1 else EYE)
+            cv.dot(xx, y + 2, '#c4471e' if 0 < xx - x < w - 1 else SKIN[1])
         cv.dot(x + 1, y + 1, EYE_HI)
         for xx in range(x - 1, x + w + 1):
-            cv.dot(xx, y - 2, HAIR[1])
-        cv.dot(x + w, y - 1, HAIR[1])
-    eye(hx + 6, hy + 2, 5)
-    eye(hx - 4, hy + 3, 4)
-    cv.pixels([(hx + 5, hy + 10), (hx + 5, hy + 11)], SKIN[1])                # nose shade
-    cv.pixels([(hx + 3, hy + 15), (hx + 4, hy + 15), (hx + 5, hy + 15), (hx + 6, hy + 14)], SKIN[0])   # set mouth
+            cv.dot(xx, y - 3, HAIR[1])
+        cv.dot(x + w, y - 2, HAIR[1])
+    eye(hx + 4, hy + 1, 4)
+    eye(hx - 5, hy + 2, 3)
+    cv.pixels([(hx + 10, hy + 3), (hx + 11, hy + 5), (hx + 11, hy + 6), (hx + 10, hy + 8), (hx + 9, hy + 8)], SKIN[1])   # nose
+    cv.pixels([(hx + 4, hy + 12), (hx + 5, hy + 12), (hx + 6, hy + 12), (hx + 7, hy + 11)], SKIN[0])                  # mouth
+    cv.pixels([(hx - 6, hy + 10), (hx - 5, hy + 12), (hx - 3, hy + 14)], SKIN[1])                                     # jaw shade
     # scarf wrap + pauldron in front
-    cv.part(limb(cv, (30, 70), (62, 96), 6, 6), LEATHER, 'leather', 'flat', normal=(0, -0.2, 1), bias=0.2)       # chest strap
-    cv.part(cv.mask().ellipse(46, 83, 2.5, 2.5), GOLD, 'metal', cast=False)
-    cv.part(cv.mask().ellipse(hx - 1, hy + 28, 22, 7).poly([(hx - 14, hy + 30), (hx + 8, hy + 30), (hx - 6, hy + 46)]), SCARF, 'cloth', 'cyl_v')
-    for a, b in (((hx - 16, hy + 27), (hx - 4, hy + 33)), ((hx + 2, hy + 25), (hx + 12, hy + 30)), ((hx - 8, hy + 34), (hx - 5, hy + 42))):
+    cv.part(cv.mask().ellipse(hx - 3, hy + 25, 19, 6).poly([(hx - 15, hy + 27), (hx + 6, hy + 27), (hx - 8, hy + 42)]), SCARF, 'cloth', 'cyl_v')
+    for a, b in (((hx - 17, hy + 24), (hx - 5, hy + 30)), ((hx + 1, hy + 22), (hx + 11, hy + 27)), ((hx - 10, hy + 31), (hx - 7, hy + 39))):
         cv.part(cv.mask().line(*a, *b, 1), SCARF, 'cloth', 'flat', bias=-0.9, sep=False, cast=False)   # scarf folds
-    p = cv.mask().poly([(58, 76), (76, 66), (92, 74), (92, 90), (66, 92)])
-    cv.part(p, STEEL, 'metal')
-    cv.part(cv.mask().poly([(62, 90), (92, 88), (92, 93), (64, 95)]), GOLD, 'metal', 'flat', normal=(0, 0.2, 1), cast=False)
+    cv.part(cv.mask().poly([(62, 74), (80, 64), (96, 70), (96, 88), (68, 90)]), STEEL, 'metal')
+    cv.part(cv.mask().poly([(66, 88), (96, 86), (96, 91), (68, 93)]), GOLD, 'metal', 'flat', normal=(0, 0.2, 1), cast=False)
     cv.cleanup().outline()
     return cv.image()
 

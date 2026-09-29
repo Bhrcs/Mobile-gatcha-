@@ -6,7 +6,7 @@ no character, pose, frame, icon, layout, font or name is copied.
 ## 1. Sizes & scale
 | Asset | Native canvas | In-game scale | Notes |
 |---|---|---|---|
-| Hero battle sprite (3★–4★) | 96×96 frame | ×4 in battle | body ≈ 66–72 px tall, feet on row 88, pivot `[48, 88]` in the sheet JSON |
+| Hero battle sprite (3★–4★) | 96×96 frame | ×4 in battle | body ≈ 68 px tall, feet on row 88, pivot `[48, 88]` in the sheet JSON |
 | Hero battle sprite (5★ / large) | 128×128 frame | ×3–×4 | same pivot rule (feet row = frame − 8) |
 | Enemy | 64×64 – 96×96 | ×4–×5 | |
 | Boss | 128×128 – 192×192 | ×3–×4 | never a scaled-up normal enemy |
@@ -19,9 +19,13 @@ Nearest filtering everywhere; integer scales; sprites move in whole native pixel
 `UnitSpriteDisplay` converts old 48px-sheet UI scales to the sheet's frame size (rounded to whole numbers).
 
 ## 2. Proportions
-Stylised fantasy chibi, **2.8–3.3 heads tall** (head incl. hair ≈ 22–24 px of a ~70 px body).
-Head ≈ face 15×16 px + hair; torso + hips ≈ 20 px; legs ≈ 24 px; arm 9+9 px.
-Weapons are ~1.2–1.5× realistic size (Kael's blade ≈ 34 px ≈ half his height) but never hide the body.
+**Human, lightly stylised: ~5–5.5 heads tall** (chibi was rejected — characters must read as people).
+On a 96px frame (ground row 88): crown 20, chin 33, shoulders 35, elbow ≈ waist 49, hip joint 56,
+wrist ≈ crotch 57, knee ≈ 71, ankle 85. Head 11×13 px (face oval, taller than wide), neck 4 px,
+shoulders ≈ 14 px wide in 3/4 view, waist 10, hips 12. Limbs: thigh 16 / shin 15, upper arm 13 /
+forearm 11, tapering (thigh 7→5.5, calf 5.5→4, upper arm 5→4, forearm 4.5→3.5).
+Portraits: adult head-and-shoulders — oval face, nose line, jaw to a firm chin, neck into broad shoulders.
+Weapons are ~1.2–1.5× realistic size (Kael's blade ≈ 30 px) but never hide the body.
 Every hero must be identifiable as a **black silhouette** (see §10 test).
 
 ## 3. Light, shading, outlines
