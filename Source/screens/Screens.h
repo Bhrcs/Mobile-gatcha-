@@ -46,7 +46,7 @@ void fill(gd::BoxContainer* v, const std::string& category, gd::Control* host);
 class RewardItem : public gd::Control   // reward_item.gd
 {
 public:
-    static constexpr int SIZE = 112;
+    static constexpr int SIZE = 150;
     static RewardItem* make(const std::string& icon_path, const std::string& qty, const std::string& caption = "", int slot_px = SIZE);
     void pop(float delay, bool silent = false);
     bool hidden_start = true;

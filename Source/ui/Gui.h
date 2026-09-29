@@ -595,7 +595,7 @@ public:
     Tween& loops(int n = 0);   // 0 = forever
     Tween& on_finished(std::function<void()> f) { _finished = std::move(f); return *this; }
     void kill();
-    bool is_running() const { return !_killed && (_action != nullptr || !_started); }
+    bool is_running() const { return !_killed && (!_started || (_action && !_action->isDone())); }
     struct Step;
     void start();
 private:

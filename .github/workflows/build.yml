@@ -30,7 +30,7 @@ jobs:
         with: { repository: axmolengine/axmol, ref: "${{ env.AXMOL_REF }}", path: axmol }
       - name: Build
         shell: bash
-        run: pwsh -c "./axmol/setup.ps1; axmol build -p win32 -O 3" 2>&1 | tee build-windows.log
+        run: pwsh -c "./axmol/setup.ps1; axmol build -p win32 -t Cinderbound -O 3" 2>&1 | tee build-windows.log
       - name: Package
         shell: pwsh
         run: |
@@ -61,7 +61,7 @@ jobs:
         with: { repository: axmolengine/axmol, ref: "${{ env.AXMOL_REF }}", path: axmol }
       - name: Build
         shell: bash
-        run: echo y | pwsh -c "./axmol/setup.ps1; axmol build -p linux -O 3" 2>&1 | tee build-linux.log
+        run: echo y | pwsh -c "./axmol/setup.ps1; axmol build -p linux -t Cinderbound -O 3" 2>&1 | tee build-linux.log
       - name: Screenshots
         if: always()
         run: |

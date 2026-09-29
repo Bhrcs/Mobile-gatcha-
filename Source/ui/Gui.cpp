@@ -1706,6 +1706,7 @@ Tween::Tween(Node* owner) : _owner(owner)
 Tween::~Tween()
 {
     if (!_started && _owner) _owner->release();
+    if (_action) _action->release();
 }
 
 TweenRef tween(Node* owner)
@@ -1861,6 +1862,7 @@ void Tween::start()
                                CallFunc::create([fin] { if (fin) fin(); }), nullptr);
     }
     _action = act;
+    _action->retain();   // kept so kill() stays safe after the tween finished or its owner died
     owner->runAction(act);
     owner->release();
 }
@@ -1868,8 +1870,12 @@ void Tween::start()
 void Tween::kill()
 {
     _killed = true;
-    if (_action && _owner && _owner->getActionManager()) _owner->stopAction(_action);
-    _action = nullptr;
+    if (_action)
+    {
+        Director::getInstance()->getActionManager()->removeAction(_action);   // no-op when already finished
+        _action->release();
+        _action = nullptr;
+    }
 }
 
 // ================================================================== Particles
