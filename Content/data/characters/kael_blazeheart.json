@@ -68,7 +68,7 @@
  "sprite": {
   "sheet": "res://assets/characters/kael_blazeheart/kael_blazeheart_sheet.png",
   "meta": "res://assets/characters/kael_blazeheart/kael_blazeheart_sheet.json",
-  "scale": 3
+  "scale": 8
  },
  "portrait": "res://assets/characters/kael_blazeheart/kael_blazeheart_portrait.png",
  "weapon": "Sword",

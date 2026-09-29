@@ -29,11 +29,6 @@ Python scripts in `tools/` (they write into `Content/`).
 - Content JSON in `Content/data/` (+ `manifest.json` from `tools/make_manifest.py`); JSON paths may keep
   `res://` — loaders strip it.
 
-## Art (Phase 6)
-- Rules: `docs/art/ART-BIBLE.md`; status of every asset: `docs/art/ART-ASSET-MANIFEST.md`; QA: `docs/art/VISUAL-QA.md`.
-- New pipeline: `tools/px6.py` (form shading, ramps, selective outline, orphan cleanup) + `tools/art_<hero>.py`
-  (96px frames, pivot in sheet JSON, data `sprite.scale` 4). Kael 3★ done; next Mira, Thorne (bible §order).
-
 ## Gotchas
 - Windows macros: never name things `small`, `near`, `far`, `TRANSPARENT`, `ERROR`, `IN`, `OUT`, ... and never
   write `TEXT(`. `/home/claude/axcheck-win.sh file.cpp` checks with the common ones defined.
