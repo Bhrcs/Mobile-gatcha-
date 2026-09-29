@@ -6,8 +6,9 @@ using namespace gd;
 
 namespace UIKit
 {
-const Col TEXT("#f4ecdc"), MUTED("#a8a0b0"), GOLD("#ffd35a"), EMBER("#ff9a4a"), DANGER("#ff5a4a"), GOOD("#8ae05a"),
-    SKY("#8ad8ff"), SHADOW(0.04f, 0.02f, 0.05f, 0.95f);
+// `X = Col(...)` form: TEXT(...) would hit the Windows TEXT() macro
+const Col TEXT = Col("#f4ecdc"), MUTED = Col("#a8a0b0"), GOLD = Col("#ffd35a"), EMBER = Col("#ff9a4a"),
+          DANGER = Col("#ff5a4a"), GOOD = Col("#8ae05a"), SKY = Col("#8ad8ff"), SHADOW = Col(0.04f, 0.02f, 0.05f, 0.95f);
 
 std::string fmt(const char* f, ...)
 {

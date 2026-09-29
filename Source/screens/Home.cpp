@@ -67,15 +67,15 @@ public:
         col->add(grid);
         grid->add(tile("UNITS", "assets/icons/nav_units.png", "units", "UnitsButton", "units", GM.units_badge()));
         grid->add(tile("SUMMON", "assets/icons/nav_summon.png", "summon", "SummonButton", "summon", GM.summon_badge()));
-        auto small = GridContainer::create(3);
-        small->set_name("SmallGrid");
-        small->h_separation = small->v_separation = UIKit::SP_M;
-        col->add(small);
-        small->add(tile("TOWER", "assets/icons/nav_tower.png", "tower", "TowerButton", "tower", false, "!", 116));
+        auto small_grid = GridContainer::create(3);
+        small_grid->set_name("SmallGrid");
+        small_grid->h_separation = small_grid->v_separation = UIKit::SP_M;
+        col->add(small_grid);
+        small_grid->add(tile("TOWER", "assets/icons/nav_tower.png", "tower", "TowerButton", "tower", false, "!", 116));
         int mc = GM.missions_claimable();
-        small->add(tile("MISSIONS", "assets/icons/nav_missions.png", "missions", "MissionsButton", "missions",
+        small_grid->add(tile("MISSIONS", "assets/icons/nav_missions.png", "missions", "MissionsButton", "missions",
                         mc > 0 || GM.login_available(), mc > 0 ? std::to_string(mc) : "!", 116));
-        small->add(tile("SQUAD", "assets/icons/leader.png", "squad", "SquadTile", "squad", false, "!", 116));
+        small_grid->add(tile("SQUAD", "assets/icons/leader.png", "squad", "SquadTile", "squad", false, "!", 116));
         AudioManager::play_music("world");
         gd::after(this, 0.35f, [this] { arrival_popups(); });
     }
