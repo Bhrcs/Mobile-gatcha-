@@ -1171,7 +1171,7 @@ CoachMark* CoachMark::show_on(Control* parent, Control* target, const std::strin
         c->add(d);
         c->_dims.push_back(d);
     }
-    c->_border = Panel::create(StyleBox::flat(Col::TRANSPARENT, UIKit::GOLD, 6));
+    c->_border = Panel::create(StyleBox::flat(Col::CLEAR, UIKit::GOLD, 6));
     c->_border->set_mouse_filter(MOUSE_IGNORE);
     c->add(c->_border);
     std::string hand = gesture == "up" ? "gesture_up" : gesture == "down" ? "gesture_down" : "hand";

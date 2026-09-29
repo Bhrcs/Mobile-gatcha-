@@ -16,7 +16,7 @@ static Root* g_root = nullptr;
 void Root::mark_dirty() { g_dirty = true; }
 
 // ================================================================== Col
-const Col Col::WHITE(1, 1, 1, 1), Col::BLACK(0, 0, 0, 1), Col::TRANSPARENT(0, 0, 0, 0);
+const Col Col::WHITE(1, 1, 1, 1), Col::BLACK(0, 0, 0, 1), Col::CLEAR(0, 0, 0, 0);
 
 Col::Col(const char* hex)
 {
@@ -1418,9 +1418,10 @@ void ScrollContainer::layout_children()
 {
     for (auto k : visible_kids(this))
     {
-        float w = (k->h_flags() & SIZE_FILL) ? std::max(_size.x, k->min_w()) : k->min_w();
+        // Godot: only EXPAND children grow to the scroll area's size
+        float w = (k->h_flags() & SIZE_EXPAND) ? std::max(_size.x, k->min_w()) : k->min_w();
         float h = k->min_h(w);
-        if (k->v_flags() & SIZE_FILL) h = std::max(h, _size.y);
+        if (k->v_flags() & SIZE_EXPAND) h = std::max(h, _size.y);
         k->fit(Vec2(0, 0), Vec2(w, h));
         _scroll = std::clamp(_scroll, 0.0f, std::max(0.0f, h - _size.y));
         k->fit(Vec2(0, -std::round(_scroll)), Vec2(w, h));
@@ -1892,7 +1893,7 @@ Particles* Particles::create(const ParticleCfg& cfg)
     float rate = cfg.amount / std::max(0.01f, cfg.lifetime);
     if (cfg.explosiveness > 0.5f) rate = cfg.amount / 0.02f;
     ps->setEmissionRate(rate);
-    ps->setDuration(cfg.one_shot ? std::max(0.02f, (cfg.explosiveness > 0.5f ? 0.02f : cfg.lifetime)) : ParticleSystem::DURATION_INFINITY);
+    ps->setDuration(cfg.one_shot ? std::max(0.02f, (cfg.explosiveness > 0.5f ? 0.02f : cfg.lifetime)) : (float)ParticleSystem::DURATION_INFINITY);
     Vec2 var = cfg.emission_rect;
     if (cfg.emission_radius > 0) var = Vec2(cfg.emission_radius, cfg.emission_radius);
     ps->setPosVar(var);
@@ -1907,7 +1908,7 @@ Particles* Particles::create(const ParticleCfg& cfg)
     float size_var = (cfg.scale_max - cfg.scale_min) / 2 * (cfg.texture.empty() ? 1 : px);
     ps->setStartSize(size);
     ps->setStartSizeVar(size_var);
-    ps->setEndSize(cfg.scale_end < 0 ? ParticleSystem::START_SIZE_EQUAL_TO_END_SIZE : size * cfg.scale_end);
+    ps->setEndSize(cfg.scale_end < 0 ? (float)ParticleSystem::START_SIZE_EQUAL_TO_END_SIZE : size * cfg.scale_end);
     Col a = cfg.ramp.empty() ? cfg.color : cfg.ramp.front(), b = cfg.ramp.empty() ? cfg.color : cfg.ramp.back();
     ps->setStartColor(a.c4f());
     ps->setStartColorVar(Color4F(0, 0, 0, 0));

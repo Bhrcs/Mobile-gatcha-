@@ -44,7 +44,7 @@ struct Col
     ax::Color4B c4b() const;
     ax::Color3B c3b() const;
     ax::Color4F c4f() const { return ax::Color4F(r, g, b, a); }
-    static const Col WHITE, BLACK, TRANSPARENT;
+    static const Col WHITE, BLACK, CLEAR;
 };
 
 // ------------------------------------------------------------------ enums (Godot names)
@@ -307,7 +307,7 @@ struct StyleBox
     float border_width = 0;
     static StyleBox empty() { return {}; }
     static StyleBox tex(const std::string& path, float margin, float content);
-    static StyleBox flat(const Col& bg, const Col& border = Col::TRANSPARENT, float border_w = 0);
+    static StyleBox flat(const Col& bg, const Col& border = Col::CLEAR, float border_w = 0);
     StyleBox& content(float l, float t, float r, float b) { content_margin[0] = l; content_margin[1] = t; content_margin[2] = r; content_margin[3] = b; return *this; }
     StyleBox& content_all(float m) { return content(m, m, m, m); }
     float cw() const { return content_margin[0] + content_margin[2]; }

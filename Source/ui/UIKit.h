@@ -25,7 +25,7 @@ const std::string UI_DIR = "assets/ui/";
 
 std::string button_style(const std::string& kind);   // primary->ember, secondary->steel, quiet->stone, reward->gold, danger->crimson
 gd::StyleBox tex_style(const std::string& file, float margin, float content);   // file under assets/ui/
-gd::StyleBox flat(const Col& c, const Col& border = Col::TRANSPARENT, float border_w = 0);
+gd::StyleBox flat(const Col& c, const Col& border = Col::CLEAR, float border_w = 0);
 
 float safe_top();
 float safe_bottom();

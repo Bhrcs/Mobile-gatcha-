@@ -40,6 +40,7 @@ public:
         {
             auto lock = UIKit::wrap_label("The Towers open after clearing " + GM.feature_unlock_label("tower") + ".", UIKit::T_NAME, UIKit::MUTED);
             lock->set_align(ALIGN_CENTER);
+            lock->set_min_w(900);
             lock->set_anchors_preset(PRESET_CENTER);
             area->add(lock);
             return;
