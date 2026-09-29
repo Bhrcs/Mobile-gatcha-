@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from pixlib import sheet  # noqa: E402
 import enemies2  # noqa: E402
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Content'))  # game content root
 MANIFEST = os.path.join(ROOT, 'tools', 'enemy_manifest.json')
 
 

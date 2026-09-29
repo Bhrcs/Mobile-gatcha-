@@ -24,7 +24,7 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pixlib import Canvas, Pal, hexc, mix, darken, lighten  # noqa: E402
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Content'))  # game content root
 ICON_DIR = os.path.join(ROOT, 'assets', 'icons')
 FX_DIR = os.path.join(ROOT, 'assets', 'effects')
 UI_DIR = os.path.join(ROOT, 'assets', 'ui')

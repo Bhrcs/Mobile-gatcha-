@@ -61,6 +61,7 @@ public:
         auto path_layer = Node2D::create();
         path_layer->set_mouse_filter(MOUSE_IGNORE);
         path_draw = ax::DrawNode::create();
+        path_draw->setBlendFunc(ax::BlendFunc::ALPHA_NON_PREMULTIPLIED);
         path_layer->addChild(path_draw);
         map_view->add(path_layer);
         build_nodes();

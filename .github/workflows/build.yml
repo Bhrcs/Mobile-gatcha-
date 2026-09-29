@@ -34,15 +34,28 @@ jobs:
       - name: Package
         shell: pwsh
         run: |
-          $exe = Get-ChildItem -Recurse -Filter Cinderbound.exe -Path build* | Select-Object -First 1
-          if (-not $exe) { Write-Error "Cinderbound.exe was not built"; exit 1 }
-          New-Item -ItemType Directory pkg/Cinderbound | Out-Null
-          Copy-Item "$($exe.DirectoryName)/*.exe", "$($exe.DirectoryName)/*.dll" pkg/Cinderbound
-          Copy-Item Content pkg/Cinderbound/Content -Recurse
-          Compress-Archive -Path pkg/Cinderbound -DestinationPath Cinderbound_Windows.zip
+          $dir = "build/bin/Cinderbound/Release"
+          if (-not (Test-Path "$dir/Cinderbound.exe")) { throw "Cinderbound.exe was not built" }
+          New-Item -ItemType Directory -Force pkg/Cinderbound | Out-Null
+          Copy-Item "$dir/*.exe", "$dir/*.dll" pkg/Cinderbound
+          # VC++ runtime next to the exe so players need no redistributable
+          foreach ($d in "vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll") {
+            if (Test-Path "C:/Windows/System32/$d") { Copy-Item "C:/Windows/System32/$d" pkg/Cinderbound -Force }
+          }
+          Copy-Item -Recurse Content pkg/Cinderbound/Content
+          Compress-Archive -Path pkg/Cinderbound -DestinationPath Cinderbound_Windows.zip -Force
       - uses: actions/upload-artifact@v4
         if: success()
         with: { name: Cinderbound_Windows, path: Cinderbound_Windows.zip }
+      - name: Publish pre-release
+        if: success() && github.ref == 'refs/heads/cpp-axmol'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: cpp-latest
+          name: Cinderbound C++ (latest build)
+          prerelease: true
+          body: "Automatic Windows build of the C++ / Axmol version (branch cpp-axmol, commit ${{ github.sha }}). Unzip and run Cinderbound.exe."
+          files: Cinderbound_Windows.zip
       - name: Publish log
         if: always()
         shell: bash

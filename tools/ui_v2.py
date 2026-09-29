@@ -17,7 +17,7 @@ import numpy as np
 from PIL import Image
 from pixlib import Canvas, Pal, hexc
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Content'))  # game content root
 UI = os.path.join(ROOT, 'assets', 'ui')
 ICONS = os.path.join(ROOT, 'assets', 'icons')
 S = 3

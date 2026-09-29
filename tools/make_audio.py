@@ -10,7 +10,7 @@ import wave
 import numpy as np
 
 SR = 32000
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Content'))  # game content root
 rng = np.random.default_rng(7)
 
 

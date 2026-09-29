@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pixlib import Canvas, Pal, hexc, sheet  # noqa: E402
 from make_enemies2 import save_indexed  # noqa: E402
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Content'))  # game content root
 SZ = 64
 GROUND = 60
 

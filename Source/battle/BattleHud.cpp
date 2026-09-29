@@ -1070,6 +1070,7 @@ T* drawn(Control* band)
 {
     auto d = gd::make<T>();
     d->dn = ax::DrawNode::create();
+    d->dn->setBlendFunc(ax::BlendFunc::ALPHA_NON_PREMULTIPLIED);
     d->addChild(d->dn);
     d->scheduleUpdate();
     band->add(d);

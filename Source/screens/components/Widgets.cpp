@@ -137,6 +137,7 @@ Control* make()
     // arrows (Godot _draw: behind the children)
     auto holder = Node2D::create();
     auto dn = ax::DrawNode::create();
+    dn->setBlendFunc(ax::BlendFunc::ALPHA_NON_PREMULTIPLIED);   // plain (non-premultiplied) colours
     holder->add2d(dn, Vec2::ZERO);
     c->add(holder);
     for (int i = 0; i < 3; ++i)

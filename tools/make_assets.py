@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from pixlib import sheet
 import hero_kael, hero_mira, hero_thorne, enemies, portraits, fx_icons_ui as fx, backgrounds as bg
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Content'))  # game content root
 
 
 def out(*p):

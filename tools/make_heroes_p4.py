@@ -23,7 +23,7 @@ import hero_roster as R  # noqa: E402
 import hero_gen as G  # noqa: E402
 import portrait_gen as PG  # noqa: E402
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Content'))  # game content root
 
 STARTER_FORMS = {
     'kael_emberclaw': (hero_kael, 1), 'kael_blazeheart': (hero_kael, 2), 'kael_cinderlord': (hero_kael, 3),

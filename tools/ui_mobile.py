@@ -315,5 +315,5 @@ def build(out):
 if __name__ == '__main__':
     import os
     here = os.path.dirname(os.path.abspath(__file__))
-    build(os.path.join(here, '..', 'assets', 'ui'))
+    build(os.path.join(here, '..', 'Content', 'assets', 'ui'))
     print('mobile ui kit generated')

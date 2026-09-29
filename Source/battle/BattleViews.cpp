@@ -93,6 +93,7 @@ void BattleStage::setup(gd::Node2D* world, const std::string& bg_name, bool is_b
     }
     img->release();
     _sky = ax::DrawNode::create();
+    _sky->setBlendFunc(ax::BlendFunc::ALPHA_NON_PREMULTIPLIED);
     ax::Vec2 poly[4] = {gd::p2(-600, -4000), gd::p2(1800, -4000), gd::p2(1800, 40), gd::p2(-600, 40)};
     _sky->drawSolidPoly(poly, 4, sky.c4f());
     world->addChild(_sky, -23 * ZK);
@@ -197,6 +198,7 @@ void BattleStage::add_rays(const Col& col)
     for (int i = 0; i < 3; ++i)
     {
         auto r = ax::DrawNode::create();
+        r->setBlendFunc(ax::BlendFunc::ALPHA_NON_PREMULTIPLIED);   // plain (non-premultiplied) colours
         float x = 260.0f + i * 260.0f;
         ax::Vec2 poly[4] = {gd::p2(x - 40, 0), gd::p2(x + 30, 0), gd::p2(x + 260, 1400), gd::p2(x + 90, 1400)};
         r->drawSolidPoly(poly, 4, col.c4f());
@@ -725,6 +727,7 @@ void EffectsLayer::particles(const std::string& kind, Vec2 pos, int amount, floa
 void EffectsLayer::ring(Vec2 pos, const Col& color, float radius, float time, float thickness, float squash)
 {
     auto r = ax::DrawNode::create();
+    r->setBlendFunc(ax::BlendFunc::ALPHA_NON_PREMULTIPLIED);   // plain (non-premultiplied) colours
     r->setPosition(gd::p2(pos));
     world->addChild(r, 22 * ZK);
     auto draw = [r, color, thickness, squash](float rad) {
@@ -749,6 +752,7 @@ void EffectsLayer::ring(Vec2 pos, const Col& color, float radius, float time, fl
 void EffectsLayer::shield_dome(Vec2 pos, const Col& color, float radius, float hold)
 {
     auto d = ax::DrawNode::create();
+    d->setBlendFunc(ax::BlendFunc::ALPHA_NON_PREMULTIPLIED);   // plain (non-premultiplied) colours
     d->setPosition(gd::p2(pos));
     d->setScale(0.2f);
     world->addChild(d, 21 * ZK);
@@ -780,6 +784,7 @@ void EffectsLayer::streaks(Vec2 pos, const Col& color, int count, float length)
     for (int i = 0; i < count; ++i)
     {
         auto s = ax::DrawNode::create();
+        s->setBlendFunc(ax::BlendFunc::ALPHA_NON_PREMULTIPLIED);   // plain (non-premultiplied) colours
         Col col = i % 2 == 0 ? color : color.lightened(0.4f);
         float len = length * randf_range(0.6f, 1.1f);
         s->setPosition(gd::p2(pos + Vec2(randf_range(-60, 60), randf_range(-60, 60))));

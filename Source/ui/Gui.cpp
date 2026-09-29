@@ -1121,7 +1121,7 @@ void TextureRect::size_changed()
     ax::Rect base = _has_region ? _region : ax::Rect(0, 0, ts.x, ts.y);
     _spr->setFlippedX(flip_h);
     _spr->setFlippedY(flip_v);
-    _spr->setBlendFunc(additive ? BlendFunc::ADDITIVE : BlendFunc::ALPHA_PREMULTIPLIED);
+    _spr->setBlendFunc(additive ? BlendFunc::ADDITIVE : _spr->getTexture()->hasPremultipliedAlpha() ? BlendFunc::ALPHA_PREMULTIPLIED : BlendFunc::ALPHA_NON_PREMULTIPLIED);
     Vec2 sz = _size;
     float sx = 1, sy = 1, x = 0, top = 0;
     ax::Rect rect = base;
@@ -1191,7 +1191,7 @@ void ColorRect::set_color(const Col& c)
 void ColorRect::size_changed()
 {
     _spr->setScale(_size.x / 4, _size.y / 4);
-    _spr->setBlendFunc(additive ? BlendFunc::ADDITIVE : BlendFunc::ALPHA_PREMULTIPLIED);
+    _spr->setBlendFunc(additive ? BlendFunc::ADDITIVE : _spr->getTexture()->hasPremultipliedAlpha() ? BlendFunc::ALPHA_PREMULTIPLIED : BlendFunc::ALPHA_NON_PREMULTIPLIED);
 }
 
 // ================================================================== buttons

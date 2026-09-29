@@ -190,7 +190,7 @@ def main():
     fb.setupOS2(sTypoAscender=ASCENT, sTypoDescender=-DESCENT, sTypoLineGap=100,
                 usWinAscent=ASCENT, usWinDescent=DESCENT)
     fb.setupPost()
-    out = os.path.join(os.path.dirname(__file__), "..", "assets", "fonts", "cinder_pixel.ttf")
+    out = os.path.join(os.path.dirname(__file__), "..", "Content", "assets", "fonts", "cinder_pixel.ttf")
     fb.save(out)
     print("wrote", os.path.abspath(out), len(G), "glyphs")
 

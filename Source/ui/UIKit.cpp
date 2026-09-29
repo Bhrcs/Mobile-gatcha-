@@ -539,6 +539,7 @@ void FantasyButton::add_shine(float period)
 {
     set_clip(true);
     auto band = ax::DrawNode::create();
+    band->setBlendFunc(ax::BlendFunc::ALPHA_NON_PREMULTIPLIED);   // plain (non-premultiplied) colours
     ax::Vec2 poly[4] = {gd::p2(0, 0), gd::p2(36, 0), gd::p2(-24, 400), gd::p2(-60, 400)};
     band->drawSolidPoly(poly, 4, Col(1, 0.95f, 0.8f, 0.28f).c4f());
     band->setBlendFunc(ax::BlendFunc::ADDITIVE);
