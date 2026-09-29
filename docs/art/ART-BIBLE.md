@@ -22,8 +22,9 @@ Nearest filtering everywhere; integer scales; sprites move in whole native pixel
 **Heroic chibi on a human frame** (owner reference: classic mobile-RPG unit line): ~3 heads tall including
 spiky hair, but a real torso, shoulders, tapered arms/legs and feet. 96px frame: crown ≈ 6, chin 40,
 shoulders 41, hip 60, knee ≈ 73, ankle 85, ground 88. Limbs: thigh 13 / shin 13, upper arm 11 / forearm 9.5.
-**Faces are hand-pixelled** (never procedural shapes): 3/4 toward the viewer, both eyes visible
-(near eye 5 px wide, far eye 3 px), 1px catch-light, brows carry the expression; expressions are row swaps.
+**Faces are hand-pixelled** (never procedural shapes): 3/4 toward the viewer, both eyes use the SAME design
+(3×4 iris + lash; the near eye adds one sclera column), bangs shade the forehead, far jaw/right side in shadow;
+body forms use analytic cylinder/sphere normals lit from the upper left (lit left, shadow right). Expressions are row swaps.
 **Portraits are a separate drawing**: front-facing head-and-shoulders bust, big hand-pixelled anime eyes —
 not the battle pose. Battle sprites face RIGHT in the sheet and are flipped to face the enemies.
 

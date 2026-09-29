@@ -48,42 +48,43 @@ def armour():
 
 
 # ------------------------------------------------------------------ hand-pixelled face (3/4 toward the viewer)
-FACE = [   # headband + bangs + face; chin is row 16, col 12
+FACE = [   # headband + bangs + face; chin is row 16, col 12. Light from the upper left.
     ".ohhhHrrrrrrrrrrrrrrrrrro",
     "ohhhhrRRRRRRRRRRRRRRRRdo.",
     ".ohhhHdHHddHHdddHHdddHHo.",
     "ohhhHoHSHHoSHHoSSHHoSHHo.",
-    ".ohhhoSSSHSSSSHSSSSHSSSo.",
-    "..ohhSSSSSSSSSSSSSSSSSso.",
-    "..ohsSbbbSSSSSSSbbbbbSSo.",
-    "..oKsSeeeSSSSSSeeeeeeSo..",
-    "..oKsSwieSSSSSSewwiieSo..",
-    "..oSsSiieSSSSSSeiiiieSo..",
-    "...osSSeSSSSSSSSeiieSSo..",
-    "...osSSSSSSSSSSsSSSSSo...",
-    "....osSSSSSSSSSSSSSSo....",
-    ".....osSSSSSSSmmmSSo.....",
-    "......ossSSSSSSSSSo......",
-    "........ossSSSSSo........",
+    ".ohhhosssHsssssHssssHsso.",     # the bangs cast a shadow across the forehead
+    "..ohhKKSSSSSSSSSSSSSSSso.",
+    "..ohsKbbbSSSSSSbbbbSSso..",     # brows
+    "..oKsKeeeSSSSSSeeeeSSso..",     # eyes: same design; the near eye shows one more column of white
+    "..oKsSwkeSSSSSSWwkeSso...",
+    "..oSsSikiSSSSSSWikiSso...",
+    "...osSsIsSSSSSSssIsSso...",
+    "...osSSSSSSSSsSSSSSso....",     # nose shade
+    "....osSSSSSSSSssSSSso....",
+    ".....osSSSSSSmmmSSso.....",
+    "......ossSSSSSSSSso......",
+    "........ossssssso........",
     "..........ooooo..........",
 ]
 EXPR = {   # replacement rows 6..10 (brows + eyes)
-    'fierce': ["..ohsbbSSSSSSSSSSSSbbbbo.", "..oKsSbeeSSSSSSeeeebbSo..", "..oKsSwieSSSSSSewwiieSo..",
-               "..oSsSiieSSSSSSeiiiieSo..", "...osSSeSSSSSSSSeiieSSo.."],
-    'closed': ["..ohsSbbbSSSSSSSbbbbbSSo.", "..oKsSSSSSSSSSSSSSSSSSo..", "..oKsSeeeSSSSSSeeeeeeSo..",
-               "..oSsSSSSSSSSSSSSSSSSSo..", "...osSSSSSSSSSSSSSSSSo..."],
-    'hurt': ["..ohsSbSSSSSSSSSSSbbSSSo.", "..oKsSSebSSSSSSSbeSSSSo..", "..oKsSeeSSSSSSSSSSeeeSo..",
-             "..oSsSSebSSSSSSSbeSSSSo..", "...osSSSSSSSSSSSSSSSSo..."],
-    'ko': ["..ohsSSSSSSSSSSSSSSSSSSo.", "..oKsSeSeSSSSSSSeSSeSSo..", "..oKsSSeSSSSSSSSSeeSSSo..",
-           "..oSsSeSeSSSSSSSeSSeSSo..", "...osSSSSSSSSSSSSSSSSo..."],
+    'fierce': ["..ohsKbbSSSSSSSSbbbSSso..", "..oKsKeeeSSSSSSeeeeSSso..", "..oKsSwkeSSSSSSWwkeSso...",
+               "..oSsSikiSSSSSSWikiSso...", "...osSsIsSSSSSSssIsSso..."],
+    'closed': ["..ohsKbbbSSSSSSbbbbSSso..", "..oKsKSSSSSSSSSSSSSSSso..", "..oKsSeeeSSSSSSeeeeSso...",
+               "..oSsSSSSSSSSSSSSSSSso...", "...osSsSsSSSSSSssSsSso..."],
+    'hurt': ["..ohsKbSSSSSSSSSSSbbSso..", "..oKsKeSSSSSSSSSSSeSSso..", "..oKsSSeeSSSSSSSeeSSso...",
+             "..oSsSeSSSSSSSSSSSeSso...", "...osSsSsSSSSSSssSsSso..."],
+    'ko': ["..ohsKSSSSSSSSSSSSSSSso..", "..oKsKeSeSSSSSSSeSeSso...", "..oKsSSeSSSSSSSSSeSSso...",
+           "..oSsSeSeSSSSSSSeSeSso...", "...osSsSsSSSSSSssSsSso..."],
 }
 
 
 def face_pal():
     band = GOLD if FORM == 5 else SCARF
     return {'o': HAIR[0], 'h': HAIR[1], 'H': HAIR[3], 'd': band[1], 'r': band[2], 'R': band[3],
-            's': SKIN[1], 'S': SKIN[3], 'K': SKIN[2], 'b': HAIR[1], 'e': hexc('#241016'),
-            'w': hexc('#fff4e8'), 'i': hexc('#c4471e') if FORM < 5 else hexc('#ff8a2a'), 'm': SKIN[1]}
+            's': SKIN[2], 'S': SKIN[3], 'K': SKIN[4], 'b': HAIR[1], 'e': hexc('#241016'), 'k': hexc('#1a0a10'),
+            'W': hexc('#f4ece4'), 'w': hexc('#ffffff'), 'i': hexc('#b0381c') if FORM < 5 else hexc('#e0601a'),
+            'I': hexc('#ff8a4a') if FORM < 5 else hexc('#ffe07a'), 'm': SKIN[1]}
 
 
 def face_img(expr):

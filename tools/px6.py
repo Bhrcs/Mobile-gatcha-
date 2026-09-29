@@ -31,11 +31,11 @@ class Ramp:
 
 # material -> shade thresholds (dot(normal, light) -> ramp index 1..n-1; 0 is the line colour)
 MATERIALS = {
-    'cloth': [0.0, 0.45, 0.82],           # broad soft bands
-    'skin': [0.1, 0.5, 0.86],
-    'leather': [0.05, 0.5, 0.85],
-    'hair': [0.1, 0.55, 0.86],
-    'metal': [0.2, 0.55, 0.8, 0.95],      # contrasty + specular band
+    'cloth': [-0.05, 0.4, 0.8],           # shadow side / mid / lit / small highlight
+    'skin': [0.05, 0.45, 0.82],
+    'leather': [0.0, 0.42, 0.8],
+    'hair': [0.05, 0.5, 0.85],
+    'metal': [0.1, 0.45, 0.72, 0.86],     # contrasty + specular band
     'flat': [-2.0],                       # single tone
 }
 
@@ -85,15 +85,24 @@ class Canvas:
             d = _depth(m, 2)
             dot -= (d == 1) * 0.12
         else:
-            cap = cap or max(2, int(_depth(m, 40).max()))   # whole part rounds, not just its rim
-            d = _depth(m, cap) / cap
-            hgt = np.sqrt(np.clip(1 - (1 - d) ** 2, 0, 1)) * cap
-            gy, gx = np.gradient(hgt)
+            # analytic form normals from each row / column span (cylinder or sphere), lit from the upper left
+            nx = np.zeros(m.shape, np.float32)
+            ny = np.zeros(m.shape, np.float32)
+            for y in range(self.h):
+                xs_ = np.nonzero(m[y])[0]
+                if len(xs_):
+                    x0, x1 = xs_.min(), xs_.max()
+                    nx[y, xs_] = (xs_ - x0 + 0.5) / (x1 - x0 + 1) * 2 - 1
+            for x in range(self.w):
+                ys_ = np.nonzero(m[:, x])[0]
+                if len(ys_):
+                    y0, y1 = ys_.min(), ys_.max()
+                    ny[ys_, x] = (ys_ - y0 + 0.5) / (y1 - y0 + 1) * 2 - 1
             if form == 'cyl_v':
-                gy = gy * 0.15
+                ny = ny * 0.25
             elif form == 'cyl_h':
-                gx = gx * 0.15
-            nx, ny, nz = -gx, -gy, np.ones_like(gx) * 0.9
+                nx = nx * 0.25
+            nz = np.sqrt(np.clip(1 - nx * nx - ny * ny, 0.05, 1))
             ln = np.sqrt(nx * nx + ny * ny + nz * nz)
             dot = (nx * LIGHT[0] + ny * LIGHT[1] + nz * LIGHT[2]) / ln
         dot = dot + bias
