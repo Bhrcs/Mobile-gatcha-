@@ -28,7 +28,9 @@ gd::AnimatedSprite* unit(const Json& def)
         for (int i = 0; i < I(a, "frames", 1); ++i) regions.push_back(ax::Rect(i * fw, row * fh, fw, fh));
         s->add_animation(name, regions, tex, (float)F(a, "fps", 8), B(a, "loop", false));
     }
-    s->setAnchorPoint(gd::Vec2(0.5f, 4.0f / fh));
+    const Json& pv = at(meta, "pivot");   // Phase 6 sheets name their feet pivot; old 48px sheets stand 4px up
+    s->setAnchorPoint(pv.is_array() ? gd::Vec2((float)F(at(pv, 0), fw / 2) / fw, 1.0f - (float)F(at(pv, 1), fh - 4) / fh)
+                                    : gd::Vec2(0.5f, 4.0f / fh));
     return s;
 }
 
@@ -73,6 +75,7 @@ UnitSpriteDisplay* UnitSpriteDisplay::make(const Json& def, float k, bool face_l
 {
     auto d = gd::make<UnitSpriteDisplay>();
     gd::Vec2 fs = SpriteFactory::frame_size(def);
+    k = std::max(1.0f, std::round(k * 48.0f / fs.y));   // UI scales are authored for 48px sheets; keep whole-pixel scaling
     d->set_custom_min(gd::Vec2(fs.x * k * 0.7f, fs.y * k * 0.8f));
     d->set_mouse_filter(gd::MOUSE_IGNORE);
     d->sprite = SpriteFactory::unit(def);
