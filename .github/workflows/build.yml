@@ -38,6 +38,10 @@ jobs:
           if (-not (Test-Path "$dir/Cinderbound.exe")) { throw "Cinderbound.exe was not built" }
           New-Item -ItemType Directory -Force pkg/Cinderbound | Out-Null
           Copy-Item "$dir/*.exe", "$dir/*.dll" pkg/Cinderbound
+          # compiled shaders (axslc) must ship next to the exe, or nothing renders (black screen)
+          if (Test-Path "$dir/axslc") { Copy-Item -Recurse "$dir/axslc" pkg/Cinderbound/axslc }
+          elseif (Test-Path build/runtime/axslc) { Copy-Item -Recurse build/runtime/axslc pkg/Cinderbound/axslc }
+          else { throw "compiled shaders (axslc) not found" }
           # VC++ runtime next to the exe so players need no redistributable
           foreach ($d in "vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll") {
             if (Test-Path "C:/Windows/System32/$d") { Copy-Item "C:/Windows/System32/$d" pkg/Cinderbound -Force }
@@ -54,7 +58,9 @@ jobs:
           $p = Start-Process -FilePath (Resolve-Path pkg/Cinderbound/Cinderbound.exe) -WorkingDirectory $env:TEMP -PassThru -RedirectStandardOutput $log -RedirectStandardError ((Resolve-Path shots-win).Path + "\err.log")
           if (-not $p.WaitForExit(90000)) { $p.Kill(); Write-Host "timed out" }
           Get-ChildItem shots-win
-          if (-not (Test-Path shots-win/main_menu.png)) { Write-Host "::warning::no main menu screenshot" }
+          if (-not (Test-Path shots-win/main_menu.png) -or (Get-Item shots-win/main_menu.png).Length -lt 5000) {
+            throw "Windows smoke test: the main menu did not render (black or missing screenshot)"
+          }
       - uses: actions/upload-artifact@v4
         if: success()
         with: { name: Cinderbound_Windows, path: Cinderbound_Windows.zip }
