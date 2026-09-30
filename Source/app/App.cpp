@@ -652,6 +652,19 @@ void quit_game(int /*code*/)
 // CI screenshot probe: CB_SHOTS="main_menu,home,..." CB_SHOT_DIR=/abs/dir/ -> one PNG per screen, then quit.
 static void run_shots(std::shared_ptr<std::vector<std::string>> list, size_t i, std::string dir)
 {
+    if (i == 0)   // environment dump for CI / bug reports
+    {
+        auto fu = FileUtils::getInstance();
+        std::string sp;
+        for (auto& p : fu->getSearchPaths()) sp += p + " | ";
+        auto fs = Director::getInstance()->getRenderView()->getFrameSize();
+        Platform::log("PROBE search paths: " + sp);
+        Platform::log("PROBE default root: " + fu->getDefaultResourceRootPath());
+        Platform::log(fmt::format("PROBE manifest={} characters={} stages={} load_errors={} frame={}x{} tex_test={}",
+                                  fu->isFileExist("data/manifest.json"), DB.characters.size(), DB.stages.size(),
+                                  DB.load_errors.size(), fs.width, fs.height,
+                                  gd::texture("assets/ui/v2_bar.png") != nullptr));
+    }
     if (i >= list->size())
     {
         quit_game(0);
