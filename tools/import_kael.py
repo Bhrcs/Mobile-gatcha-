@@ -32,14 +32,28 @@ def runs(mask, gap):
     return out + [(s, p)]
 
 
+def split(cov, guesses, span):
+    """Cut positions = the emptiest line near each expected gap (auras can touch neighbours)."""
+    return [min(range(g - span, g + span), key=lambda i: cov[i]) for g in guesses]
+
+
 def cut(src):
-    """-> rows of 8 frames, each pose placed with the midpoint between its feet at (CW/2, FEET)."""
+    """-> 4 rows x 8 poses, each placed with the midpoint between its feet at (CW/2, FEET)."""
     a = np.array(src)[..., 3] > 40
+    solid = np.array(src)[..., 3] > 200
+    H, W = a.shape
+    ys = [0] + split(a.sum(1), [H // 4, H // 2, 3 * H // 4], 25) + [H]
     rows = []
-    for y0, y1 in runs(a.any(1), 3):
+    for r in range(4):
+        band = a[ys[r]:ys[r + 1]]
+        xs = [0] + split(band.sum(0), [round(W * f) for f in (0.134, 0.262, 0.37, 0.51, 0.65, 0.777, 0.9)], 35) + [W]
         poses = []
-        for x0, x1 in runs(a[y0:y1 + 1].any(0), 2):
-            feet = runs(a[y1 - 4:y1 + 1, x0:x1 + 1].any(0), 3)
+        for c in range(8):
+            cell = band[:, xs[c]:xs[c + 1]]
+            yy, xx = np.nonzero(cell)
+            y0, y1, x0, x1 = ys[r] + yy.min(), ys[r] + yy.max(), xs[c] + xx.min(), xs[c] + xx.max()
+            low = solid[y1 - 6:y1 + 1, x0:x1 + 1].any(0)          # the boots (opaque) on the ground line
+            feet = runs(low, 3) if low.any() else [(0, x1 - x0)]
             ax = x0 + (feet[0][0] + feet[-1][1]) / 2
             fr = Image.new('RGBA', (CW, CH), (0, 0, 0, 0))
             fr.alpha_composite(src.crop((x0, y0, x1 + 1, y1 + 1)), (round(CW / 2 - (ax - x0)), FEET - (y1 - y0)))
