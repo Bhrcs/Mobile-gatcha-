@@ -26,6 +26,10 @@
 #include "AppDelegate.h"
 #include "app/App.h"
 #include "audio/AudioEngine.h"
+#ifdef _WIN32
+#    include <windows.h>
+#    include <cstring>
+#endif
 
 using namespace ax;
 
@@ -52,6 +56,29 @@ bool AppDelegate::applicationDidFinishLaunching()
 #endif
         director->setRenderView(view);
     }
+#ifdef _WIN32
+    // Content/ lives next to the exe. Axmol only looks there when the working directory IS the exe folder, so a
+    // shortcut / launcher / "Start in" elsewhere gave a black screen: always search the exe's Content first.
+    {
+        wchar_t buf[MAX_PATH];
+        DWORD n = GetModuleFileNameW(nullptr, buf, MAX_PATH);
+        std::wstring exe(buf, n);
+        std::wstring dir = exe.substr(0, exe.find_last_of(L"\\/") + 1);
+        std::string u8(WideCharToMultiByte(CP_UTF8, 0, dir.c_str(), -1, nullptr, 0, nullptr, nullptr), 0);
+        WideCharToMultiByte(CP_UTF8, 0, dir.c_str(), -1, u8.data(), (int)u8.size(), nullptr, nullptr);
+        u8.resize(strlen(u8.c_str()));
+        FileUtils::getInstance()->addSearchPath(u8 + "Content", true);
+        if (!FileUtils::getInstance()->isFileExist("data/manifest.json"))
+        {
+            MessageBoxW(nullptr,
+                        L"Cinderbound can't find its Content folder.\n\nExtract the WHOLE zip first (right-click > Extract All), "
+                        L"then run Cinderbound.exe from the extracted Cinderbound folder.",
+                        L"Cinderbound", MB_OK | MB_ICONERROR);
+            director->end();
+            return true;
+        }
+    }
+#endif
     director->setStatsDisplay(false);
     director->setAnimationInterval(1.0f / 60);
     App::start();

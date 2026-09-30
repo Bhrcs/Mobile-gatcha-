@@ -44,6 +44,16 @@ jobs:
           }
           Copy-Item -Recurse Content pkg/Cinderbound/Content
           Compress-Archive -Path pkg/Cinderbound -DestinationPath Cinderbound_Windows.zip -Force
+      - name: Smoke test (launch from another folder, screenshot the menu)
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force shots-win | Out-Null
+          $env:CB_SHOTS = "main_menu,home"
+          $env:CB_SHOT_DIR = (Resolve-Path shots-win).Path + "\"
+          $p = Start-Process -FilePath (Resolve-Path pkg/Cinderbound/Cinderbound.exe) -WorkingDirectory $env:TEMP -PassThru
+          if (-not $p.WaitForExit(90000)) { $p.Kill(); Write-Host "timed out" }
+          Get-ChildItem shots-win
+          if (-not (Test-Path shots-win/main_menu.png)) { Write-Host "::warning::no main menu screenshot" }
       - uses: actions/upload-artifact@v4
         if: success()
         with: { name: Cinderbound_Windows, path: Cinderbound_Windows.zip }
@@ -61,6 +71,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p out && cp build-windows.log out/ 2>/dev/null || echo "no log" > out/build-windows.log
+          cp -r shots-win out/shots 2>/dev/null || true
           grep -iE "error|warning C4" out/build-windows.log | grep -v "0 error" | head -300 > out/errors-windows.txt || true
           cd out && git init -q && git checkout -q -b ci-logs-windows
           git -c user.name=ci -c user.email=ci@users.noreply.github.com add . && git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "windows ${{ github.sha }} ${{ job.status }}"
