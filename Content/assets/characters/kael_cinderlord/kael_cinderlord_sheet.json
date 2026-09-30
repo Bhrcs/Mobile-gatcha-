@@ -9,7 +9,7 @@
   "idle": {
    "row": 0,
    "frames": 4,
-   "fps": 4,
+   "fps": 5,
    "loop": true
   },
   "attack": {
