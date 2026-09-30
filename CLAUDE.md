@@ -46,6 +46,7 @@ Python scripts in `tools/` (they write into `Content/`).
 - Non-premultiplied textures/DrawNodes need `ALPHA_NON_PREMULTIPLIED` blending (else they add white).
 - `GM.unit(uid)` returns a reference to a shared null value when missing — copy before keeping it.
 - Colours > 1.0 (Godot over-bright modulate) clamp to white.
+- Windows zip must ship `axslc/` (compiled shaders) next to the exe, or everything renders black; CI smoke-tests it.
 
 ## Testing
 - Rule tests (no engine): `bash Tests/run_logic_tests.sh` (152 checks).
