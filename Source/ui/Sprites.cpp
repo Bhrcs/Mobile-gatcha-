@@ -73,6 +73,7 @@ UnitSpriteDisplay* UnitSpriteDisplay::make(const Json& def, float k, bool face_l
 {
     auto d = gd::make<UnitSpriteDisplay>();
     gd::Vec2 fs = SpriteFactory::frame_size(def);
+    k *= (float)F(DB.sprite_meta(S(def, "meta")), "ui_scale", 1.0);   // UI sizes are tuned for 48 px sheets
     d->set_custom_min(gd::Vec2(fs.x * k * 0.7f, fs.y * k * 0.8f));
     d->set_mouse_filter(gd::MOUSE_IGNORE);
     d->sprite = SpriteFactory::unit(def);

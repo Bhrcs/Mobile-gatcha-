@@ -177,9 +177,13 @@ def stat_block(role, rarity, start_rarity, tweak=None):
             {k: growth[i] for i, k in enumerate(keys)} | {"spd": 0})
 
 
+# owner-supplied sheets (tools/import_kael.py): ~128 px bodies drawn at x2 instead of 48 px sheets at x8
+IMPORTED_SPRITES = {"kael_emberclaw": 2, "kael_blazeheart": 2, "kael_cinderlord": 2}
+
+
 def sprite(form_id, scale=8):
     base = f"res://assets/characters/{form_id}/{form_id}_sheet"
-    return {"sheet": base + ".png", "meta": base + ".json", "scale": scale}
+    return {"sheet": base + ".png", "meta": base + ".json", "scale": IMPORTED_SPRITES.get(form_id, scale)}
 
 
 # family: element, role, start rarity, forms [(form_id, name, rarity, normal, burst)], passive, leader, lore

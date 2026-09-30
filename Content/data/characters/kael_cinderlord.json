@@ -60,7 +60,7 @@
  "sprite": {
   "sheet": "res://assets/characters/kael_cinderlord/kael_cinderlord_sheet.png",
   "meta": "res://assets/characters/kael_cinderlord/kael_cinderlord_sheet.json",
-  "scale": 8
+  "scale": 2
  },
  "portrait": "res://assets/characters/kael_cinderlord/kael_cinderlord_portrait.png",
  "weapon": "Sword",

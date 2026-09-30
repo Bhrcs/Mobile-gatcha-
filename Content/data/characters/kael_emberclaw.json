@@ -67,7 +67,7 @@
  "sprite": {
   "sheet": "res://assets/characters/kael_emberclaw/kael_emberclaw_sheet.png",
   "meta": "res://assets/characters/kael_emberclaw/kael_emberclaw_sheet.json",
-  "scale": 8
+  "scale": 2
  },
  "portrait": "res://assets/characters/kael_emberclaw/kael_emberclaw_portrait.png",
  "weapon": "Sword",

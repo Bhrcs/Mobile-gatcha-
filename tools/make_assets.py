@@ -29,8 +29,9 @@ def write_sheet(folder, name, anims, fw, fh):
 def main():
     heroes = {'kael_emberclaw': hero_kael, 'mira_tidesong': hero_mira, 'thorne_mossguard': hero_thorne}
     for hid, mod in heroes.items():
-        anims = [(n, fn(), fps, loop) for (n, fn, fps, loop) in mod.ANIMS]
-        write_sheet(f'assets/characters/{hid}', hid, anims, 48, 48)
+        if not hid.startswith('kael'):   # Kael's sheets come from tools/import_kael.py (owner art)
+            anims = [(n, fn(), fps, loop) for (n, fn, fps, loop) in mod.ANIMS]
+            write_sheet(f'assets/characters/{hid}', hid, anims, 48, 48)
         portraits.PORTRAITS[hid]().save(out(f'assets/characters/{hid}', hid + '_portrait.png'))
     write_sheet('assets/enemies/cinder_slime', 'cinder_slime', enemies.slime_anims(), 48, 48)
     write_sheet('assets/enemies/tidefin', 'tidefin', enemies.tidefin_anims(), 48, 48)

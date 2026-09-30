@@ -1,13 +1,15 @@
 {
  "frame_size": [
-  48,
-  48
+  240,
+  156
  ],
+ "ui_scale": 0.25,
+ "source": "tools/art_src/kael_tiers.png",
  "animations": {
   "idle": {
    "row": 0,
    "frames": 4,
-   "fps": 6,
+   "fps": 4,
    "loop": true
   },
   "attack": {

@@ -36,6 +36,8 @@ Python scripts in `tools/` (they write into `Content/`).
 - Done: status resist + boss diminishing returns, Dispel, mitigation/stat caps, Break Gauge, data-driven boss
   phases/auras/interrupts/multi-action, Fracture I (Ashen Warden, `towers/the_fracture.json`, tab after the towers).
 - Art: owner reverted Phase 6 (art bible); new visuals reuse/tint existing sheets until told otherwise.
+- Kael's battle sheets are owner art: `tools/art_src/kael_tiers.png` -> `python3 tools/import_kael.py` (tiers 1/2/4
+  -> 3/4/5 star, 240x156 frames, sprite.scale 2, sheet `ui_scale` 0.25). The procedural generators skip Kael.
 
 ## Gotchas
 - Windows macros: never name things `small`, `near`, `far`, `TRANSPARENT`, `ERROR`, `IN`, `OUT`, ... and never
