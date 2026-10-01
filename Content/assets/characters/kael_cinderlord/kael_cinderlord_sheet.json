@@ -1,10 +1,10 @@
 {
  "frame_size": [
-  240,
-  156
+  160,
+  160
  ],
  "ui_scale": 0.25,
- "source": "tools/art_src/kael_tiers.png",
+ "source": "tools/art_src/kael_cinderlord.png",
  "animations": {
   "idle": {
    "row": 0,
@@ -26,14 +26,14 @@
   },
   "victory": {
    "row": 3,
-   "frames": 4,
+   "frames": 6,
    "fps": 6,
    "loop": true
   },
   "ko": {
    "row": 4,
-   "frames": 2,
-   "fps": 6,
+   "frames": 8,
+   "fps": 10,
    "loop": false
   },
   "burst": {

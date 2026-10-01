@@ -1,6 +1,6 @@
 """
-Imports the owner's 8x8 battle sheets (tools/art_src/<form_id>.png, black background, facing right) for Mira and
-Thorne, and writes every hero's portrait as its first idle frame (Kael included).  Run: python3 tools/import_heroes.py
+Imports the owner's 8x8 battle sheets (tools/art_src/<form_id>.png, black background, facing right) for Kael, Mira
+and Thorne, and writes every hero's portrait as its first idle frame.  Run: python3 tools/import_heroes.py
 
 Sheet rows: 0 idle/basic swing, 1 attack (projectile / shield bash), 2 skill, 3 Burst, 4 hit + stun, 5 poison/freeze,
 6 KO, 7 victory. Frames are kept 1:1 (body ~128 px, drawn x2 in battle like Kael; UI uses ui_scale 0.25).
@@ -16,6 +16,13 @@ ART = os.path.join(os.path.dirname(__file__), 'art_src')
 OUT = os.path.join(os.path.dirname(__file__), '..', 'Content', 'assets', 'characters')
 F = 160                                   # frame size; feet on row F - 4 (the game's anchor), body centred
 ANIMS = {   # name: ([(row, col), ...], fps, loop)
+    'kael': {'idle': ([(0, c) for c in (0, 1, 2, 3)], 5, True),
+             'attack': ([(1, c) for c in (1, 2, 3, 4, 5, 6, 7)], 14, False),             # slashes on 2 and 4
+             'hit': ([(4, c) for c in (0, 0, 3)], 10, False),
+             'victory': ([(7, c) for c in (2, 3, 4, 5, 6, 7)], 6, True),
+             'ko': ([(6, c) for c in range(8)], 10, False),
+             'burst': ([(3, c) for c in (0, 1, 2, 3, 4, 3, 4, 5, 4, 5, 7)], 12, False),   # hits on 3/5/7/9
+             'guard': ([(0, c) for c in (4, 5, 6)], 6, True)},
     'mira': {'idle': ([(0, c) for c in (0, 1, 2, 3)], 5, True),
              'attack': ([(1, c) for c in (1, 2, 3, 4, 5, 6, 7)], 12, False),            # bolt leaves on frame 2
              'hit': ([(4, c) for c in (0, 1, 2, 3)], 10, False),
@@ -98,8 +105,9 @@ def portraits():
 
 
 if __name__ == '__main__':
-    for fam in ('mira', 'thorne'):
-        for form in {'mira': ('tidesong', 'tidecaller', 'wavesage'), 'thorne': ('mossguard', 'oakwarden', 'ancientroot')}[fam]:
+    for fam, forms in {'kael': ('emberclaw', 'blazeheart', 'cinderlord'), 'mira': ('tidesong', 'tidecaller', 'wavesage'),
+                       'thorne': ('mossguard', 'oakwarden', 'ancientroot')}.items():
+        for form in forms:
             import_sheet(f'{fam}_{form}', ANIMS[fam])
             print(f'{fam}_{form}')
     portraits()
