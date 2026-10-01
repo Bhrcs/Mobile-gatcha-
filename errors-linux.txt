@@ -1,0 +1,2 @@
+[  0%] Building C object engine/3rdparty/png/CMakeFiles/png.dir/pngerror.c.o
+[ 38%] Building CXX object engine/3rdparty/openal/CMakeFiles/OpenAL.dir/al/error.cpp.o
