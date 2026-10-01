@@ -747,6 +747,7 @@ void start()
         gd::defer([list, dir] { run_shots(list, 0, dir); });
         return;
     }
-    SceneRouter::go("main_menu", Json::object(), "reset");
+    // first screen after the engine has drawn a frame (the CI probe path); going there synchronously left real GPUs on a black screen
+    gd::defer([] { SceneRouter::go("main_menu", Json::object(), "reset"); });
 }
 }  // namespace App
