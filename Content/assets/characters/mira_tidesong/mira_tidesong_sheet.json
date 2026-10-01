@@ -1,37 +1,39 @@
 {
  "frame_size": [
-  48,
-  48
+  160,
+  160
  ],
+ "ui_scale": 0.25,
+ "source": "tools/art_src/mira_tidesong.png",
  "animations": {
   "idle": {
    "row": 0,
    "frames": 4,
-   "fps": 6,
+   "fps": 5,
    "loop": true
   },
   "attack": {
    "row": 1,
-   "frames": 6,
+   "frames": 7,
    "fps": 12,
    "loop": false
   },
   "hit": {
    "row": 2,
-   "frames": 3,
+   "frames": 4,
    "fps": 10,
    "loop": false
   },
   "victory": {
    "row": 3,
-   "frames": 4,
-   "fps": 6,
+   "frames": 8,
+   "fps": 8,
    "loop": true
   },
   "ko": {
    "row": 4,
-   "frames": 2,
-   "fps": 6,
+   "frames": 8,
+   "fps": 10,
    "loop": false
   },
   "burst": {

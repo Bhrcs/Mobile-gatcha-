@@ -94,9 +94,9 @@
  "unlock_gifts": {
   "ashroot_05": {
    "hero_by_starter": {
-    "kael_emberclaw": "corin_saltmarsh",
-    "mira_tidesong": "wren_briarshot",
-    "thorne_mossguard": "rhea_flintwhistle"
+    "kael_emberclaw": "mira_tidesong",
+    "mira_tidesong": "thorne_mossguard",
+    "thorne_mossguard": "kael_emberclaw"
    },
    "items": {
     "radiant_wisp": 1

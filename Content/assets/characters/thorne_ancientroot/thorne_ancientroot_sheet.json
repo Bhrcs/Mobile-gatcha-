@@ -1,8 +1,10 @@
 {
  "frame_size": [
-  48,
-  48
+  160,
+  160
  ],
+ "ui_scale": 0.25,
+ "source": "tools/art_src/thorne_ancientroot.png",
  "animations": {
   "idle": {
    "row": 0,
@@ -18,25 +20,25 @@
   },
   "hit": {
    "row": 2,
-   "frames": 2,
-   "fps": 9,
+   "frames": 4,
+   "fps": 10,
    "loop": false
   },
   "victory": {
    "row": 3,
-   "frames": 4,
-   "fps": 6,
+   "frames": 8,
+   "fps": 8,
    "loop": true
   },
   "ko": {
    "row": 4,
-   "frames": 2,
-   "fps": 6,
+   "frames": 8,
+   "fps": 10,
    "loop": false
   },
   "burst": {
    "row": 5,
-   "frames": 10,
+   "frames": 8,
    "fps": 10,
    "loop": false
   },

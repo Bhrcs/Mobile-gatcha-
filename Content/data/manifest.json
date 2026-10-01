@@ -1,32 +1,14 @@
 {
  "characters": [
-  "aldric_deepvow.json",
-  "corin_reefwarden.json",
-  "corin_saltmarsh.json",
-  "corin_tidebulwark.json",
-  "faye_everbloom.json",
-  "faye_lumenbloom.json",
-  "gorran_oakheart.json",
   "kael_blazeheart.json",
   "kael_cinderlord.json",
   "kael_emberclaw.json",
   "mira_tidecaller.json",
   "mira_tidesong.json",
   "mira_wavesage.json",
-  "nerys_frostwake.json",
-  "nerys_rimefang.json",
-  "rhea_flintwhistle.json",
-  "rhea_hearthsong.json",
-  "rhea_sunchoir.json",
-  "seraphine_pyrelance.json",
   "thorne_ancientroot.json",
   "thorne_mossguard.json",
-  "thorne_oakwarden.json",
-  "voss_ashmantle.json",
-  "voss_magmaborn.json",
-  "wren_briarshot.json",
-  "wren_galeleaf.json",
-  "wren_thornvolley.json"
+  "thorne_oakwarden.json"
  ],
  "enemies": [
   "ancient_bramble_pup.json",

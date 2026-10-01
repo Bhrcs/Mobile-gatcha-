@@ -33,12 +33,45 @@
 
 using namespace ax;
 
+#ifdef _WIN32
+// Every log line also goes to Cinderbound.log next to the exe, so a player can send it in when something breaks.
+struct FileLog : ILogOutput
+{
+    FILE* f = nullptr;
+    void write(LogItem& item, const char* tag) override
+    {
+        if (f)
+        {
+            auto m = item.message();
+            fwrite(m.data(), 1, m.size(), f);
+            if (m.empty() || m.back() != '\n') fputc('\n', f);
+            fflush(f);
+        }
+        writeLog(item, tag);
+    }
+};
+
+static std::wstring exe_dir_w()
+{
+    wchar_t buf[MAX_PATH];
+    DWORD n = GetModuleFileNameW(nullptr, buf, MAX_PATH);
+    std::wstring exe(buf, n);
+    return exe.substr(0, exe.find_last_of(L"\\/") + 1);
+}
+#endif
+
 AppDelegate::AppDelegate() {}
 
 AppDelegate::~AppDelegate() {}
 
 void AppDelegate::initGfxContextAttrs()
 {
+#ifdef _WIN32
+    static FileLog log;
+    if (!log.f) _wfopen_s(&log.f, (exe_dir_w() + L"Cinderbound.log").c_str(), L"w");
+    setLogOutput(&log);
+    AXLOGI("Cinderbound starting");
+#endif
     GfxContextAttrs attrs = {8, 8, 8, 8, 24, 8, 0};
     RenderView::setGfxContextAttrs(attrs);
 }
@@ -60,10 +93,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     // Content/ lives next to the exe. Axmol only looks there when the working directory IS the exe folder, so a
     // shortcut / launcher / "Start in" elsewhere gave a black screen: always search the exe's Content first.
     {
-        wchar_t buf[MAX_PATH];
-        DWORD n = GetModuleFileNameW(nullptr, buf, MAX_PATH);
-        std::wstring exe(buf, n);
-        std::wstring dir = exe.substr(0, exe.find_last_of(L"\\/") + 1);
+        std::wstring dir = exe_dir_w();
         std::string u8(WideCharToMultiByte(CP_UTF8, 0, dir.c_str(), -1, nullptr, 0, nullptr, nullptr), 0);
         WideCharToMultiByte(CP_UTF8, 0, dir.c_str(), -1, u8.data(), (int)u8.size(), nullptr, nullptr);
         u8.resize(strlen(u8.c_str()));
@@ -82,6 +112,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     director->setStatsDisplay(false);
     director->setAnimationInterval(1.0f / 60);
     App::start();
+    AXLOGI("Cinderbound started; first screen requested");
     return true;
 }
 

@@ -62,7 +62,7 @@ def build(only=None):
     for form_id, (mod, tier) in STARTER_FORMS.items():
         if only and form_id not in only:
             continue
-        if tier > 1 and not form_id.startswith('kael'):   # tier 1: make_assets.py; Kael: tools/import_kael.py
+        if False:  # starters are owner art (tools/import_kael.py, import_heroes.py);   # tier 1: make_assets.py; Kael: tools/import_kael.py
             write_sheet(form_id, starter_anims(mod, tier))
         save_indexed(PG.starter_portrait(form_id), out('assets/characters', form_id, form_id + '_portrait.png'))
         done.append(form_id)

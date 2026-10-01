@@ -26,7 +26,7 @@ static void test_data()
     check(DB.starter_ids() == std::vector<std::string>{"kael_emberclaw", "mira_tidesong", "thorne_mossguard"}, "three starters");
     check(DB.stage_order.size() == 20, "two worlds of ten stages");
     check(DB.tower_order.size() == 4 && DB.tower_order.back() == "the_fracture", "three towers + the Fracture (last)");
-    check(DB.family_ids().size() == 12, "twelve hero families");
+    check(DB.family_ids().size() == 3, "three hero families (starters only)");
     check(DB.element_multiplier("fire", "nature") == 1.25 && DB.element_multiplier("fire", "water") == 0.75 &&
               DB.element_multiplier("fire", "fire") == 1.0, "element chart");
 }
@@ -177,13 +177,13 @@ static void test_phase7_combat()
     }
     // Break: a Breaker drains the gauge; Broken strips armour, cancels the charge and skips the turn
     BattleModel m;
-    m.setup("fracture_01_normal", party_of({"voss_ashmantle", "mira_tidesong"}, 26), 1);
+    m.setup("fracture_01_normal", party_of({"thorne_mossguard", "mira_tidesong"}, 26), 1);
     auto w = m.enemies[0];
     auto voss = m.players[0], mira = m.players[1];
     m.begin_charge(*w, "furnace_collapse");
     Plan pv = m.plan_action(voss, voss->normal_skill, w), pm = m.plan_action(mira, mira->normal_skill, w);
-    check(pv.targets[0].break_per_hit * pv.targets[0].hits.size() > pm.targets[0].break_per_hit * pm.targets[0].hits.size() * 0.9,
-          "Breakers deal more Break than a Water healer's hit");
+    check(DamageCalculator::break_amount(*mira, *w, DB.skill("ember_slash")) > DamageCalculator::break_amount(*voss, *w, DB.skill("ember_slash")),
+          "the break-weak element (Water) drains the gauge faster");
     bool broke = false;
     for (int i = 0; i < 40 && !broke; ++i)
     {
@@ -226,8 +226,8 @@ static void audit()
 {
     std::vector<std::pair<std::string, std::vector<std::string>>> squads = {
         {"starters", {"kael_emberclaw", "mira_tidesong", "thorne_mossguard"}},
-        {"fire-only", {"kael_emberclaw", "rhea_flintwhistle"}},
-        {"no-healer", {"kael_emberclaw", "thorne_mossguard", "wren_briarshot"}}};
+        {"fire-only", {"kael_emberclaw"}},
+        {"no-healer", {"kael_emberclaw", "thorne_mossguard"}}};
     for (auto& [name, ids] : squads)
     {
         std::cout << "== " << name << "\n";
@@ -244,9 +244,9 @@ static void audit()
     }
     std::vector<std::pair<std::string, std::vector<std::string>>> late = {
         {"starters", {"kael_emberclaw", "mira_tidesong", "thorne_mossguard"}},
-        {"starters+breaker+water", {"kael_emberclaw", "mira_tidesong", "thorne_mossguard", "voss_ashmantle", "corin_saltmarsh"}},
-        {"fire x3", {"kael_emberclaw", "rhea_flintwhistle", "voss_ashmantle"}},
-        {"5 no healer", {"kael_emberclaw", "thorne_mossguard", "voss_ashmantle", "corin_saltmarsh", "wren_briarshot"}}};
+        {"water+tank", {"mira_tidesong", "thorne_mossguard"}},
+        {"kael solo", {"kael_emberclaw"}},
+        {"no healer", {"kael_emberclaw", "thorne_mossguard"}}};
     for (auto& [name, ids] : late)
     {
         std::cout << "== Fracture I, " << name << "\n";

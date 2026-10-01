@@ -65,7 +65,7 @@
  "sprite": {
   "sheet": "res://assets/characters/mira_tidecaller/mira_tidecaller_sheet.png",
   "meta": "res://assets/characters/mira_tidecaller/mira_tidecaller_sheet.json",
-  "scale": 8
+  "scale": 2
  },
  "portrait": "res://assets/characters/mira_tidecaller/mira_tidecaller_portrait.png",
  "weapon": "Crystal staff",

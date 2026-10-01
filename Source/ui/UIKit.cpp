@@ -191,7 +191,8 @@ Control* portrait_art(const Json& def, Vec2 box)
     if (auto tex = texture(S(def, "portrait")))
     {
         Vec2 ts = tex->getContentSize();
-        float k = std::max(1.0f, std::round(std::max(box.x / ts.x, box.y / ts.y) - 0.1f));
+        // portraits are the hero's idle frame: fit the whole body (whole-number scale when it grows)
+        float fit = std::min(box.x / ts.x, box.y / ts.y), k = fit >= 1.0f ? std::floor(fit) : fit;
         auto r = tex_rect(tex, ts * k);
         r->set_size(ts * k);
         r->set_position(Vec2((box.x - ts.x * k) / 2, box.y - ts.y * k));

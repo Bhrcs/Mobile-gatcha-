@@ -57,7 +57,7 @@
  "sprite": {
   "sheet": "res://assets/characters/thorne_ancientroot/thorne_ancientroot_sheet.png",
   "meta": "res://assets/characters/thorne_ancientroot/thorne_ancientroot_sheet.json",
-  "scale": 8
+  "scale": 2
  },
  "portrait": "res://assets/characters/thorne_ancientroot/thorne_ancientroot_portrait.png",
  "weapon": "Hammer & bark shield",

@@ -178,7 +178,9 @@ def stat_block(role, rarity, start_rarity, tweak=None):
 
 
 # owner-supplied sheets (tools/import_kael.py): ~128 px bodies drawn at x2 instead of 48 px sheets at x8
-IMPORTED_SPRITES = {"kael_emberclaw": 2, "kael_blazeheart": 2, "kael_cinderlord": 2}
+IMPORTED_SPRITES = {f: 2 for f in ("kael_emberclaw", "kael_blazeheart", "kael_cinderlord", "mira_tidesong",
+                                    "mira_tidecaller", "mira_wavesage", "thorne_mossguard", "thorne_oakwarden",
+                                    "thorne_ancientroot")}
 
 
 def sprite(form_id, scale=8):
@@ -304,8 +306,7 @@ FAMILIES = {
         desc="A giant of living bark. Quakes the ground and breaks every enemy's defence."),
 }
 STARTER_TWEAKS = {"kael": None, "mira": None, "thorne": None}
-FAMILY_ORDER = ["kael", "rhea", "voss", "seraphine", "mira", "corin", "nerys", "aldric", "thorne", "wren", "faye",
-                "gorran"]
+FAMILY_ORDER = ["kael", "mira", "thorne"]   # owner: only the three starters are playable (others kept as data only)
 
 # evolution costs (per step, keyed by target rarity)
 EVO_COST = {4: dict(gold=2500, frag=5, core=2), 5: dict(gold=15000, core=8, crys=3, prism=1)}
@@ -1276,9 +1277,7 @@ SUMMON = {
             "multi_cost": 1000, "multi_count": 10, "art": "res://assets/ui/banner_standard.png",
             "description": "Every hero in the realm can answer the Embergate's call.",
             "rates": {"3": 0.75, "4": 0.22, "5": 0.03},
-            "pool": ["kael_emberclaw", "mira_tidesong", "thorne_mossguard", "rhea_flintwhistle", "corin_saltmarsh",
-                     "wren_briarshot", "voss_ashmantle", "nerys_frostwake", "faye_lumenbloom",
-                     "seraphine_pyrelance", "aldric_deepvow", "gorran_oakheart"],
+            "pool": ["kael_emberclaw", "mira_tidesong", "thorne_mossguard"],
         }
     },
     "duplicate_shards": {"3": 10, "4": 30, "5": 100},
@@ -1332,9 +1331,9 @@ def build_progression():
     p["unlocks"] = {"auto": "ashroot_04", "units": "ashroot_05", "squad": "ashroot_05", "training": "ashroot_06",
                     "tower": "ashroot_07", "evolution": "ashroot_08", "summon": "ashroot_09",
                     "missions": "ashroot_10", "world2": "ashroot_10"}
-    p["unlock_gifts"] = {"ashroot_05": {"hero_by_starter": {"kael_emberclaw": "corin_saltmarsh",
-                                                            "mira_tidesong": "wren_briarshot",
-                                                            "thorne_mossguard": "rhea_flintwhistle"},
+    p["unlock_gifts"] = {"ashroot_05": {"hero_by_starter": {"kael_emberclaw": "mira_tidesong",
+                                                            "mira_tidesong": "thorne_mossguard",
+                                                            "thorne_mossguard": "kael_emberclaw"},
                                         "items": {"radiant_wisp": 1}},
                          "ashroot_06": {"items": {"ember_wisp": 2, "tide_wisp": 2, "verdant_wisp": 2}},
                          "ashroot_08": {"items": {"ember_fragment": 2, "tide_fragment": 2, "sprout_fragment": 2}},
