@@ -1,0 +1,2567 @@
+axmol: Developer Mode is enabled on this Windows 10+ device.
+axmol: Setting system installed powershell execution policy 'Unrestricted'==>'Bypass', please click 'YES' on UAC dialog
+1kiss: PowerShell 7.6.6 on Microsoft Windows 10.0.26100.0
+1kiss: proj_dir=D:\a\Mobile-gatcha-\Mobile-gatcha-, install_prefix=D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\external
+1kiss: Downloading https://github.com/axmolengine/axslcc/releases/download/v1.14.0/axslcc-1.14.0-win64.zip to D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\cache\axslcc-1.14.0-win64.zip ...
+1kiss: Using axslcc: D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\external\axslcc\axslcc.exe, version: 1.14.0
+1kiss: Using cmake: C:\Program Files\CMake\bin\cmake.exe, version: 4.4.3
+1kiss: Downloading https://dist.nuget.org/win-x86-commandline/v5.5.1/nuget.exe to D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\external\nuget\nuget.exe ...
+1kiss: Using nuget: D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\external\nuget\nuget.exe, version: 5.5.1
+1kiss: setup successfully, please restart the terminal(on linux, need reboot or relogin) to make added system variables take effect
+axmol: -p win32 -t Cinderbound -O 3 -d: D:\a\Mobile-gatcha-\Mobile-gatcha-
+[31;1mInvalidOperation: [0mD:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\cmdline\build.ps1:47[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m  47 | [0m         if ([36;1m$arg.StartsWith('-')[0m) {[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m             ~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mMethod invocation failed because [System.Int32] does not contain a method named 'StartsWith'.[0m
+1kiss: PowerShell 7.6.6 on Microsoft Windows 10.0.26100.0
+1kiss: 
+Name                           Value
+----                           -----
+xc                             {}
+i                              False
+a                              x64
+dll                            False
+minsdk                         
+xt                             cmake
+O                              3
+prefix                         D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\external
+aab                            False
+u                              False
+dm                             False
+d                              D:\a\Mobile-gatcha-\Mobile-gatcha-
+scope                          local
+sdk                            
+ide                            
+xb                             {}
+p                              win32
+t                              {Cinderbound}
+j                              4
+cc                             
+
+
+1kiss: Loading user build profile: D:\a\Mobile-gatcha-\Mobile-gatcha-\.axproj
+1kiss: proj_dir=D:\a\Mobile-gatcha-\Mobile-gatcha-, install_prefix=D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\external
+1kiss: Using axslcc: D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\external\axslcc\axslcc.exe, version: 1.14.0
+D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\external\axslcc\axslcc.exe
+1kiss: Using cmake: C:\Program Files\CMake\bin\cmake.exe, version: 4.4.3
+1kiss: Using nuget: D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\tools\external\nuget\nuget.exe, version: 5.5.1.6542
+1kiss: Building target win32 on windows with toolchain msvc ...
+1kiss: CONFIG_ALL_OPTIONS=-DCMAKE_GENERATOR_PLATFORM=x64 -D_1KFETCH_UPGRADE=FALSE, Count=2
+1kiss: CMake config command: cmake -DCMAKE_GENERATOR_PLATFORM=x64 -D_1KFETCH_UPGRADE=FALSE -B D:\a\Mobile-gatcha-\Mobile-gatcha-\build -DCMAKE_INSTALL_PREFIX:PATH=D:\a\Mobile-gatcha-\Mobile-gatcha-\install
+-- Building for: Visual Studio 18 2026
+-- The C compiler identification is MSVC 19.51.36260.0
+-- The CXX compiler identification is MSVC 19.51.36260.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Building isolated project: Cinderbound
+-- AXSLCC_OUT_DIR=D:/a/Mobile-gatcha-/Mobile-gatcha-/build/runtime/axslc
+-- AXSLCC_FIND_PROG_ROOT=D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/tools/external/axslcc
+-- AXSLCC_FRAG_SOURCE_FILE_EXTENSIONS=.frag;.fsh;.fs
+-- AXSLCC_VERT_SOURCE_FILE_EXTENSIONS=.vert;.vsh;.vs
+-- CMAKE_HOST_SYSTEM_VERSION: 10.0.26100
+-- CMAKE_SYSTEM_VERSION: 10.0.26100
+-- CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION: 10.0.26100.0
+-- CMAKE_C_STANDARD=11
+-- Building axmol with c++20
+-- Using Windows MSVC generate axmol project, MSVC_VERSION:1951
+-- The ASM_MASM compiler identification is MSVC
+-- Found assembler: C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/ml64.exe
+-- The ASM_NASM compiler identification is NASM
+-- Found assembler: C:/Strawberry/c/bin/nasm.exe
+CMake Warning (author) at axmol/cmake/Modules/AXBuildSet.cmake:52 (message):
+  CMAKE_VERSION:4.4.3
+Call Stack (most recent call first):
+  cmake/modules/AXGameEngineSetup.cmake:20 (include)
+  CMakeLists.txt:45 (include)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+-- CMAKE_HOST_SYSTEM_NAME:Windows
+-- CMAKE_SYSTEM_NAME:Windows
+-- CMAKE_GENERATOR_PLATFORM:x64
+-- CMAKE_SYSTEM_PROCESSOR:AMD64
+-- CMAKE_CXX_COMPILER_ID:MSVC
+-- FUZZ_MSVC=TRUE, FULL_CLANG=
+-- PROJECT_NAME:Cinderbound
+-- PROJECT_SOURCE_DIR:D:/a/Mobile-gatcha-/Mobile-gatcha-
+-- _AX_ROOT:D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol
+-- CMAKE_MODULE_PATH:D:/a/Mobile-gatcha-/Mobile-gatcha-/cmake/modulesD:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/a/Mobile-gatcha-/Mobile-gatcha-/build
+-- ENGINE_BINARY_PATH:D:/a/Mobile-gatcha-/Mobile-gatcha-/build/engine
+-- ARCH_ALIAS:x64
+CMake Warning (author) at axmol/core/CMakeLists.txt:89 (message):
+  AX_USE_GL=ON, AX_USE_METAL=OFF, AX_GLES_PROFILE=300
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+-- CMake precompile headers for axmol
+Feeds used:
+  https://api.nuget.org/v3/index.json
+  C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\
+
+
+
+Attempting to gather dependency information for package 'Microsoft.Web.WebView2.1.0.3650.58' with respect to project 'D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\cache\packages', targeting 'Any,Version=v0.0'
+Gathering dependency information took 400.44 ms
+Attempting to resolve dependencies for package 'Microsoft.Web.WebView2.1.0.3650.58' with DependencyBehavior 'Lowest'
+Resolving dependency information took 0 ms
+Resolving actions to install package 'Microsoft.Web.WebView2.1.0.3650.58'
+Resolved actions to install package 'Microsoft.Web.WebView2.1.0.3650.58'
+Retrieving package 'Microsoft.Web.WebView2 1.0.3650.58' from 'nuget.org'.
+  GET https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/1.0.3650.58/microsoft.web.webview2.1.0.3650.58.nupkg
+  OK https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/1.0.3650.58/microsoft.web.webview2.1.0.3650.58.nupkg 3ms
+Installing Microsoft.Web.WebView2 1.0.3650.58.
+Adding package 'Microsoft.Web.WebView2.1.0.3650.58' to folder 'D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\cache\packages'
+Added package 'Microsoft.Web.WebView2.1.0.3650.58' to folder 'D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\cache\packages'
+Successfully installed 'Microsoft.Web.WebView2 1.0.3650.58' to D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\cache\packages
+Executing nuget actions took 1.19 sec
+-- Performing Test AX_HAVE_SSE2_SWITCH
+-- Performing Test AX_HAVE_SSE2_SWITCH - Success
+-- Performing Test AX_HAVE_AVX2_INTRINSICS
+-- Performing Test AX_HAVE_AVX2_INTRINSICS - Success
+-- Performing Test AX_HAVE_SSE42_INTRINSICS
+-- Performing Test AX_HAVE_SSE42_INTRINSICS - Success
+-- Performing Test AX_HAVE_SSE41_INTRINSICS
+-- Performing Test AX_HAVE_SSE41_INTRINSICS - Success
+-- Looking for arm_neon.h
+CMake Warning (author) at axmol/cmake/Modules/AXConfigSIMD.cmake:117 (message):
+  AX_ISA_SIMD=sse4.1
+Call Stack (most recent call first):
+  axmol/core/CMakeLists.txt:434 (include)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+-- Looking for arm_neon.h - not found
+-- Using plainlua https://lua.org
+-- {fmt} version: 11.2.0
+-- Build type: 
+CMake Warning (author) at axmol/1k/fetch.cmake:61 (message):
+  Downloading
+  https://github.com/simdsoft/1kiss/releases/download/v110/zlib.zip
+Call Stack (most recent call first):
+  axmol/3rdparty/zlib/CMakeLists.txt:4 (_1kfetch_dist)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+-- [download 0% complete]
+-- [download 1% complete]
+-- [download 2% complete]
+-- [download 4% complete]
+-- [download 5% complete]
+-- [download 6% complete]
+-- [download 8% complete]
+-- [download 9% complete]
+-- [download 11% complete]
+-- [download 13% complete]
+-- [download 14% complete]
+-- [download 16% complete]
+-- [download 17% complete]
+-- [download 19% complete]
+-- [download 21% complete]
+-- [download 22% complete]
+-- [download 24% complete]
+-- [download 26% complete]
+-- [download 27% complete]
+-- [download 29% complete]
+-- [download 30% complete]
+-- [download 32% complete]
+-- [download 34% complete]
+-- [download 35% complete]
+-- [download 37% complete]
+-- [download 39% complete]
+-- [download 40% complete]
+-- [download 42% complete]
+-- [download 43% complete]
+-- [download 45% complete]
+-- [download 47% complete]
+-- [download 48% complete]
+-- [download 50% complete]
+-- [download 52% complete]
+-- [download 53% complete]
+-- [download 55% complete]
+-- [download 56% complete]
+-- [download 58% complete]
+-- [download 60% complete]
+-- [download 61% complete]
+-- [download 63% complete]
+-- [download 64% complete]
+-- [download 66% complete]
+-- [download 68% complete]
+-- [download 69% complete]
+-- [download 71% complete]
+-- [download 73% complete]
+-- [download 74% complete]
+-- [download 76% complete]
+-- [download 77% complete]
+-- [download 79% complete]
+-- [download 81% complete]
+-- [download 82% complete]
+-- [download 84% complete]
+-- [download 86% complete]
+-- [download 87% complete]
+-- [download 89% complete]
+-- [download 90% complete]
+-- [download 92% complete]
+-- [download 94% complete]
+-- [download 95% complete]
+-- [download 97% complete]
+-- [download 99% complete]
+-- [download 100% complete]
+-- Configuring Chipmunk2D version 7.0.3
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- Found ZLIB: zlib (found version "1.3.1")
+-- Found PNG: png (found version "1.6.53")
+CMake Warning (author) at axmol/1k/fetch.cmake:61 (message):
+  Downloading
+  https://github.com/simdsoft/1kiss/releases/download/v110/jpeg-turbo.zip
+Call Stack (most recent call first):
+  axmol/3rdparty/jpeg-turbo/CMakeLists.txt:7 (_1kfetch_dist)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+-- [download 0% complete]
+-- [download 1% complete]
+-- [download 2% complete]
+-- [download 3% complete]
+-- [download 4% complete]
+-- [download 5% complete]
+-- [download 6% complete]
+-- [download 7% complete]
+-- [download 8% complete]
+-- [download 9% complete]
+-- [download 10% complete]
+-- [download 11% complete]
+-- [download 12% complete]
+-- [download 13% complete]
+-- [download 14% complete]
+-- [download 15% complete]
+-- [download 16% complete]
+-- [download 17% complete]
+-- [download 18% complete]
+-- [download 19% complete]
+-- [download 20% complete]
+-- [download 21% complete]
+-- [download 22% complete]
+-- [download 23% complete]
+-- [download 24% complete]
+-- [download 25% complete]
+-- [download 26% complete]
+-- [download 27% complete]
+-- [download 28% complete]
+-- [download 29% complete]
+-- [download 30% complete]
+-- [download 31% complete]
+-- [download 32% complete]
+-- [download 33% complete]
+-- [download 34% complete]
+-- [download 35% complete]
+-- [download 36% complete]
+-- [download 37% complete]
+-- [download 38% complete]
+-- [download 39% complete]
+-- [download 40% complete]
+-- [download 41% complete]
+-- [download 42% complete]
+-- [download 43% complete]
+-- [download 44% complete]
+-- [download 45% complete]
+-- [download 46% complete]
+-- [download 47% complete]
+-- [download 48% complete]
+-- [download 49% complete]
+-- [download 50% complete]
+-- [download 51% complete]
+-- [download 52% complete]
+-- [download 53% complete]
+-- [download 54% complete]
+-- [download 55% complete]
+-- [download 56% complete]
+-- [download 57% complete]
+-- [download 58% complete]
+-- [download 59% complete]
+-- [download 60% complete]
+-- [download 61% complete]
+-- [download 62% complete]
+-- [download 63% complete]
+-- [download 64% complete]
+-- [download 65% complete]
+-- [download 66% complete]
+-- [download 67% complete]
+-- [download 68% complete]
+-- [download 69% complete]
+-- [download 70% complete]
+-- [download 71% complete]
+-- [download 72% complete]
+-- [download 73% complete]
+-- [download 74% complete]
+-- [download 75% complete]
+-- [download 76% complete]
+-- [download 77% complete]
+-- [download 78% complete]
+-- [download 79% complete]
+-- [download 80% complete]
+-- [download 81% complete]
+-- [download 82% complete]
+-- [download 83% complete]
+-- [download 84% complete]
+-- [download 85% complete]
+-- [download 86% complete]
+-- [download 87% complete]
+-- [download 88% complete]
+-- [download 89% complete]
+-- [download 90% complete]
+-- [download 91% complete]
+-- [download 92% complete]
+-- [download 93% complete]
+-- [download 94% complete]
+-- [download 95% complete]
+-- [download 96% complete]
+-- [download 97% complete]
+-- [download 98% complete]
+-- [download 99% complete]
+-- [download 100% complete]
+CMake Warning (author) at axmol/1k/fetch.cmake:61 (message):
+  Downloading
+  https://github.com/simdsoft/1kiss/releases/download/v110/openssl.zip
+Call Stack (most recent call first):
+  axmol/3rdparty/openssl/CMakeLists.txt:6 (_1kfetch_dist)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+-- [download 0% complete]
+-- [download 1% complete]
+-- [download 2% complete]
+-- [download 3% complete]
+-- [download 4% complete]
+-- [download 5% complete]
+-- [download 6% complete]
+-- [download 7% complete]
+-- [download 8% complete]
+-- [download 9% complete]
+-- [download 10% complete]
+-- [download 11% complete]
+-- [download 12% complete]
+-- [download 13% complete]
+-- [download 14% complete]
+-- [download 15% complete]
+-- [download 16% complete]
+-- [download 17% complete]
+-- [download 18% complete]
+-- [download 19% complete]
+-- [download 20% complete]
+-- [download 21% complete]
+-- [download 22% complete]
+-- [download 23% complete]
+-- [download 24% complete]
+-- [download 25% complete]
+-- [download 26% complete]
+-- [download 27% complete]
+-- [download 28% complete]
+-- [download 29% complete]
+-- [download 30% complete]
+-- [download 31% complete]
+-- [download 32% complete]
+-- [download 33% complete]
+-- [download 34% complete]
+-- [download 35% complete]
+-- [download 36% complete]
+-- [download 37% complete]
+-- [download 38% complete]
+-- [download 39% complete]
+-- [download 40% complete]
+-- [download 41% complete]
+-- [download 42% complete]
+-- [download 43% complete]
+-- [download 44% complete]
+-- [download 45% complete]
+-- [download 46% complete]
+-- [download 47% complete]
+-- [download 48% complete]
+-- [download 49% complete]
+-- [download 50% complete]
+-- [download 51% complete]
+-- [download 52% complete]
+-- [download 53% complete]
+-- [download 54% complete]
+-- [download 55% complete]
+-- [download 56% complete]
+-- [download 57% complete]
+-- [download 58% complete]
+-- [download 59% complete]
+-- [download 60% complete]
+-- [download 61% complete]
+-- [download 62% complete]
+-- [download 63% complete]
+-- [download 64% complete]
+-- [download 65% complete]
+-- [download 66% complete]
+-- [download 67% complete]
+-- [download 68% complete]
+-- [download 69% complete]
+-- [download 70% complete]
+-- [download 71% complete]
+-- [download 72% complete]
+-- [download 73% complete]
+-- [download 74% complete]
+-- [download 75% complete]
+-- [download 76% complete]
+-- [download 77% complete]
+-- [download 78% complete]
+-- [download 79% complete]
+-- [download 80% complete]
+-- [download 81% complete]
+-- [download 82% complete]
+-- [download 83% complete]
+-- [download 84% complete]
+-- [download 85% complete]
+-- [download 86% complete]
+-- [download 87% complete]
+-- [download 88% complete]
+-- [download 89% complete]
+-- [download 90% complete]
+-- [download 91% complete]
+-- [download 92% complete]
+-- [download 93% complete]
+-- [download 94% complete]
+-- [download 95% complete]
+-- [download 96% complete]
+-- [download 97% complete]
+-- [download 98% complete]
+-- [download 99% complete]
+-- [download 100% complete]
+CMake Warning (author) at axmol/3rdparty/astcenc/CMakeLists.txt:56 (message):
+  ASTC_ISA_SIMD=sse4.1
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+CMake Warning (author) at axmol/1k/fetch.cmake:61 (message):
+  Downloading
+  https://github.com/simdsoft/1kiss/releases/download/v110/curl.zip
+Call Stack (most recent call first):
+  axmol/3rdparty/curl/CMakeLists.txt:6 (_1kfetch_dist)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+-- [download 0% complete]
+-- [download 1% complete]
+-- [download 2% complete]
+-- [download 3% complete]
+-- [download 4% complete]
+-- [download 5% complete]
+-- [download 6% complete]
+-- [download 7% complete]
+-- [download 8% complete]
+-- [download 9% complete]
+-- [download 10% complete]
+-- [download 11% complete]
+-- [download 12% complete]
+-- [download 13% complete]
+-- [download 14% complete]
+-- [download 15% complete]
+-- [download 16% complete]
+-- [download 17% complete]
+-- [download 18% complete]
+-- [download 19% complete]
+-- [download 20% complete]
+-- [download 21% complete]
+-- [download 22% complete]
+-- [download 23% complete]
+-- [download 24% complete]
+-- [download 25% complete]
+-- [download 26% complete]
+-- [download 27% complete]
+-- [download 28% complete]
+-- [download 29% complete]
+-- [download 30% complete]
+-- [download 31% complete]
+-- [download 32% complete]
+-- [download 33% complete]
+-- [download 34% complete]
+-- [download 35% complete]
+-- [download 36% complete]
+-- [download 37% complete]
+-- [download 38% complete]
+-- [download 39% complete]
+-- [download 40% complete]
+-- [download 41% complete]
+-- [download 42% complete]
+-- [download 43% complete]
+-- [download 44% complete]
+-- [download 45% complete]
+-- [download 46% complete]
+-- [download 47% complete]
+-- [download 48% complete]
+-- [download 49% complete]
+-- [download 50% complete]
+-- [download 51% complete]
+-- [download 52% complete]
+-- [download 53% complete]
+-- [download 54% complete]
+-- [download 55% complete]
+-- [download 56% complete]
+-- [download 57% complete]
+-- [download 58% complete]
+-- [download 59% complete]
+-- [download 60% complete]
+-- [download 61% complete]
+-- [download 62% complete]
+-- [download 63% complete]
+-- [download 64% complete]
+-- [download 65% complete]
+-- [download 66% complete]
+-- [download 67% complete]
+-- [download 68% complete]
+-- [download 69% complete]
+-- [download 70% complete]
+-- [download 71% complete]
+-- [download 72% complete]
+-- [download 73% complete]
+-- [download 74% complete]
+-- [download 75% complete]
+-- [download 76% complete]
+-- [download 77% complete]
+-- [download 78% complete]
+-- [download 79% complete]
+-- [download 80% complete]
+-- [download 81% complete]
+-- [download 82% complete]
+-- [download 83% complete]
+-- [download 84% complete]
+-- [download 85% complete]
+-- [download 86% complete]
+-- [download 87% complete]
+-- [download 88% complete]
+-- [download 89% complete]
+-- [download 90% complete]
+-- [download 91% complete]
+-- [download 92% complete]
+-- [download 93% complete]
+-- [download 94% complete]
+-- [download 95% complete]
+-- [download 96% complete]
+-- [download 97% complete]
+-- [download 98% complete]
+-- [download 99% complete]
+-- [download 100% complete]
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- Performing Test HAVE_STDC_FORMAT_MACROS
+-- Performing Test HAVE_STDC_FORMAT_MACROS - Success
+-- Performing Test HAVE___RESTRICT
+-- Performing Test HAVE___RESTRICT - Success
+-- Performing Test HAVE_LIBATOMIC
+-- Performing Test HAVE_LIBATOMIC - Failed
+-- Performing Test HAVE_PERMISSIVE_SWITCH
+-- Performing Test HAVE_PERMISSIVE_SWITCH - Success
+-- Looking for xmmintrin.h
+-- Looking for xmmintrin.h - found
+-- Looking for emmintrin.h
+-- Looking for emmintrin.h - found
+-- Looking for pmmintrin.h
+-- Looking for pmmintrin.h - found
+-- Looking for smmintrin.h
+-- Looking for smmintrin.h - found
+-- Looking for arm_neon.h
+-- Looking for arm_neon.h - not found
+-- Performing Test HAVE_SSE_INTRINSICS
+-- Performing Test HAVE_SSE_INTRINSICS - Success
+-- Looking for malloc.h
+-- Looking for malloc.h - found
+-- Looking for cpuid.h
+-- Looking for cpuid.h - not found
+-- Looking for intrin.h
+-- Looking for intrin.h - found
+-- Looking for guiddef.h
+-- Looking for guiddef.h - found
+-- Looking for pow in m
+-- Looking for pow in m - not found
+-- Looking for clock_gettime in rt
+-- Looking for clock_gettime in rt - not found
+-- Performing Test HAVE_CPUID_INTRINSIC
+-- Performing Test HAVE_CPUID_INTRINSIC - Success
+-- Looking for posix_memalign
+-- Looking for posix_memalign - not found
+-- Looking for _aligned_malloc
+-- Looking for _aligned_malloc - found
+-- Looking for proc_pidpath
+-- Looking for proc_pidpath - not found
+-- Looking for getopt
+-- Looking for getopt - not found
+-- Could NOT find PulseAudio (missing: PULSEAUDIO_LIBRARY PULSEAUDIO_INCLUDE_DIR) 
+-- Looking for mmdeviceapi.h
+-- Looking for mmdeviceapi.h - found
+-- Could NOT find JACK (missing: JACK_LIBRARY JACK_INCLUDE_DIR) 
+-- Could NOT find OpenSL (missing: OPENSL_LIBRARY OPENSL_INCLUDE_DIR OPENSL_ANDROID_INCLUDE_DIR) 
+-- Could NOT find PortAudio (missing: PORTAUDIO_LIBRARY PORTAUDIO_INCLUDE_DIR) 
+-- Found Git: C:/Program Files/Git/mingw64/bin/git.exe (found version "2.55.0.windows.5")
+-- 
+-- Building OpenAL with support for the following backends:
+--     WASAPI, Null
+-- 
+-- Building with support for CPU extensions:
+--     Default, SSE, SSE2, SSE3, SSE4.1
+-- 
+-- Building with legacy EAX extension support
+-- 
+-- Embedding HRTF datasets
+-- 
+-- NOT installing library and headers
+-- 
+CMake Warning (author) at axmol/1k/fetch.cmake:61 (message):
+  Downloading
+  https://github.com/simdsoft/1kiss/releases/download/v110/opus.zip
+Call Stack (most recent call first):
+  axmol/3rdparty/opus/CMakeLists.txt:4 (_1kfetch_dist)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+-- [download 0% complete]
+-- [download 1% complete]
+-- [download 2% complete]
+-- [download 3% complete]
+-- [download 4% complete]
+-- [download 5% complete]
+-- [download 6% complete]
+-- [download 7% complete]
+-- [download 8% complete]
+-- [download 9% complete]
+-- [download 10% complete]
+-- [download 11% complete]
+-- [download 12% complete]
+-- [download 13% complete]
+-- [download 14% complete]
+-- [download 15% complete]
+-- [download 16% complete]
+-- [download 17% complete]
+-- [download 18% complete]
+-- [download 19% complete]
+-- [download 20% complete]
+-- [download 21% complete]
+-- [download 22% complete]
+-- [download 23% complete]
+-- [download 24% complete]
+-- [download 25% complete]
+-- [download 26% complete]
+-- [download 27% complete]
+-- [download 28% complete]
+-- [download 29% complete]
+-- [download 30% complete]
+-- [download 31% complete]
+-- [download 32% complete]
+-- [download 33% complete]
+-- [download 34% complete]
+-- [download 35% complete]
+-- [download 36% complete]
+-- [download 37% complete]
+-- [download 38% complete]
+-- [download 39% complete]
+-- [download 40% complete]
+-- [download 41% complete]
+-- [download 42% complete]
+-- [download 43% complete]
+-- [download 44% complete]
+-- [download 45% complete]
+-- [download 46% complete]
+-- [download 47% complete]
+-- [download 48% complete]
+-- [download 49% complete]
+-- [download 50% complete]
+-- [download 51% complete]
+-- [download 52% complete]
+-- [download 53% complete]
+-- [download 54% complete]
+-- [download 55% complete]
+-- [download 56% complete]
+-- [download 57% complete]
+-- [download 58% complete]
+-- [download 59% complete]
+-- [download 60% complete]
+-- [download 61% complete]
+-- [download 62% complete]
+-- [download 63% complete]
+-- [download 64% complete]
+-- [download 65% complete]
+-- [download 66% complete]
+-- [download 67% complete]
+-- [download 68% complete]
+-- [download 69% complete]
+-- [download 70% complete]
+-- [download 71% complete]
+-- [download 72% complete]
+-- [download 73% complete]
+-- [download 74% complete]
+-- [download 75% complete]
+-- [download 76% complete]
+-- [download 77% complete]
+-- [download 78% complete]
+-- [download 79% complete]
+-- [download 80% complete]
+-- [download 81% complete]
+-- [download 82% complete]
+-- [download 83% complete]
+-- [download 84% complete]
+-- [download 85% complete]
+-- [download 86% complete]
+-- [download 87% complete]
+-- [download 88% complete]
+-- [download 89% complete]
+-- [download 90% complete]
+-- [download 91% complete]
+-- [download 92% complete]
+-- [download 93% complete]
+-- [download 94% complete]
+-- [download 95% complete]
+-- [download 96% complete]
+-- [download 97% complete]
+-- [download 98% complete]
+-- [download 99% complete]
+-- [download 100% complete]
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - not found
+-- Found Threads: TRUE
+-- Including Win32 support
+CMake Warning (author) at axmol/1k/fetch.cmake:61 (message):
+  Downloading
+  https://github.com/simdsoft/1kiss/releases/download/v110/angle.zip
+Call Stack (most recent call first):
+  axmol/3rdparty/angle/CMakeLists.txt:6 (_1kfetch_dist)
+This warning is for project developers.  Use -Wno-author to suppress it.
+
+-- [download 0% complete]
+-- [download 1% complete]
+-- [download 2% complete]
+-- [download 3% complete]
+-- [download 4% complete]
+-- [download 5% complete]
+-- [download 6% complete]
+-- [download 7% complete]
+-- [download 8% complete]
+-- [download 9% complete]
+-- [download 10% complete]
+-- [download 11% complete]
+-- [download 12% complete]
+-- [download 13% complete]
+-- [download 14% complete]
+-- [download 15% complete]
+-- [download 16% complete]
+-- [download 17% complete]
+-- [download 18% complete]
+-- [download 19% complete]
+-- [download 20% complete]
+-- [download 21% complete]
+-- [download 22% complete]
+-- [download 23% complete]
+-- [download 24% complete]
+-- [download 25% complete]
+-- [download 26% complete]
+-- [download 27% complete]
+-- [download 28% complete]
+-- [download 29% complete]
+-- [download 30% complete]
+-- [download 31% complete]
+-- [download 32% complete]
+-- [download 33% complete]
+-- [download 34% complete]
+-- [download 35% complete]
+-- [download 36% complete]
+-- [download 37% complete]
+-- [download 38% complete]
+-- [download 39% complete]
+-- [download 40% complete]
+-- [download 41% complete]
+-- [download 42% complete]
+-- [download 43% complete]
+-- [download 44% complete]
+-- [download 45% complete]
+-- [download 46% complete]
+-- [download 47% complete]
+-- [download 48% complete]
+-- [download 49% complete]
+-- [download 50% complete]
+-- [download 51% complete]
+-- [download 52% complete]
+-- [download 53% complete]
+-- [download 54% complete]
+-- [download 55% complete]
+-- [download 56% complete]
+-- [download 57% complete]
+-- [download 58% complete]
+-- [download 59% complete]
+-- [download 60% complete]
+-- [download 61% complete]
+-- [download 62% complete]
+-- [download 63% complete]
+-- [download 64% complete]
+-- [download 65% complete]
+-- [download 66% complete]
+-- [download 67% complete]
+-- [download 68% complete]
+-- [download 69% complete]
+-- [download 70% complete]
+-- [download 71% complete]
+-- [download 72% complete]
+-- [download 73% complete]
+-- [download 74% complete]
+-- [download 75% complete]
+-- [download 76% complete]
+-- [download 77% complete]
+-- [download 78% complete]
+-- [download 79% complete]
+-- [download 80% complete]
+-- [download 81% complete]
+-- [download 82% complete]
+-- [download 83% complete]
+-- [download 84% complete]
+-- [download 85% complete]
+-- [download 86% complete]
+-- [download 87% complete]
+-- [download 88% complete]
+-- [download 89% complete]
+-- [download 90% complete]
+-- [download 91% complete]
+-- [download 92% complete]
+-- [download 93% complete]
+-- [download 94% complete]
+-- [download 95% complete]
+-- [download 96% complete]
+-- [download 97% complete]
+-- [download 98% complete]
+-- [download 99% complete]
+-- [download 100% complete]
+-- Enabled axmol extensions:JSONDefault;cocostudio;SDFGen;Inspector;ImGui;fairygui;DragonBones;spine;physics-nodes;particle3d;assets-manager;GUI;
+-- Configuring done (46.1s)
+-- Generating done (1.2s)
+-- Build files have been written to: D:/a/Mobile-gatcha-/Mobile-gatcha-/build
+1kiss: BUILD_ALL_OPTIONS=--config Release --parallel 4, Count=4
+1kiss: cmake --build D:\a\Mobile-gatcha-\Mobile-gatcha-\build --config Release --parallel 4 --target Cinderbound
+MSBuild version 18.10.1-1.26427.6+3cd27c13e for .NET Framework
+
+  1>Checking Build System
+  1>
+  1>
+  Syncing resources for Cinderbound ...
+  Syncing resources for Cinderbound ...
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/CMakeLists.txt
+  fsync.ps1: Symlink D:\a\Mobile-gatcha-\Mobile-gatcha-\build\runtime\axslc to D:\a\Mobile-gatcha-\Mobile-gatcha-\build\bin\Cinderbound\Release\axslc ...
+  fsync.ps1: Symlink D:\a\Mobile-gatcha-\Mobile-gatcha-\Content to D:\a\Mobile-gatcha-\Mobile-gatcha-\build\bin\Cinderbound\Release\Content ...
+  Junction created for D:\a\Mobile-gatcha-\Mobile-gatcha-\build\bin\Cinderbound\Release\Content <<===>> D:\a\Mobile-gatcha-\Mobile-gatcha-\Content
+  Junction created for D:\a\Mobile-gatcha-\Mobile-gatcha-\build\bin\Cinderbound\Release\axslc <<===>> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\runtime\axslc
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/ConvertUTF/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/astcenc/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/openal/CMakeLists.txt
+  ConvertUTF.cpp
+  astcenc_averages_and_directions.cpp
+  alcomplex.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/box2d/CMakeLists.txt
+  b2_broad_phase.cpp
+  b2_chain_shape.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/chipmunk/src/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/bullet/CMakeLists.txt
+  chipmunk.c
+  b2_circle_shape.cpp
+  cpArbiter.c
+  b2_collide_circle.cpp
+  cpArray.c
+  b2_collide_edge.cpp
+  b2_collide_polygon.cpp
+  cpBBTree.c
+  btAxisSweep3.cpp
+  b2_collision.cpp
+  b2_distance.cpp
+  cpBody.c
+  astcenc_block_sizes.cpp
+  b2_dynamic_tree.cpp
+  cpCollision.c
+  b2_edge_shape.cpp
+  btBroadphaseProxy.cpp
+  cpConstraint.c
+  b2_polygon_shape.cpp
+  btCollisionAlgorithm.cpp
+  cpDampedRotarySpring.c
+  cpDampedSpring.c
+  b2_time_of_impact.cpp
+  btDbvt.cpp
+  cpGearJoint.c
+  b2_block_allocator.cpp
+  cpGrooveJoint.c
+  b2_draw.cpp
+  ConvertUTF.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\ConvertUTF.lib
+  b2_math.cpp
+  b2_settings.cpp
+  b2_stack_allocator.cpp
+  b2_timer.cpp
+  btDbvtBroadphase.cpp
+  astcenc_color_quantize.cpp
+  cpHashSet.c
+  cpHastySpace.c
+  b2_body.cpp
+  cpMarch.c
+  btDispatcher.cpp
+  btOverlappingPairCache.cpp
+  cpPinJoint.c
+  alfstream.cpp
+  b2_chain_circle_contact.cpp
+  cpPivotJoint.c
+  cpPolyShape.c
+  Generating Code...
+  cpPolyline.c
+  cpRatchetJoint.c
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/clipper2/CMakeLists.txt
+  btQuantizedBvh.cpp
+  cpRobust.c
+  astcenc_color_unquantize.cpp
+  Generating Code...
+  Compiling...
+  b2_chain_polygon_contact.cpp
+  astcenc_compress_symbolic.cpp
+  Compiling...
+  b2_circle_contact.cpp
+  cpRotaryLimitJoint.c
+  almalloc.cpp
+  cpShape.c
+  cpSimpleMotor.c
+  b2_contact.cpp
+  cpSlideJoint.c
+  cpSpace.c
+  b2_contact_manager.cpp
+  b2_contact_solver.cpp
+  cpSpaceComponent.c
+  b2_distance_joint.cpp
+  clipper.engine.cpp
+  cpSpaceDebug.c
+  btSimpleBroadphase.cpp
+  SphereTriangleDetector.cpp
+  b2_edge_circle_contact.cpp
+  cpSpaceHash.c
+  btActivatingCollisionAlgorithm.cpp
+  btBox2dBox2dCollisionAlgorithm.cpp
+  cpSpaceQuery.c
+  b2_edge_polygon_contact.cpp
+  astcenc_compute_variance.cpp
+  cpSpaceStep.c
+  alsem.cpp
+  cpSpatialIndex.c
+  b2_fixture.cpp
+  cpSweep1D.c
+  btBoxBoxCollisionAlgorithm.cpp
+  b2_friction_joint.cpp
+  Generating Code...
+  b2_gear_joint.cpp
+  b2_island.cpp
+  b2_joint.cpp
+  btBoxBoxDetector.cpp
+  b2_motor_joint.cpp
+  btCollisionDispatcher.cpp
+  b2_mouse_joint.cpp
+  astcenc_decompress_symbolic.cpp
+  b2_polygon_circle_contact.cpp
+  clipper.offset.cpp
+  b2_polygon_contact.cpp
+  btCollisionDispatcherMt.cpp
+  chipmunk.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\chipmunk.lib
+  b2_prismatic_joint.cpp
+  alstring.cpp
+  b2_pulley_joint.cpp
+  b2_revolute_joint.cpp
+  btCollisionObject.cpp
+  Generating Code...
+  astcenc_diagnostic_trace.cpp
+  astcenc_entry.cpp
+  Compiling...
+  b2_weld_joint.cpp
+  b2_wheel_joint.cpp
+  b2_world.cpp
+  btCollisionWorld.cpp
+  b2_world_callbacks.cpp
+  b2_rope.cpp
+  Generating Code...
+  astcenc_find_best_partitioning.cpp
+  clipper.rectclip.cpp
+  btCollisionWorldImporter.cpp
+  althrd_setname.cpp
+  dynload.cpp
+  box2d.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\box2d.lib
+  polyphase_resampler.cpp
+  astcenc_ideal_endpoints_and_weights.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/fastlz/CMakeLists.txt
+  fastlz.c
+D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\fastlz\fastlz.c(28,9): warning C4068: unknown pragma 'GCC' [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\engine\3rdparty\fastlz\fastlz.vcxproj]
+D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\fastlz\fastlz.c(29,9): warning C4068: unknown pragma 'GCC' [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\engine\3rdparty\fastlz\fastlz.vcxproj]
+D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\fastlz\fastlz.c(508,9): warning C4068: unknown pragma 'GCC' [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\engine\3rdparty\fastlz\fastlz.vcxproj]
+  btCompoundCollisionAlgorithm.cpp
+  astcenc_image.cpp
+  fastlz.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\fastlz.lib
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/doctest/CMakeLists.txt
+  ringbuffer.cpp
+  Generating Code...
+  doctest.cpp
+  strutils.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/fmt/CMakeLists.txt
+  clipper.triangulation.cpp
+  astcenc_integer_sequence.cpp
+D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\doctest\doctest_fwd.h(536,7): warning C5285: cannot declare a specialization for 'std::tuple': Specializing this standard library template is forbidden by N5014 [tuple.tuple.general]/1 [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\engine\3rdparty\doctest\doctest.vcxproj]
+  (compiling source file '../../../../axmol/3rdparty/doctest/doctest.cpp')
+      D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\doctest\doctest_fwd.h(536,7):
+      see declaration of 'std::tuple'
+  
+  Generating Code...
+  astcenc_mathlib.cpp
+  astcenc_mathlib_softfloat.cpp
+  astcenc_partition_tables.cpp
+  alcommon.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\alcommon.lib
+  format.cc
+  Generating Code...
+  astcenc_percentile_tables.cpp
+  astcenc_pick_best_endpoint_format.cpp
+  Compiling...
+  btCompoundCompoundCollisionAlgorithm.cpp
+  btConvex2dConvex2dAlgorithm.cpp
+  os.cc
+  btConvexConcaveCollisionAlgorithm.cpp
+  astcenc_quantization.cpp
+  btConvexConvexAlgorithm.cpp
+  btConvexPlaneCollisionAlgorithm.cpp
+  astcenc_symbolic_physical.cpp
+  btDefaultCollisionConfiguration.cpp
+  Generating Code...
+  btEmptyCollisionAlgorithm.cpp
+  clipper2.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\clipper2.lib
+  Generating Code...
+  doctest.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\doctest.lib
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/glad/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/png/CMakeLists.txt
+  btGhostObject.cpp
+  btHashedSimplePairCache.cpp
+  btInternalEdgeUtility.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/glfw/src/CMakeLists.txt
+  png.c
+  gl.c
+  btManifoldResult.cpp
+  btSimulationIslandManager.cpp
+  pngerror.c
+  context.c
+  btSphereBoxCollisionAlgorithm.cpp
+  init.c
+  pngget.c
+  btSphereSphereCollisionAlgorithm.cpp
+  input.c
+  btSphereTriangleCollisionAlgorithm.cpp
+  Compiling...
+  astcenc_weight_align.cpp
+  monitor.c
+  pngmem.c
+  btUnionFind.cpp
+  platform.c
+  btBox2dShape.cpp
+  vulkan.c
+  btBoxShape.cpp
+  pngpread.c
+  astcenc_weight_quant_xfer_tables.cpp
+  btBvhTriangleMeshShape.cpp
+  window.c
+  egl_context.c
+  fmt.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\fmt.lib
+  pngread.c
+  osmesa_context.c
+  Generating Code...
+  null_init.c
+  btCapsuleShape.cpp
+  pngrio.c
+  Generating Code...
+  null_monitor.c
+  null_window.c
+  astcenc.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\astcenc.lib
+  pngrtran.c
+  null_joystick.c
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/llhttp/CMakeLists.txt
+  win32_module.c
+  pngrutil.c
+  win32_time.c
+  win32_thread.c
+  api.c
+  http.c
+  llhttp.c
+  pngset.c
+  Generating Code...
+  win32_init.c
+  win32_joystick.c
+  pngtrans.c
+  win32_monitor.c
+  pngwio.c
+  win32_window.c
+  Generating Code...
+  pngwrite.c
+  Compiling...
+  btCollisionShape.cpp
+  pngwtran.c
+  Compiling...
+  wgl_context.c
+  Generating Code...
+  btCompoundShape.cpp
+  pngwutil.c
+  intel_init.c
+  llhttp.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\llhttp.lib
+  btConcaveShape.cpp
+  glfw.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\glfw.lib
+  Generating default_hrtf.txt
+  filter_sse2_intrinsics.c
+  btConeShape.cpp
+  btConvex2dShape.cpp
+  btConvexHullShape.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/openal/CMakeLists.txt
+  Generating Code...
+  auxeffectslot.cpp
+  png.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\png.lib
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/ogg/CMakeLists.txt
+  btConvexInternalShape.cpp
+  btConvexPointCloudShape.cpp
+  btConvexPolyhedron.cpp
+  btConvexShape.cpp
+  btConvexTriangleMeshShape.cpp
+  bitwise.c
+  framing.c
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/freetype/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/poly2tri/CMakeLists.txt
+  analysis.c
+  btCylinderShape.cpp
+  bitrate.c
+  block.c
+  btEmptyShape.cpp
+  codebook.c
+  envelope.c
+  floor0.c
+  btHeightfieldTerrainShape.cpp
+  floor1.c
+  lookup.c
+  lpc.c
+  lsp.c
+  mapping0.c
+  mdct.c
+  psy.c
+  registry.c
+  res0.c
+  sharedbook.c
+  smallft.c
+  shapes.cc
+  btMiniSDF.cpp
+  btMinkowskiSumShape.cpp
+  btMultiSphereShape.cpp
+  synthesis.c
+  Generating Code...
+  autofit.c
+  ftbase.c
+  ftbbox.c
+  ftbdf.c
+  ftbitmap.c
+  ftcid.c
+  ftfstype.c
+  advancing_front.cc
+  ftgasp.c
+  ftglyph.c
+  btMultimaterialTriangleMeshShape.cpp
+  ftgxval.c
+  ftinit.c
+  buffer.cpp
+  ftmm.c
+  cdt.cc
+  ftotval.c
+  ftpatent.c
+  ftpfr.c
+  btOptimizedBvh.cpp
+  Compiling...
+  ftstroke.c
+  vorbisenc.c
+  ftsynth.c
+  fttype1.c
+  btPolyhedralConvexShape.cpp
+  vorbisfile.c
+  ftwinfnt.c
+  sweep.cc
+  window.c
+  internal.c
+  Generating Code...
+  bdf.c
+  opusfile.c
+  stream.c
+  Generating Code...
+  Generating Code...
+  sweep_context.cc
+  info.c
+  Compiling...
+  btScaledBvhTriangleMeshShape.cpp
+  Generating Code...
+  Compiling...
+  ftbzip2.c
+  info.c
+  ftcache.c
+  cff.c
+  debug.cpp
+  btSdfCollisionShape.cpp
+  type1cid.c
+  ftgzip.c
+  poly2tri.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\poly2tri.lib
+  ftlzw.c
+  ogg.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\ogg.lib
+  pcf.c
+  pfr.c
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/pugixml/CMakeLists.txt
+  psaux.c
+  pshinter.c
+  psnames.c
+  btShapeHull.cpp
+  btSphereShape.cpp
+  btStaticPlaneShape.cpp
+  btStridingMeshInterface.cpp
+  raster.c
+  sdf.c
+  sfnt.c
+  smooth.c
+  pugixml.cpp
+  svg.c
+  truetype.c
+  type1.c
+  type42.c
+  winfnt.c
+  Generating Code...
+  effect.cpp
+  btTetrahedronShape.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/recast/CMakeLists.txt
+  btTriangleBuffer.cpp
+  btTriangleCallback.cpp
+  btTriangleIndexVertexArray.cpp
+  pugixml.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\pugixml.lib
+  btTriangleIndexVertexMaterialArray.cpp
+  btTriangleMesh.cpp
+  btTriangleMeshShape.cpp
+  btUniformScalingShape.cpp
+  btContactProcessing.cpp
+  btGImpactBvh.cpp
+  btGImpactCollisionAlgorithm.cpp
+  btGImpactQuantizedBvh.cpp
+  btGImpactShape.cpp
+  btGenericPoolAllocator.cpp
+  Generating Code...
+  glad.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\glad.lib
+  DebugDraw.cpp
+  DetourAlloc.cpp
+  DetourAssert.cpp
+  DetourCommon.cpp
+  DetourCrowd.cpp
+  DetourDebugDraw.cpp
+  DetourLocalBoundary.cpp
+  DetourNavMesh.cpp
+  effects.cpp
+  DetourNavMeshBuilder.cpp
+  DetourNavMeshQuery.cpp
+  DetourNode.cpp
+  DetourObstacleAvoidance.cpp
+  DetourPathCorridor.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/simdjson/CMakeLists.txt
+  DetourPathQueue.cpp
+  DetourProximityGrid.cpp
+  DetourTileCache.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/unzip/CMakeLists.txt
+  DetourTileCacheBuilder.cpp
+  Compiling...
+  btTriangleShapeEx.cpp
+  simdjson.cpp
+  Generating Code...
+  gim_box_set.cpp
+  error.cpp
+  gim_contact.cpp
+  gim_memory.cpp
+  gim_tri_collision.cpp
+  btContinuousConvexCollision.cpp
+  btConvexCast.cpp
+  btGjkConvexCast.cpp
+  btGjkEpa2.cpp
+  btGjkEpaPenetrationDepthSolver.cpp
+  btGjkPairDetector.cpp
+  btMinkowskiPenetrationDepthSolver.cpp
+  Compiling...
+  ftsystem.c
+  ioapi_mem.cpp
+  ioapi.c
+  unzip.c
+  ftdebug.c
+  Generating Code...
+  Generating Code...
+D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\openal\al\error.cpp(117,49): warning C4018: '<=': signed/unsigned mismatch [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\engine\3rdparty\openal\OpenAL.vcxproj]
+  btPersistentManifold.cpp
+  recast.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\recast.lib
+  unzip.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\unzip.lib
+  event.cpp
+  freetype.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\freetype.lib
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/webp/CMakeLists.txt
+  sharpyuv.c
+  sharpyuv_cpu.c
+  sharpyuv_csp.c
+  sharpyuv_dsp.c
+  sharpyuv_gamma.c
+  sharpyuv_neon.c
+  sharpyuv_sse2.c
+  alpha_dec.c
+  buffer_dec.c
+  btPolyhedralContactClipping.cpp
+  btRaycastCallback.cpp
+  btSubSimplexConvexCast.cpp
+  frame_dec.c
+  btVoronoiSimplexSolver.cpp
+  btKinematicCharacterController.cpp
+  extension.cpp
+  btBatchedConstraints.cpp
+  idec_dec.c
+  btConeTwistConstraint.cpp
+  Generating Code...
+  io_dec.c
+  quant_dec.c
+  tree_dec.c
+  vp8_dec.c
+  vp8l_dec.c
+  webp_dec.c
+  anim_decode.c
+  demux.c
+  alpha_processing.c
+  Generating Code...
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/xxhash/CMakeLists.txt
+  xxhash.c
+  Compiling...
+  alpha_processing_mips_dsp_r2.c
+  alpha_processing_neon.c
+  alpha_processing_sse2.c
+  alpha_processing_sse41.c
+  cost.c
+  cost_mips32.c
+  cost_mips_dsp_r2.c
+  cost_neon.c
+  cost_sse2.c
+  cpu.c
+  filter.cpp
+  xxhash.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\xxhash.lib
+  dec.c
+  dec_clip_tables.c
+  dec_mips32.c
+  dec_mips_dsp_r2.c
+  dec_msa.c
+  dec_neon.c
+  dec_sse2.c
+  dec_sse41.c
+  enc.c
+  enc_mips32.c
+  Generating Code...
+  Compiling...
+  enc_mips_dsp_r2.c
+  enc_msa.c
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/websocket-parser/CMakeLists.txt
+  enc_neon.c
+  enc_sse2.c
+  enc_sse41.c
+  filters.c
+  filters_mips_dsp_r2.c
+  filters_msa.c
+  filters_neon.c
+  filters_sse2.c
+  lossless.c
+  lossless_avx2.c
+  lossless_enc.c
+  lossless_enc_avx2.c
+  lossless_enc_mips32.c
+  Compiling...
+  btContactConstraint.cpp
+  btFixedConstraint.cpp
+  btGearConstraint.cpp
+  btGeneric6DofConstraint.cpp
+  btGeneric6DofSpring2Constraint.cpp
+  lossless_enc_mips_dsp_r2.c
+  lossless_enc_msa.c
+  simdjson.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\simdjson.lib
+  lossless_enc_neon.c
+  lossless_enc_sse2.c
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/3rdparty/yasio/CMakeLists.txt
+  websocket_parser.c
+  btGeneric6DofSpringConstraint.cpp
+  websocket-parser.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\websocket-parser.lib
+  btHinge2Constraint.cpp
+  io_service.cpp
+  btHingeConstraint.cpp
+  btNNCGConstraintSolver.cpp
+  btPoint2PointConstraint.cpp
+  btSequentialImpulseConstraintSolver.cpp
+  listener.cpp
+  btSequentialImpulseConstraintSolverMt.cpp
+  btSliderConstraint.cpp
+  lossless_enc_sse41.c
+  Generating Code...
+  Compiling...
+  lossless_mips_dsp_r2.c
+  lossless_msa.c
+  lossless_neon.c
+  lossless_sse2.c
+  lossless_sse41.c
+  rescaler.c
+  rescaler_mips32.c
+  rescaler_mips_dsp_r2.c
+  rescaler_msa.c
+  rescaler_neon.c
+  rescaler_sse2.c
+  ssim.c
+  ssim_sse2.c
+  upsampling.c
+  upsampling_mips_dsp_r2.c
+  upsampling_msa.c
+  upsampling_neon.c
+  upsampling_sse2.c
+  upsampling_sse41.c
+  yuv.c
+  Generating Code...
+  Compiling...
+  yuv_mips32.c
+  yuv_mips_dsp_r2.c
+  yuv_neon.c
+  yuv_sse2.c
+  yuv_sse41.c
+  alpha_enc.c
+  analysis_enc.c
+  backward_references_cost_enc.c
+  backward_references_enc.c
+  config_enc.c
+  cost_enc.c
+  filter_enc.c
+  frame_enc.c
+  histogram_enc.c
+  iterator_enc.c
+  near_lossless_enc.c
+  picture_csp_enc.c
+  picture_enc.c
+  picture_psnr_enc.c
+  btSolve2LinearConstraint.cpp
+  picture_rescale_enc.c
+  Generating Code...
+  btTypedConstraint.cpp
+  btUniversalConstraint.cpp
+  btDiscreteDynamicsWorld.cpp
+  xxsocket.cpp
+  Compiling...
+  picture_tools_enc.c
+  predictor_enc.c
+  quant_enc.c
+  syntax_enc.c
+  token_enc.c
+  btDiscreteDynamicsWorldMt.cpp
+  tree_enc.c
+  vp8l_enc.c
+  webp_enc.c
+  source.cpp
+  anim_encode.c
+  muxedit.c
+  muxinternal.c
+  muxread.c
+  bit_reader_utils.c
+  bit_writer_utils.c
+  btRigidBody.cpp
+  color_cache_utils.c
+  filters_utils.c
+  huffman_encode_utils.c
+  huffman_utils.c
+  palette.c
+  quant_levels_dec_utils.c
+  Generating Code...
+  btSimpleDynamicsWorld.cpp
+  Generating Code...
+  Generating Code...
+  Compiling...
+  quant_levels_utils.c
+  random_utils.c
+  rescaler_utils.c
+  thread_utils.c
+  utils.c
+  Generating Code...
+D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\openal\al\source.cpp(419,23): warning C4018: '>': signed/unsigned mismatch [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\engine\3rdparty\openal\OpenAL.vcxproj]
+      D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\openal\al\source.cpp(419,23):
+      the template instantiation context (the oldest one first) is
+          D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\openal\al\source.cpp(3057,19):
+          see reference to function template instantiation 'bool `anonymous-namespace'::GetProperty<__int64>(ALsource *const ,ALCcontext *const ,const `anonymous-namespace'::SourceProp,const al::span<__int64,18446744073709551615>)' being compiled
+          D:\a\Mobile-gatcha-\Mobile-gatcha-\axmol\3rdparty\openal\al\source.cpp(2148,21):
+          see reference to function template instantiation 'T `anonymous-namespace'::GetSourceLength<__int64>(const ALsource *,ALenum)' being compiled
+          with
+          [
+              T=__int64
+          ]
+  
+  webp.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\webp.lib
+  state.cpp
+  yasio.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\yasio.lib
+  Compiling...
+  btSimulationIslandManagerMt.cpp
+  btMultiBody.cpp
+  api.cpp
+  btMultiBodyConstraint.cpp
+  btMultiBodyConstraintSolver.cpp
+  call.cpp
+  btMultiBodyDynamicsWorld.cpp
+  exception.cpp
+  btMultiBodyFixedConstraint.cpp
+  fx_slot_index.cpp
+  btMultiBodyGearConstraint.cpp
+  fx_slots.cpp
+  btMultiBodyJointLimitConstraint.cpp
+  btMultiBodyJointMotor.cpp
+  btMultiBodyMLCPConstraintSolver.cpp
+  utils.cpp
+  btMultiBodyPoint2Point.cpp
+  alc.cpp
+  btMultiBodySliderConstraint.cpp
+  btMultiBodySphericalJointLimit.cpp
+  btMultiBodySphericalJointMotor.cpp
+  btDantzigLCP.cpp
+  btLemkeAlgorithm.cpp
+  btMLCPSolver.cpp
+  alu.cpp
+  btRaycastVehicle.cpp
+  btWheelInfo.cpp
+  btTaskScheduler.cpp
+  Generating Code...
+  Generating Code...
+  Compiling...
+  alconfig.cpp
+  Compiling...
+  btThreadSupportPosix.cpp
+  btThreadSupportWin32.cpp
+  btAlignedAllocator.cpp
+  btConvexHull.cpp
+  btConvexHullComputer.cpp
+  btGeometryUtil.cpp
+  btPolarDecomposition.cpp
+  btQuickprof.cpp
+  btReducedVector.cpp
+  btSerializer.cpp
+  btSerializer64.cpp
+  btThreads.cpp
+  btVector3.cpp
+  Generating Code...
+  events.cpp
+  panning.cpp
+  bullet.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\bullet.lib
+  base.cpp
+  loopback.cpp
+  wasapi.cpp
+  ambdec.cpp
+  ambidefs.cpp
+  bformatdec.cpp
+  bs2b.cpp
+  bsinc_tables.cpp
+  buffer_storage.cpp
+  converter.cpp
+  cpu_caps.cpp
+  cubic_tables.cpp
+  devformat.cpp
+  effectslot.cpp
+  except.cpp
+  biquad.cpp
+  nfc.cpp
+  Generating Code...
+  Compiling...
+  splitter.cpp
+  fmt_traits.cpp
+  fpu_ctrl.cpp
+  helpers.cpp
+  hrtf.cpp
+  logging.cpp
+  mastering.cpp
+  mixer.cpp
+  uhjfilter.cpp
+  uiddefs.cpp
+  voice.cpp
+  mixer_c.cpp
+  mixer_sse.cpp
+  mixer_sse2.cpp
+  mixer_sse3.cpp
+  mixer_sse41.cpp
+  Generating Code...
+  autowah.cpp
+  chorus.cpp
+  compressor.cpp
+  convolution.cpp
+  dedicated.cpp
+  distortion.cpp
+  echo.cpp
+  equalizer.cpp
+  fshifter.cpp
+  modulator.cpp
+  null.cpp
+  pshifter.cpp
+  reverb.cpp
+  vmorpher.cpp
+  context.cpp
+  device.cpp
+  autowah.cpp
+  chorus.cpp
+  compressor.cpp
+  convolution.cpp
+  dedicated.cpp
+  distortion.cpp
+  echo.cpp
+  equalizer.cpp
+  fshifter.cpp
+  modulator.cpp
+  null.cpp
+  pshifter.cpp
+  reverb.cpp
+  vmorpher.cpp
+  null.cpp
+  context.cpp
+  device.cpp
+     Creating library D:/a/Mobile-gatcha-/Mobile-gatcha-/build/lib/Release/OpenAL32.lib and object D:/a/Mobile-gatcha-/Mobile-gatcha-/build/lib/Release/OpenAL32.exp
+  OpenAL.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\bin\Release\OpenAL32.dll
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/cameraClear.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionColor.vert for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionColorLengthTexture.frag for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/cameraClear.vert for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionColorLengthTexture.vert for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/color.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionColorTextureAsPointsize.vert for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/colorNormal.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionNormalTexture.vert for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/colorNormalTexture.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionTexture.frag for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/colorTexture.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionTexture.vert for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/dualSampler.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionTexture3D.vert for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/dualSampler_gray.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionTextureColor.frag for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/dualSampler_hsv.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionTextureColor.vert for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/grayScale.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionTextureColorAlphaTest.frag for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/hsv.frag for ESSL300 ...
+  3>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionTextureInstance.vert for ESSL300 ...
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/label_distanceGlow.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/label_distanceNormal.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/label_distanceOutline.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/label_normal.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/label_outline.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/layer_radialGradient.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/lineColor.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/lineColor.vert for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionUColor.vert for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/particle.vert for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/quadColor.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/particleColor.frag for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/quadColor.vert for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/particleTexture.frag for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/quadTexture.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/position.vert for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/quadTexture.vert for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/positionColor.frag for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/skinPositionNormalTexture.vert for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/skinPositionTexture.vert for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/skybox.frag for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/skybox.vert for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/terrain.frag for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/terrain.vert for ESSL300 ...
+  4>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/videoTextureBGRA.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/videoTextureI420.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/videoTextureNV12.frag for ESSL300 ...
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/renderer/shaders/videoTextureYUY2.frag for ESSL300 ...
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/core/CMakeLists.txt
+  cmake_pch.cxx
+  axmol.cpp
+  ActionCamera.cpp
+  ActionCatmullRom.cpp
+  Action.cpp
+  ActionEase.cpp
+  ActionGrid3D.cpp
+  ActionGrid.cpp
+  ActionInstant.cpp
+  ActionInterval.cpp
+  ActionManager.cpp
+  ActionPageTurn3D.cpp
+  ActionProgressTimer.cpp
+  ActionTiledGrid.cpp
+  ActionTween.cpp
+  AnimationCache.cpp
+  Animation.cpp
+  AtlasNode.cpp
+  Camera.cpp
+  CameraBackgroundBrush.cpp
+  ClippingNode.cpp
+  ClippingRectangleNode.cpp
+  ComponentContainer.cpp
+  Component.cpp
+  DrawNode.cpp
+  FastTMXLayer.cpp
+  FastTMXTiledMap.cpp
+  FontAtlasCache.cpp
+  FontAtlas.cpp
+  FontCharMap.cpp
+  Font.cpp
+  FontFNT.cpp
+  FontFreeType.cpp
+  Grid.cpp
+  LabelAtlas.cpp
+  Label.cpp
+  Layer.cpp
+  Light.cpp
+  Menu.cpp
+  MenuItem.cpp
+  MotionStreak.cpp
+  Node.cpp
+  NodeGrid.cpp
+  ParallaxNode.cpp
+  ParticleBatchNode.cpp
+  ParticleExamples.cpp
+  ParticleSystem.cpp
+  ParticleSystemQuad.cpp
+  ProgressTimer.cpp
+  ProtectedNode.cpp
+  RenderTexture.cpp
+  Scene.cpp
+  SpriteBatchNode.cpp
+  Sprite.cpp
+  AnchoredSprite.cpp
+  SpriteFrameCache.cpp
+  SpriteFrame.cpp
+  AutoPolygon.cpp
+  TextFieldTTF.cpp
+  TileMapAtlas.cpp
+  TMXObjectGroup.cpp
+  TMXXMLParser.cpp
+  Transition.cpp
+  TransitionPageTurn.cpp
+  TransitionProgress.cpp
+  TweenFunction.cpp
+  SpriteSheetLoader.cpp
+  PlistSpriteSheetLoader.cpp
+  ActionCoroutine.cpp
+  StdC-win32.cpp
+  FileUtils-win32.cpp
+  Common-win32.cpp
+  Application-win32.cpp
+  Device-win32.cpp
+  RenderViewImpl.cpp
+  Device-desktop.cpp
+  SAXParser.cpp
+  RenderView.cpp
+  FileUtils.cpp
+  Image.cpp
+  FileStream.cpp
+  ApplicationBase.cpp
+  AffineTransform.cpp
+  Vertex.cpp
+  Mat4.cpp
+  MathUtil.cpp
+  Quaternion.cpp
+  TransformUtils.cpp
+  Vec2.cpp
+  Vec3.cpp
+  Vec4.cpp
+  Rect.cpp
+  Color.cpp
+  CallbackCommand.cpp
+  CustomCommand.cpp
+  GroupCommand.cpp
+  Material.cpp
+  MeshCommand.cpp
+  Pass.cpp
+  QuadCommand.cpp
+  RenderCommand.cpp
+  RenderState.cpp
+  Renderer.cpp
+  Technique.cpp
+  Texture2D.cpp
+  TextureAtlas.cpp
+  TextureCache.cpp
+  TextureCube.cpp
+  TrianglesCommand.cpp
+  Shaders.cpp
+  ProgramManager.cpp
+  ProgramStateRegistry.cpp
+  CommandBuffer.cpp
+  DepthStencilState.cpp
+  DriverBase.cpp
+  ShaderModule.cpp
+  Texture.cpp
+  PixelFormatUtils.cpp
+  VertexLayout.cpp
+  Program.cpp
+  ProgramState.cpp
+  ShaderCache.cpp
+  RenderPassDescriptor.cpp
+  OpenGLState.cpp
+  BufferGL.cpp
+  CommandBufferGL.cpp
+  CommandBufferGLES2.cpp
+  DepthStencilStateGL.cpp
+  DriverGL.cpp
+  ProgramGL.cpp
+  RenderPipelineGL.cpp
+  ShaderModuleGL.cpp
+  TextureGL.cpp
+  UtilsGL.cpp
+  RenderTargetGL.cpp
+  JobSystem.cpp
+  AutoreleasePool.cpp
+  Configuration.cpp
+  Logging.cpp
+  Controller.cpp
+  Data.cpp
+  NinePatchImageParser.cpp
+  Director.cpp
+  Event.cpp
+  EventAcceleration.cpp
+  EventController.cpp
+  EventCustom.cpp
+  EventDispatcher.cpp
+  EventFocus.cpp
+  EventKeyboard.cpp
+  EventListener.cpp
+  EventListenerAcceleration.cpp
+  EventListenerController.cpp
+  EventListenerCustom.cpp
+  EventListenerFocus.cpp
+  EventListenerKeyboard.cpp
+  EventListenerMouse.cpp
+  EventListenerTouch.cpp
+  EventMouse.cpp
+  EventTouch.cpp
+  IMEDispatcher.cpp
+  NS.cpp
+  Profiling.cpp
+  Properties.cpp
+  Object.cpp
+  Scheduler.cpp
+  ScriptSupport.cpp
+  Touch.cpp
+  UserDefault.cpp
+  Value.cpp
+  ObjectFactory.cpp
+  StencilStateManager.cpp
+  TGAlib.cpp
+  ZipUtils.cpp
+  atitc.cpp
+  base64.cpp
+  FPSImages.cpp
+  Random.cpp
+  UTF8.cpp
+  Utils.cpp
+  SimpleTimer.cpp
+  etc1.cpp
+  etc2.cpp
+  pvr.cpp
+  s3tc.cpp
+  astc.cpp
+  Controller-linux-win32.cpp
+  AsyncTaskPool.cpp
+  Console.cpp
+  UIMediaPlayer.cpp
+  UIEditBoxImpl-win32.cpp
+  UIWebViewImpl-win32.cpp
+  UIWebView.cpp
+  axmol-ui.cpp
+  UIButton.cpp
+  UIAbstractCheckButton.cpp
+  UICheckBox.cpp
+  UIRadioButton.cpp
+  LayoutHelper.cpp
+  UIHBox.cpp
+  UIHelper.cpp
+  UIImageView.cpp
+  UILayout.cpp
+  UILayoutManager.cpp
+  UILayoutParameter.cpp
+  UIListView.cpp
+  UILoadingBar.cpp
+  UIPageView.cpp
+  UIPageViewIndicator.cpp
+  UIRelativeBox.cpp
+  UIRichText.cpp
+  UIScale9Sprite.cpp
+  UIScrollView.cpp
+  UIScrollViewBar.cpp
+  UISlider.cpp
+  UIText.cpp
+  UITextAtlas.cpp
+  UITextBMFont.cpp
+  UITextField.cpp
+  UIVBox.cpp
+  UIWidget.cpp
+  UIEditBox.cpp
+  UILayoutComponent.cpp
+  UIEditBoxImpl-common.cpp
+  UITabControl.cpp
+  UITextFieldEx.cpp
+  Downloader.cpp
+  Downloader-curl.cpp
+  Uri.cpp
+  HttpClient.cpp
+  HttpCookie.cpp
+  WebSocket.cpp
+  AABB.cpp
+  Animate3D.cpp
+  Animation3D.cpp
+  AttachNode.cpp
+  BillBoard.cpp
+  Bundle3D.cpp
+  Bundle3DData.cpp
+  BundleReader.cpp
+  Frustum.cpp
+  Mesh.cpp
+  MeshSkin.cpp
+  MeshVertexIndexData.cpp
+  MotionStreak3D.cpp
+  OBB.cpp
+  ObjLoader.cpp
+  Plane.cpp
+  Ray.cpp
+  Skeleton3D.cpp
+  Skybox.cpp
+  MeshRenderer.cpp
+  MeshMaterial.cpp
+  Terrain.cpp
+  VertexAttribBinding.cpp
+  3DProgramInfo.cpp
+  PhysicsBody.cpp
+  PhysicsContact.cpp
+  PhysicsJoint.cpp
+  PhysicsShape.cpp
+  PhysicsWorld.cpp
+  Physics3D.cpp
+  Physics3DComponent.cpp
+  Physics3DConstraint.cpp
+  Physics3DDebugDrawer.cpp
+  Physics3DObject.cpp
+  Physics3DShape.cpp
+  Physics3DWorld.cpp
+  PhysicsMeshRenderer.cpp
+  NavMesh.cpp
+  NavMeshAgent.cpp
+  NavMeshDebugDraw.cpp
+  NavMeshObstacle.cpp
+  NavMeshUtils.cpp
+  AndroidMediaEngine.cpp
+  MFUtils.cpp
+  MediaEngine.cpp
+  MfMediaEngine.cpp
+  VlcMediaEngine.cpp
+  WmfMediaEngine.cpp
+  AudioEngine.cpp
+  AudioDecoderManager.cpp
+  AudioDecoder.cpp
+  AudioDecoderVorbis.cpp
+  AudioDecoderOpus.cpp
+  AudioPlayer.cpp
+  AudioCache.cpp
+  AudioEngineImpl.cpp
+  AudioEffectsExtension.cpp
+  AudioDecoderMp3.cpp
+  AudioDecoderWav.cpp
+  Types.cpp
+  Types.cpp
+  axmol.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\axmol.lib
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/JSONDefault/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/Inspector/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/GUI/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/assets-manager/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/SDFGen/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/physics-nodes/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/DragonBones/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/Particle3D/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/fairygui/CMakeLists.txt
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/cocostudio/CMakeLists.txt
+  CCArmatureDisplay.cpp
+  Inspector.cpp
+  CCFactory.cpp
+  CCSlot.cpp
+  CCTextureAtlasData.cpp
+  Controller.cpp
+  DragDropManager.cpp
+  GButton.cpp
+  GComboBox.cpp
+  PUAffector.cpp
+  PUAffectorManager.cpp
+  Control.cpp
+  ControlButton.cpp
+  ControlColourPicker.cpp
+  ControlHuePicker.cpp
+  PUAffectorTranslator.cpp
+  PUAlignAffector.cpp
+  PUAlignAffectorTranslator.cpp
+  PUBaseCollider.cpp
+  PUBaseColliderTranslator.cpp
+  ControlPotentiometer.cpp
+  PUBaseForceAffector.cpp
+  ControlSaturationBrightnessPicker.cpp
+  ControlSlider.cpp
+  ControlStepper.cpp
+  PUBaseForceAffectorTranslator.cpp
+  PUBeamRender.cpp
+  PUBehaviour.cpp
+  ControlSwitch.cpp
+  PUBehaviourManager.cpp
+  ControlUtils.cpp
+  GComponent.cpp
+  GGraph.cpp
+  GGroup.cpp
+  GImage.cpp
+  Animation.cpp
+  AnimationState.cpp
+  BaseTimelineState.cpp
+  TimelineState.cpp
+  SDFGen.cpp
+  Invocation.cpp
+  ScrollView.cpp
+  PUBehaviourTranslator.cpp
+  PUBillboardChain.cpp
+  PUBoxCollider.cpp
+  TableView.cpp
+  WorldClock.cpp
+  TableViewCell.cpp
+  Armature.cpp
+  Bone.cpp
+  PUBoxColliderTranslator.cpp
+  ActionFrame.cpp
+  ActionFrameEasing.cpp
+  Constraint.cpp
+  ActionManagerEx.cpp
+  ActionNode.cpp
+  PUBoxEmitter.cpp
+  DeformVertices.cpp
+  ActionObject.cpp
+  PUBoxEmitterTranslator.cpp
+  ActionTimeline.cpp
+  ActionTimelineCache.cpp
+  ActionTimelineData.cpp
+  Slot.cpp
+  TransformObject.cpp
+  BaseObject.cpp
+  DragonBones.cpp
+  PUCircleEmitter.cpp
+  PUCircleEmitterTranslator.cpp
+  EventObject.cpp
+  ActionTimelineNode.cpp
+  PUCollisionAvoidanceAffector.cpp
+  GUI.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\GUI.lib
+  BaseFactory.cpp
+  GLabel.cpp
+  PUCollisionAvoidanceAffectorTranslator.cpp
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/spine/shaders/spineTwoColorTint.vert for ESSL300 ...
+  GList.cpp
+  GLoader.cpp
+  BoneNode.cpp
+  GLoader3D.cpp
+  Point.cpp
+  CSLoader.cpp
+  Transform.cpp
+  2>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/spine/shaders/spineTwoColorTint.frag for ESSL300 ...
+  AnimationConfig.cpp
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/spine/CMakeLists.txt
+  AnimationData.cpp
+  ArmatureData.cpp
+  Animation.cpp
+  AnimationState.cpp
+  AnimationStateData.cpp
+  Atlas.cpp
+  Frame.cpp
+  AtlasAttachmentLoader.cpp
+  Attachment.cpp
+  AttachmentLoader.cpp
+  BoundingBoxData.cpp
+  AttachmentTimeline.cpp
+  Bone.cpp
+  BoneData.cpp
+  BoundingBoxAttachment.cpp
+  ClippingAttachment.cpp
+  SkeletonNode.cpp
+  ConstraintData.cpp
+  ColorTimeline.cpp
+  CanvasData.cpp
+  AssetsManager.cpp
+  CurveTimeline.cpp
+  DeformTimeline.cpp
+  DrawOrderTimeline.cpp
+  AssetsManagerEx.cpp
+  Event.cpp
+  EventData.cpp
+  EventTimeline.cpp
+  EventAssetsManagerEx.cpp
+  Extension.cpp
+  IkConstraint.cpp
+  EventListenerAssetsManagerEx.cpp
+  IkConstraintData.cpp
+  IkConstraintTimeline.cpp
+  PUColorAffector.cpp
+  InheritTimeline.cpp
+  Json.cpp
+  LinkedMesh.cpp
+  PUColorAffectorTranslator.cpp
+  ConstraintData.cpp
+  Log.cpp
+  MathUtil.cpp
+  MeshAttachment.cpp
+  PathAttachment.cpp
+  PUDoAffectorEventHandler.cpp
+  PathConstraint.cpp
+  PathConstraintData.cpp
+  PathConstraintMixTimeline.cpp
+  PathConstraintPositionTimeline.cpp
+  PUDoAffectorEventHandlerTranslator.cpp
+  PathConstraintSpacingTimeline.cpp
+  PhysicsConstraint.cpp
+  PhysicsConstraintData.cpp
+  PhysicsConstraintTimeline.cpp
+  DisplayData.cpp
+  PointAttachment.cpp
+  RTTI.cpp
+  RegionAttachment.cpp
+  RotateTimeline.cpp
+  ScaleTimeline.cpp
+  Sequence.cpp
+  DragonBonesData.cpp
+  PUDoEnableComponentEventHandler.cpp
+  SequenceTimeline.cpp
+  ShearTimeline.cpp
+  Skeleton.cpp
+  SkeletonBinary.cpp
+  PUDoEnableComponentEventHandlerTranslator.cpp
+  SkeletonBounds.cpp
+  SkinNode.cpp
+  SkinData.cpp
+  SkeletonClipping.cpp
+  SkeletonData.cpp
+  PUDoExpireEventHandler.cpp
+  SkeletonJson.cpp
+  Skin.cpp
+  Slot.cpp
+  TextureAtlasData.cpp
+  SlotData.cpp
+  PUDoExpireEventHandlerTranslator.cpp
+  SpineObject.cpp
+  TextureLoader.cpp
+  Timeline.cpp
+  TimeLine.cpp
+  TransformConstraint.cpp
+  TransformConstraintData.cpp
+  TransformConstraintTimeline.cpp
+  UserData.cpp
+  TranslateTimeline.cpp
+  Triangulator.cpp
+  Updatable.cpp
+  Manifest.cpp
+  VertexAttachment.cpp
+  SkeletonAnimation.cpp
+  SkeletonBatch.cpp
+  BinaryDataParser.cpp
+  GMovieClip.cpp
+  DataParser.cpp
+  JSONDataParser.cpp
+  GObject.cpp
+  GObjectPool.cpp
+  Armature.cpp
+  ArmatureAnimation.cpp
+  PUDoFreezeEventHandler.cpp
+  GProgressBar.cpp
+  PUDoFreezeEventHandlerTranslator.cpp
+  PUDoPlacementParticleEventHandler.cpp
+  ArmatureDataManager.cpp
+  SkeletonRenderer.cpp
+  PUDoPlacementParticleEventHandlerTranslator.cpp
+  ArmatureDefine.cpp
+  BatchNode.cpp
+  SkeletonTwoColorBatch.cpp
+  PUDoScaleEventHandler.cpp
+  PUDoScaleEventHandlerTranslator.cpp
+  PUDoStopSystemEventHandler.cpp
+  Bone.cpp
+  PUDoStopSystemEventHandlerTranslator.cpp
+  CocoLoader.cpp
+  CocoStudio.cpp
+  SDFGen.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\SDFGen.lib
+  PUDynamicAttribute.cpp
+  assets-manager.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\assets-manager.lib
+  PUDynamicAttributeTranslator.cpp
+  CocosStudioExtension.cpp
+  PUEmitter.cpp
+  spine-axmol.cpp
+  ColliderDetector.cpp
+  ComAttribute.cpp
+  GRichTextField.cpp
+  Inspector.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\Inspector.lib
+  GRoot.cpp
+  GScrollBar.cpp
+  GSlider.cpp
+  ComAudio.cpp
+  PUEmitterManager.cpp
+  PUEmitterTranslator.cpp
+  JSONDefault.cpp
+  PUEventHandler.cpp
+  PUEventHandlerManager.cpp
+  ComController.cpp
+  ComExtensionData.cpp
+  PUEventHandlerTranslator.cpp
+  ComRender.cpp
+  PUFlockCenteringAffector.cpp
+  PUFlockCenteringAffectorTranslator.cpp
+  PUForceField.cpp
+  DataReaderHelper.cpp
+  Datas.cpp
+  PUForceFieldAffector.cpp
+  DecorativeDisplay.cpp
+  GTextField.cpp
+  spine.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\spine.lib
+  PUForceFieldAffectorTranslator.cpp
+  GTextInput.cpp
+  PUGeometryRotator.cpp
+  GTree.cpp
+  GTreeNode.cpp
+  PUGeometryRotatorTranslator.cpp
+  PUGravityAffector.cpp
+  DragonBones.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\DragonBones.lib
+  PhysicsDebugNode.cpp
+  PhysicsDebugNodeBox2D.cpp
+  PhysicsDebugNodeChipmunk2D.cpp
+  PhysicsSprite.cpp
+  DictionaryHelper.cpp
+  DisplayFactory.cpp
+  JSONDefault.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\JSONDefault.lib
+  PUGravityAffectorTranslator.cpp
+  PUInterParticleCollider.cpp
+  PUInterParticleColliderTranslator.cpp
+  PUJetAffector.cpp
+  PUJetAffectorTranslator.cpp
+  PULineAffector.cpp
+  PULineAffectorTranslator.cpp
+  PULineEmitter.cpp
+  Margin.cpp
+  PackageItem.cpp
+  PopupMenu.cpp
+  RelationItem.cpp
+  PULineEmitterTranslator.cpp
+  PULinearForceAffector.cpp
+  PULinearForceAffectorTranslator.cpp
+  PUListener.cpp
+  DisplayManager.cpp
+  PhysicsSpriteBox2D.cpp
+  PhysicsSpriteChipmunk2D.cpp
+  FlatBuffersSerialize.cpp
+  InputDelegate.cpp
+  LocalizationManager.cpp
+  ProcessBase.cpp
+  PUMaterialManager.cpp
+  PUMaterialTranslator.cpp
+  PUMeshSurfaceEmitter.cpp
+  PUMeshSurfaceEmitterTranslator.cpp
+  Relations.cpp
+  ScrollPane.cpp
+  Transition.cpp
+  PUNoise.cpp
+  TranslationHelper.cpp
+  PUObserver.cpp
+  PUObserverManager.cpp
+  PUObserverTranslator.cpp
+  SGUIReader.cpp
+  SSceneReader.cpp
+  Skin.cpp
+  SpineSkeletonDataCache.cpp
+  SpriteFrameCacheHelper.cpp
+  TransformHelp.cpp
+  TriggerBase.cpp
+  PUOnClearObserver.cpp
+  PUOnClearObserverTranslator.cpp
+  PUOnCollisionObserver.cpp
+  PUOnCollisionObserverTranslator.cpp
+  PUOnCountObserver.cpp
+  physics-nodes.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\physics-nodes.lib
+  PUOnCountObserverTranslator.cpp
+  PUOnEmissionObserver.cpp
+  UIConfig.cpp
+  PUOnEmissionObserverTranslator.cpp
+  UIObjectFactory.cpp
+  UIPackage.cpp
+  Window.cpp
+  PUOnEventFlagObserver.cpp
+  PUOnEventFlagObserverTranslator.cpp
+  PUOnExpireObserver.cpp
+  PUOnExpireObserverTranslator.cpp
+  PUOnPositionObserver.cpp
+  PUOnPositionObserverTranslator.cpp
+  PUOnQuotaObserver.cpp
+  PUOnQuotaObserverTranslator.cpp
+  ChangePageAction.cpp
+  PUOnRandomObserver.cpp
+  ControllerAction.cpp
+  PUOnRandomObserverTranslator.cpp
+  PUOnTimeObserver.cpp
+  PlayTransitionAction.cpp
+  PUOnTimeObserverTranslator.cpp
+  PUOnVelocityObserver.cpp
+  BitmapFont.cpp
+  PUOnVelocityObserverTranslator.cpp
+  PUParticleFollower.cpp
+  PUParticleFollowerTranslator.cpp
+  PUParticleSystem3D.cpp
+  TriggerMng.cpp
+  TriggerObj.cpp
+  Tween.cpp
+  WidgetCallBackHandlerProtocol.cpp
+  ArmatureNodeReader.cpp
+  ButtonReader.cpp
+  CheckBoxReader.cpp
+  ComAudioReader.cpp
+  GameMapReader.cpp
+  GameNode3DReader.cpp
+  ImageViewReader.cpp
+  LayoutReader.cpp
+  Light3DReader.cpp
+  ListViewReader.cpp
+  PUParticleSystem3DTranslator.cpp
+  PUPathFollower.cpp
+  BlendMode.cpp
+  PUPathFollowerTranslator.cpp
+  LoadingBarReader.cpp
+  MeshReader.cpp
+  FUIContainer.cpp
+  FUIInput.cpp
+  PUPlane.cpp
+  PUPlaneCollider.cpp
+  FUILabel.cpp
+  PUPlaneColliderTranslator.cpp
+  PUPointEmitter.cpp
+  PUPointEmitterTranslator.cpp
+  PUPositionEmitter.cpp
+  Node3DReader.cpp
+  1>Compiling shader D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/ImGui/shaders/imgui_sprite.vert for ESSL300 ...
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/axmol/extensions/ImGui/CMakeLists.txt
+  PUPositionEmitterTranslator.cpp
+  FUIRichText.cpp
+  PURandomiser.cpp
+  PURandomiserTranslator.cpp
+  PURender.cpp
+  FUISprite.cpp
+  TextFormat.cpp
+  PURendererTranslator.cpp
+  PURibbonTrail.cpp
+  EventContext.cpp
+  NodeReader.cpp
+  NodeReaderProtocol.cpp
+  PageViewReader.cpp
+  Particle3DReader.cpp
+  ParticleReader.cpp
+  PURibbonTrailRender.cpp
+  ProjectNodeReader.cpp
+  ImGuiPresenter.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  RadioButtonGroupReader.cpp
+  imgui_widgets.cpp
+  PUScaleAffector.cpp
+  imgui_tables.cpp
+  PUScaleAffectorTranslator.cpp
+  RadioButtonReader.cpp
+  RichTextReader.cpp
+  ScrollViewReader.cpp
+  imgui_stdlib.cpp
+  imgui_freetype.cpp
+  HitTest.cpp
+  PUScaleVelocityAffector.cpp
+  imgui_impl_axmol.cpp
+  imgui_impl_glfw.cpp
+  InputEvent.cpp
+  PUScaleVelocityAffectorTranslator.cpp
+  InputProcessor.cpp
+  PUScriptCompiler.cpp
+  PUScriptLexer.cpp
+  UIEventDispatcher.cpp
+  SingleNodeReader.cpp
+  PUScriptParser.cpp
+  PUScriptTranslator.cpp
+  PUSimpleSpline.cpp
+  BoneNodeReader.cpp
+  PUSineForceAffector.cpp
+  SkeletonNodeReader.cpp
+  SliderReader.cpp
+  ImGui.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\ImGui.lib
+  PUSineForceAffectorTranslator.cpp
+  PUSlaveBehaviour.cpp
+  GearAnimation.cpp
+  PUSlaveBehaviourTranslator.cpp
+  GearBase.cpp
+  PUSlaveEmitter.cpp
+  GearColor.cpp
+  GearDisplay.cpp
+  PUSlaveEmitterTranslator.cpp
+  PUSphere.cpp
+  PUSphereCollider.cpp
+  PUSphereColliderTranslator.cpp
+  PUSphereSurfaceEmitter.cpp
+  PUSphereSurfaceEmitterTranslator.cpp
+  PUTechniqueTranslator.cpp
+  PUTextureAnimator.cpp
+  GearDisplay2.cpp
+  PUTextureAnimatorTranslator.cpp
+  PUTextureRotator.cpp
+  GearFontSize.cpp
+  GearIcon.cpp
+  GearLook.cpp
+  PUTextureRotatorTranslator.cpp
+  PUTranslateManager.cpp
+  PUUtil.cpp
+  PUVelocityMatchingAffector.cpp
+  SpineSkeletonReader.cpp
+  SpriteReader.cpp
+  PUVelocityMatchingAffectorTranslator.cpp
+  TabControlReader.cpp
+  TextAtlasReader.cpp
+  TextBMFontReader.cpp
+  PUVertexEmitter.cpp
+  TextFieldExReader.cpp
+  TextFieldReader.cpp
+  TextReader.cpp
+  UserCameraReader.cpp
+  PUVortexAffector.cpp
+  WidgetReader.cpp
+  PUVortexAffectorTranslator.cpp
+  GearSize.cpp
+  Particle3DAffector.cpp
+  Particle3DEmitter.cpp
+  GearText.cpp
+  Particle3DRender.cpp
+  GearXY.cpp
+  ParticleSystem3D.cpp
+  EaseManager.cpp
+  WidgetReaderProtocol.cpp
+  cocostudio.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\cocostudio.lib
+  GPath.cpp
+  particle3d.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\particle3d.lib
+  GTween.cpp
+  GTweener.cpp
+  TweenManager.cpp
+  TweenPropType.cpp
+  TweenValue.cpp
+  ByteBuffer.cpp
+  ToolSet.cpp
+  UBBParser.cpp
+  WeakPtr.cpp
+  HtmlElement.cpp
+  HtmlObject.cpp
+  HtmlParser.cpp
+  fairygui.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\lib\Release\fairygui.lib
+  Building Custom Rule D:/a/Mobile-gatcha-/Mobile-gatcha-/CMakeLists.txt
+  AppDelegate.cpp
+  App.cpp
+  PlatformAx.cpp
+  BattleHud.cpp
+  BattleResult.cpp
+  BattleScene.cpp
+  BattleViews.cpp
+  Battle.cpp
+  Database.cpp
+  GameManager.cpp
+  Progression.cpp
+  SaveManager.cpp
+  Codex.cpp
+  Evolve.cpp
+  Help.cpp
+  Home.cpp
+  Intro.cpp
+  Inventory.cpp
+  MainMenu.cpp
+  Menu.cpp
+  Missions.cpp
+  Profile.cpp
+  Settings.cpp
+  Squad.cpp
+  StageSelect.cpp
+  StarterSelect.cpp
+  Summon.cpp
+  Tower.cpp
+  Train.cpp
+  UnitDetail.cpp
+  Units.cpp
+  WorldSelect.cpp
+  Rewards.cpp
+  UnitWidgets.cpp
+  Widgets.cpp
+  Gui.cpp
+  Sprites.cpp
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64): warning C4244: 'initializing': conversion from '_Ty' to '_Ty', possible loss of data [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64): warning C4244:         with [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64): warning C4244:         [ [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64): warning C4244:             _Ty=int [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64): warning C4244:         ] [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64): warning C4244:         and [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64): warning C4244:         [ [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64): warning C4244:             _Ty=float [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64): warning C4244:         ] [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+  (compiling source file '../Source/ui/Gui.cpp')
+      C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(636,64):
+      the template instantiation context (the oldest one first) is
+          D:\a\Mobile-gatcha-\Mobile-gatcha-\Source\ui\Gui.cpp(1747,22):
+          see reference to function template instantiation 'std::shared_ptr<float> std::make_shared<float,int>(int &&)' being compiled
+          C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\memory(2944,46):
+          see reference to function template instantiation 'std::_Ref_count_obj2<float>::_Ref_count_obj2<_Ty>(_Ty &&)' being compiled
+          with
+          [
+              _Ty=int
+          ]
+          C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\memory(2131,18):
+          see reference to function template instantiation 'void std::_Construct_in_place<_Ty,int>(_Ty &,int &&) noexcept' being compiled
+          with
+          [
+              _Ty=float
+          ]
+          C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(657,14):
+          see reference to function template instantiation '_Ty *std::construct_at<_Ty,int>(_Ty *const ,int &&) noexcept(<expr>)' being compiled
+          with
+          [
+              _Ty=float
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(661,61): warning C4244: 'initializing': conversion from '_Ty' to '_Ty', possible loss of data [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(661,61): warning C4244:         with [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(661,61): warning C4244:         [ [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(661,61): warning C4244:             _Ty=int [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(661,61): warning C4244:         ] [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(661,61): warning C4244:         and [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(661,61): warning C4244:         [ [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(661,61): warning C4244:             _Ty=float [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(661,61): warning C4244:         ] [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+  (compiling source file '../Source/ui/Gui.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73): warning C4244: 'initializing': conversion from '_Ty' to '_Ty', possible loss of data [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73): warning C4244:         with [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73): warning C4244:         [ [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73): warning C4244:             _Ty=int [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73): warning C4244:         ] [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73): warning C4244:         and [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73): warning C4244:         [ [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73): warning C4244:             _Ty=float [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73): warning C4244:         ] [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+  (compiling source file '../Source/ui/Gui.cpp')
+      C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(647,73):
+      the template instantiation context (the oldest one first) is
+          C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\memory(2131,18):
+          see reference to function template instantiation 'void std::_Construct_in_place<_Ty,int>(_Ty &,int &&) noexcept' being compiled
+          with
+          [
+              _Ty=float
+          ]
+          C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\include\xutility(657,14):
+          see reference to function template instantiation '_Ty *std::construct_at<_Ty,int>(_Ty *const ,int &&) noexcept' being compiled
+          with
+          [
+              _Ty=float
+          ]
+  
+  UIKit.cpp
+  main.cpp
+     Creating library D:/a/Mobile-gatcha-/Mobile-gatcha-/build/Release/Cinderbound.lib and object D:/a/Mobile-gatcha-/Mobile-gatcha-/build/Release/Cinderbound.exp
+LINK : warning LNK4199: /DELAYLOAD:mf.dll ignored; no imports found from mf.dll [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+LINK : warning LNK4199: /DELAYLOAD:mfplat.dll ignored; no imports found from mfplat.dll [D:\a\Mobile-gatcha-\Mobile-gatcha-\build\Cinderbound.vcxproj]
+  Cinderbound.vcxproj -> D:\a\Mobile-gatcha-\Mobile-gatcha-\build\bin\Cinderbound\Release\Cinderbound.exe
+1kiss: Build success
