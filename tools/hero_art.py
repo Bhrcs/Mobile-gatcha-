@@ -46,22 +46,30 @@ HEAD_BOX = {'kael_emberclaw': (108, 90, 173, 148, 150), 'kael_blazeheart': (118,
 _heads = {}
 
 
+HEAD_SCALE = 0.44                 # head : body ratio (owner heads were drawn for a smaller body)
+
+
 def head_img(form):
-    """-> (image, face_x) : the form's own head from the owner's idle frame at half size, colours quantised."""
+    """-> (image, face_x) : the form's own head from the owner's idle frame, scaled to the rig and repainted with the
+    hero's flat palette so it is shaded like the body (no traced noise)."""
     if form not in _heads:
         import import_heroes as H
+        from PIL import ImageFilter
         cell = H.cells(os.path.join(os.path.dirname(__file__), 'art_src', form + '.png'))[0][0]
         x0, y0, x1, y1, fx = HEAD_BOX[form]
-        im = cell.crop((x0, y0, x1 + 1, y1 + 1))
-        im = im.convert('RGBa').resize(((x1 - x0 + 1) // 2, (y1 - y0 + 1) // 2), Image.LANCZOS).convert('RGBA')
-        a = np.array(im)
-        a[..., 3] = np.where(a[..., 3] >= 140, 255, 0)
-        rgb = np.array(Image.fromarray(a[..., :3]).quantize(24, method=Image.Quantize.MEDIANCUT).convert('RGB'))
-        alpha = a[..., 3].copy()
-        cx = int((fx - x0) / 2)
-        alpha[-5:, :max(0, cx - 8)] = 0          # collar / pauldron bits below the jaw belong to the old body
-        alpha[-5:, cx + 8:] = 0
-        _heads[form] = (Image.fromarray(np.dstack([rgb, alpha]).astype(np.uint8), 'RGBA'), (fx - x0) / 2)
+        im = cell.crop((x0, y0, x1 + 1, y1 + 1)).filter(ImageFilter.MedianFilter(3))
+        w, h = round((x1 - x0 + 1) * HEAD_SCALE), round((y1 - y0 + 1) * HEAD_SCALE)
+        a = np.array(im.convert('RGBa').resize((w, h), Image.LANCZOS).convert('RGBA')).astype(int)
+        alpha = np.where(a[..., 3] >= 140, 255, 0)
+        hero = form.split('_')[0]
+        f, el = HEROES[hero]['forms'][form], HEROES[hero]['element']
+        pal = np.array([c[:3] for c in [LINE, EYE, WHITE] + SKIN + f['hair'] + f['trim'] + f['metal'] + GEM[el]])
+        d = ((a[..., None, :3] - pal[None, None]) ** 2).sum(-1)
+        rgb = pal[d.argmin(-1)]
+        cx = int((fx - x0) * HEAD_SCALE)
+        alpha[-4:, :max(0, cx - 7)] = 0          # collar / pauldron bits below the jaw belong to the old body
+        alpha[-4:, cx + 7:] = 0
+        _heads[form] = (Image.fromarray(np.dstack([rgb, alpha]).astype(np.uint8), 'RGBA'), (fx - x0) * HEAD_SCALE)
     return _heads[form]
 
 
@@ -239,7 +247,8 @@ def skeleton(p):
     pelvis = (CX + bx, PELVIS_Y + by)
     chest = (pelvis[0] + lean, pelvis[1] - TORSO)
     J = dict(pelvis=pelvis, chest=chest, neck=(chest[0] + 0.5, chest[1] - 1))
-    J['fsh'], J['bsh'] = (chest[0] + 3.2, chest[1] + 0.8), (chest[0] - 3.2, chest[1] + 0.8)
+    # 3/4 view facing right: near shoulder (b, screen-left) wide and in front, far shoulder (f) tucked behind the chest
+    J['fsh'], J['bsh'] = (chest[0] + 2.4, chest[1] + 0.6), (chest[0] - 3.8, chest[1] + 1.0)
     for side, foot_x in (('f', CX + bx + 3.2 + sp), ('b', CX + bx - 3.2 - sp)):
         hj = (pelvis[0] + (1.4 if side == 'f' else -1.4), pelvis[1])
         ankle = (foot_x, FEET - 1.2)
@@ -272,11 +281,12 @@ def draw(hero, form, p):
     if tier >= 4 and not robe:   # short cape behind the back
         c.part(lambda d: d.polygon([(neck[0] - 3, neck[1] + 1), (neck[0] + 1, neck[1] + 1), (hip[0] - 1 - sway, FEET - 4),
                                     (hip[0] - 7 - sway, FEET - 5)]), f['cloth'])
-    # back arm (behind the body)
-    sleeve = f['cloth'] if robe else f['cloth']
-    c.part(lambda d: taper(d, bsh, J['belbow'], 2.8, 2.4), sleeve)
-    c.part(lambda d: taper(d, J['belbow'], bhand, 2.4, 2.2), SKIN if robe else DARKCLOTH)
-    c.part(lambda d: d.ellipse([bhand[0] - 1.3, bhand[1] - 1.3, bhand[0] + 1.3, bhand[1] + 1.3]), SKIN if robe else DARKCLOTH)
+    pr = 2.3 + (tier - 3) * 0.45                    # pauldrons grow with each form
+    pal = f['metal'] if robe else f['trim']
+    glove = SKIN if robe else DARKCLOTH
+    # far (weapon) shoulder: small pauldron + upper arm behind the chest
+    c.part(lambda d: d.ellipse([fsh[0] - pr * 0.7, fsh[1] - pr * 0.7, fsh[0] + pr * 0.7, fsh[1] + pr * 0.7]), pal, shade='metal')
+    c.part(lambda d: taper(d, fsh, J['felbow'], 2.6, 2.4), f['cloth'])
     # legs: thigh -> knee -> shin -> boot (back leg first)
     for side in ('b', 'f'):
         hj, kn, an = J[side + 'hip'], J[side + 'knee'], J[side + 'ankle']
@@ -290,7 +300,7 @@ def draw(hero, form, p):
     sh_w, waist_w, hip_w = 5.0, 3.2, 3.6
     waist = (hip[0] + (chest[0] - hip[0]) * 0.35, hip[1] - TORSO * 0.35)
     if robe:
-        c.part(lambda d: d.polygon([(chest[0] - sh_w + 0.6, chest[1]), (chest[0] + sh_w - 0.6, chest[1]), (waist[0] + waist_w, waist[1]),
+        c.part(lambda d: d.polygon([(chest[0] - sh_w, chest[1]), (chest[0] + sh_w - 1.6, chest[1]), (waist[0] + waist_w - 0.4, waist[1]),
                                     (hip[0] + 6.5, FEET - 0.5), (hip[0] - 7 - sway, FEET - 0.5), (waist[0] - waist_w, waist[1])]),
                f['cloth'])
         c.part(lambda d: d.polygon([(waist[0] - 0.6, waist[1]), (waist[0] + 1.2, waist[1]), (hip[0] + 3.5, FEET - 0.5),
@@ -299,22 +309,22 @@ def draw(hero, form, p):
                                     (hip[0] - 7 - sway, FEET - 0.5)]), f['trim'], shade=False)    # hem
         c.part(lambda d: d.rectangle([waist[0] - waist_w, waist[1] - 0.6, waist[0] + waist_w, waist[1] + 0.4]), f['trim'], shade=False)
     else:
-        c.part(lambda d: d.polygon([(chest[0] - sh_w, chest[1]), (chest[0] + sh_w, chest[1]), (waist[0] + waist_w, waist[1]),
-                                    (hip[0] + hip_w, hip[1] + 0.8), (hip[0] - hip_w, hip[1] + 0.8), (waist[0] - waist_w, waist[1])]),
+        c.part(lambda d: d.polygon([(chest[0] - sh_w, chest[1]), (chest[0] + sh_w - 1.6, chest[1]), (waist[0] + waist_w - 0.4, waist[1]),
+                                    (hip[0] + hip_w - 0.4, hip[1] + 0.8), (hip[0] - hip_w, hip[1] + 0.8), (waist[0] - waist_w, waist[1])]),
                f['cloth'])
-        c.part(lambda d: d.polygon([(chest[0] - 2.4, chest[1] + 0.8), (chest[0] + 2.8, chest[1] + 0.8), (chest[0] + 2.2, chest[1] + 3.6),
-                                    (chest[0] - 1.8, chest[1] + 3.6)]), f['cloth'], shade='metal')   # breastplate
+        c.part(lambda d: d.polygon([(chest[0] - 1.6, chest[1] + 0.8), (chest[0] + 3.0, chest[1] + 0.8), (chest[0] + 2.4, chest[1] + 3.6),
+                                    (chest[0] - 1.0, chest[1] + 3.6)]), f['cloth'], shade='metal')   # breastplate
         c.part(lambda d: d.rectangle([waist[0] - waist_w - 0.2, hip[1] - 1.6, waist[0] + waist_w + 0.4, hip[1] - 0.4]),
                BROWN if hero == 'thorne' else DARKCLOTH)                                          # belt
         c.part(lambda d: d.ellipse([hip[0] - 0.9, hip[1] - 1.9, hip[0] + 1.3, hip[1] - 0.1]), f['trim'], shade='metal')
         c.part(lambda d: d.polygon([(hip[0] - 0.6, hip[1] - 0.2), (hip[0] + 1.6, hip[1] - 0.2), (hip[0] + 1.2, hip[1] + 4.5),
                                     (hip[0] - 0.2, hip[1] + 4.5)]), f['trim'])                     # tabard
-    # pauldrons (grow with each form)
-    pr = 2.3 + (tier - 3) * 0.45
-    pal = f['metal'] if robe else f['cloth']
-    c.part(lambda d: d.ellipse([bsh[0] - pr - 0.4, bsh[1] - pr, bsh[0] + pr - 0.4, bsh[1] + pr]), pal, shade='metal')
-    c.part(lambda d: d.ellipse([fsh[0] - pr, fsh[1] - pr, fsh[0] + pr, fsh[1] + pr]), pal, shade='metal')
-    c.part(lambda d: d.rectangle([fsh[0] - pr, fsh[1] + pr - 0.8, fsh[0] + pr, fsh[1] + pr]), f['trim'], shade=False)
+    # near arm in front of the torso, big pauldron over its shoulder
+    c.part(lambda d: taper(d, bsh, J['belbow'], 3.0, 2.6), f['cloth'])
+    c.part(lambda d: taper(d, J['belbow'], bhand, 2.6, 2.3), glove)
+    c.part(lambda d: d.ellipse([bhand[0] - 1.4, bhand[1] - 1.4, bhand[0] + 1.4, bhand[1] + 1.4]), glove)
+    c.part(lambda d: d.ellipse([bsh[0] - pr - 0.3, bsh[1] - pr * 0.8, bsh[0] + pr, bsh[1] + pr * 0.75]), pal, shade='metal')
+    c.part(lambda d: d.ellipse([bsh[0] - 0.6, bsh[1] - 0.6, bsh[0] + 0.6, bsh[1] + 0.6]), f['trim'], shade=False)   # rivet
     # head
     img, fx = head_img(form)
     c.part(lambda d: taper(d, (neck[0], neck[1] + 1), (neck[0] + 0.3, neck[1] - 1.2), 2.2, 2.0), SKIN)   # neck
@@ -327,10 +337,9 @@ def draw(hero, form, p):
                 c.img[hy0 + yy, hx0 + xx] = a[yy, xx]
                 c.solid[hy0 + yy, hx0 + xx] = True
     # front arm + held item
-    def front_arm():
-        c.part(lambda d: taper(d, fsh, J['felbow'], 2.9, 2.5), f['cloth'])
-        c.part(lambda d: taper(d, J['felbow'], fhand, 2.6, 2.3), SKIN if robe else DARKCLOTH)
-        c.part(lambda d: d.ellipse([fhand[0] - 1.4, fhand[1] - 1.4, fhand[0] + 1.4, fhand[1] + 1.4]), SKIN if robe else DARKCLOTH)
+    def front_arm():   # far arm's forearm + hand reach forward past the chest
+        c.part(lambda d: taper(d, J['felbow'], fhand, 2.5, 2.2), glove)
+        c.part(lambda d: d.ellipse([fhand[0] - 1.3, fhand[1] - 1.3, fhand[0] + 1.3, fhand[1] + 1.3]), glove)
     if p.get('no_item'):   # knocked out: the weapon has fallen
         front_arm()
     elif item == 'shield':
