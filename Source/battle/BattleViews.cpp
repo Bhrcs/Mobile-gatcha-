@@ -359,6 +359,9 @@ void BattleUnitView::build()
     // names, HP and statuses live in the HUD plates / cards (the Godot overhead bar is always hidden)
     if (is_boss()) add_boss_aura();
     else if (combatant->is_elite) add_boss_aura(Col("#ffe07a"), Col("#ffb03a"), 8);
+    else if (combatant->is_player)   // heroes breathe their element: a few motes, more with each evolution
+        add_boss_aura(Col(DB.element_color(combatant->element)).lightened(0.35f), Col::WHITE,
+                      2 + 2 * std::max(0, I(combatant->def, "rarity", 3) - 2));
 }
 
 // Slow drifting spores and embers around an Ancient foe.

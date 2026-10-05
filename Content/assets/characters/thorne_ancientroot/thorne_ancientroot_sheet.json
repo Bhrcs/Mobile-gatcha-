@@ -1,7 +1,11 @@
 {
  "frame_size": [
-  160,
-  160
+  256,
+  256
+ ],
+ "layout_size": [
+  200,
+  200
  ],
  "ui_scale": 0.25,
  "source": "tools/art_src/thorne_ancientroot.png",
@@ -15,7 +19,7 @@
   "attack": {
    "row": 1,
    "frames": 7,
-   "fps": 12,
+   "fps": 14,
    "loop": false
   },
   "hit": {
@@ -38,8 +42,8 @@
   },
   "burst": {
    "row": 5,
-   "frames": 8,
-   "fps": 10,
+   "frames": 11,
+   "fps": 12,
    "loop": false
   },
   "guard": {

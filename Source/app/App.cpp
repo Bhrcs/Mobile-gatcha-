@@ -678,6 +678,14 @@ static void run_shots(std::shared_ptr<std::vector<std::string>> list, size_t i, 
         file = "battle_" + GM.current_stage_id;
         name = "battle";
     }
+    if (name == "battle_party")   // all three heroes side by side (art check)
+    {
+        if (GM.party_uids().size() < 3)
+            for (auto id : {"mira_tidesong", "thorne_mossguard"}) GM.profile["party"].push_back(GM.add_unit(id, false));
+        GM.current_stage_id = "ashroot_02";
+        file = name;
+        name = "battle";
+    }
     if (name == "battle" && GM.current_stage_id.empty()) GM.current_stage_id = "ashroot_01";
     SceneRouter::transitioning = false;
     SceneRouter::go(name, name == "battle" ? Json{{"skip_hints", true}} : Json::object(), "reset");

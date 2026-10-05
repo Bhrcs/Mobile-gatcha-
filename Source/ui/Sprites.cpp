@@ -36,6 +36,8 @@ gd::Vec2 frame_size(const Json& def)
 {
     const Json& m = meta_of(def);
     if (!m.contains("frame_size")) return gd::Vec2(48, 48);
+    if (m.contains("layout_size"))   // big padded frames (room for effects) lay out like this smaller box
+        return gd::Vec2((float)I(at(m["layout_size"], 0), 48), (float)I(at(m["layout_size"], 1), 48));
     return gd::Vec2((float)I(at(m["frame_size"], 0), 48), (float)I(at(m["frame_size"], 1), 48));
 }
 

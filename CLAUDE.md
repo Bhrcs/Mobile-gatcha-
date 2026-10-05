@@ -38,7 +38,9 @@ Python scripts in `tools/` (they write into `Content/`).
 - Art: owner reverted Phase 6 (art bible); new visuals reuse/tint existing sheets until told otherwise.
 - Only the three starters (Kael, Mira, Thorne) are playable (`FAMILY_ORDER` in make_content.py). All their sheets are
   owner art: `tools/art_src/<form>.png` (8x8 battle grids) -> `python3 tools/import_heroes.py`, which also writes every
-  hero's portrait as its first idle frame. Windows builds write `Cinderbound.log` next to the exe.
+  hero's portrait as its first idle frame. The importer normalises every hero to one spec (256 px frames,
+  `layout_size` 200 for battle layout, 124 px head-to-feet, feet row 252, same 7 animations from the same sheet cells,
+  1 px outline). Heroes get element motes in battle. Windows builds write `Cinderbound.log` next to the exe.
 
 ## Gotchas
 - Windows macros: never name things `small`, `near`, `far`, `TRANSPARENT`, `ERROR`, `IN`, `OUT`, ... and never
