@@ -10,7 +10,7 @@ static std::string first_word(const std::string& s) { return s.substr(0, s.find(
 static Vec2 vp() { return gd::Root::get()->size(); }
 
 // Formation slots as offsets from the battlefield's bottom edge (portrait layout). Leader in front.
-static const Vec2 PLAYER_SLOTS[] = {{690, -170}, {905, -300}, {915, -50}, {660, -420}, {790, -10}};
+static const Vec2 PLAYER_SLOTS[] = {{640, -190}, {905, -340}, {935, -40}, {650, -470}, {790, -10}};   // spaced for the ~260 px wide hero sprites
 static const Vec2 ENEMY_SLOTS[] = {{380, -140}, {175, -280}, {165, -30}, {380, -390}, {340, -10}};
 static const Vec2 SINGLE_PLAYER_POS(790, -90), SINGLE_ENEMY_POS(290, -90);
 static const Vec2 SUMMON_SLOTS[] = {{470, -300}, {480, -20}};   // minions called by a boss appear in front of it
