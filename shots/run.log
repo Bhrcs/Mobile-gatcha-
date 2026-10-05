@@ -1,0 +1,36 @@
+Cinderbound starting
+
+{
+	supports_ASTC: false
+	glsl: OpenGL ES GLSL ES 3.00 (ANGLE 2.1.21145 git hash: dfa3a3070f78)
+	max_samples_allowed: 0
+	axmol.build_type: RELEASE
+	supports_OES_depth24: true
+	axmol.version: axmol-2.11.5-6c0dce6
+	supports_ETC2: true
+	max_texture_size: 16384
+	vendor: Google Inc. (Microsoft)
+	supports_BGRA8888: false
+	supports_ETC1: false
+	max_vertex_attributes: 16
+	supports_NPOT: true
+	supports_vertex_array_object: false
+	supports_ATITC: false
+	supports_PVRTC: false
+	axmol.compiled_with_gl_state_cache: true
+	max_texture_units: 32
+	supports_discard_framebuffer: true
+	supports_S3TC: false
+	axmol.simd: SSE41
+	version: OpenGL ES 3.0.0 (ANGLE 2.1.21145 git hash: dfa3a3070f78)
+	supports_OES_map_buffer: true
+	supports_OES_packed_depth_stencil: true
+	renderer: ANGLE (Microsoft, Microsoft Basic Render Driver Direct3D11 vs_5_0 ps_5_0, D3D11-10.0.26100.33438)
+	axmol.compiled_with_profiler: false
+}
+
+
+Cinderbound started; first screen requested
+PROBE search paths: D:\a\Mobile-gatcha-\Mobile-gatcha-\pkg\Cinderbound\Content/ | C:/Users/RUNNER~1/AppData/Local/Temp/ | D:/a/Mobile-gatcha-/Mobile-gatcha-/pkg/Cinderbound/ | D:/a/Mobile-gatcha-/Mobile-gatcha-/pkg/Cinderbound/axslc/ | 
+PROBE default root: C:/Users/RUNNER~1/AppData/Local/Temp/
+PROBE manifest=true characters=9 stages=53 load_errors=0 frame=576x749 tex_test=true
